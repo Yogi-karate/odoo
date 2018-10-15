@@ -19,9 +19,8 @@ class ProductionLot(models.Model):
         domain=[('type', 'in', ['product', 'consu'])], required=True)
     product_uom_id = fields.Many2one(
         'uom.uom', 'Unit of Measure',
-        related='product_id.uom_id', store=True)
+        related='product_id.uom_id', store=True, readonly=False)
     quant_ids = fields.One2many('stock.quant', 'lot_id', 'Quants', readonly=True)
-    create_date = fields.Datetime('Creation Date')
     product_qty = fields.Float('Quantity', compute='_product_qty')
 
     _sql_constraints = [
@@ -34,7 +33,7 @@ class ProductionLot(models.Model):
         if active_picking_id:
             picking_id = self.env['stock.picking'].browse(active_picking_id)
             if picking_id and not picking_id.picking_type_id.use_create_lots:
-                raise UserError(_("You are not allowed to create a lot for this operation type."))
+                raise UserError(_('You are not allowed to create a lot or serial number with this operation type. To change this, go on the operation type and tick the box "Create New Lots/Serial Numbers".'))
         return super(ProductionLot, self).create(vals_list)
 
     @api.multi

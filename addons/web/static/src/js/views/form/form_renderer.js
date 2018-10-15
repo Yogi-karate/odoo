@@ -74,7 +74,7 @@ var FormRenderer = BasicRenderer.extend({
             }
         }
         if (focusWidget) {
-            return focusWidget.activate({noselect: true});
+            return focusWidget.activate({noselect: true, noAutomaticCreate: true});
         }
     },
     /**
@@ -86,7 +86,7 @@ var FormRenderer = BasicRenderer.extend({
      * @param {string} recordID
      * @returns {string[]}
      */
-    canBeSaved: function (recordID) {
+    canBeSaved: function () {
         var self = this;
         var fieldNames = this._super.apply(this, arguments);
 
@@ -130,7 +130,7 @@ var FormRenderer = BasicRenderer.extend({
      *
      * @override
      */
-    confirmChange: function (state, id, fields, e) {
+    confirmChange: function () {
         var self = this;
         return this._super.apply(this, arguments).then(function (resetWidgets) {
             _.each(resetWidgets, function (widget) {
@@ -165,7 +165,8 @@ var FormRenderer = BasicRenderer.extend({
      * field.
      */
     focusLastActivatedWidget: function () {
-        this._activateNextFieldWidget(this.state, this.lastActivatedFieldIndex - 1);
+        this._activateNextFieldWidget(this.state, this.lastActivatedFieldIndex - 1,
+            { noAutomaticCreate: true });
     },
     /**
      * returns the active tab pages for each notebook
@@ -189,6 +190,19 @@ var FormRenderer = BasicRenderer.extend({
             state[name] = index;
         });
         return state;
+    },
+    /**
+     * Reset the tracking of the last activated field. The fast entry with
+     * keyboard navigation needs to track the last activated field in order to
+     * set the focus.
+     *
+     * In particular, when there are changes of mode (e.g. edit -> readonly ->
+     * edit), we do not want to auto-set the focus on the previously last
+     * activated field. To avoid this issue, this method should be called
+     * whenever there is a change of mode.
+     */
+    resetLastActivatedField: function () {
+        this.lastActivatedFieldIndex = -1;
     },
     /**
      * restore active tab pages for each notebook
@@ -286,6 +300,30 @@ var FormRenderer = BasicRenderer.extend({
                 attrs: node.attrs,
                 record: self.state,
             });
+        });
+    },
+    /**
+     * Enable swipe event to allow navigating through records
+     *
+     * @private
+     */
+    _enableSwipe: function () {
+        var self = this;
+        this.$('.o_form_sheet').swipe({
+            swipeLeft: function () {
+                this.css({
+                    transform: 'translateX(-100%)',
+                    transition: '350ms'
+                });
+                self.trigger_up('swipe_left');
+            },
+            swipeRight: function () {
+                this.css({
+                    transform: 'translateX(100%)',
+                    transition: '350ms'
+                });
+                self.trigger_up('swipe_right');
+            },
         });
     },
     /**
@@ -894,6 +932,11 @@ var FormRenderer = BasicRenderer.extend({
         }
         this.$el.toggleClass('o_form_editable', this.mode === 'edit');
         this.$el.toggleClass('o_form_readonly', this.mode === 'readonly');
+
+        // Enable swipe for mobile when formview is in readonly mode and there are multiple records
+        if (config.device.isMobile && this.mode === 'readonly' && this.state.count > 1) {
+            this._enableSwipe();
+        }
 
         // Attach the tooltips on the fields' label
         _.each(this.allFieldWidgets[this.state.id], function (widget) {

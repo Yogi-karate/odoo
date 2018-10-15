@@ -5,7 +5,6 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 
 from itertools import groupby
-import re
 
 
 MAP_INVOICE_TYPE_PARTNER_TYPE = {
@@ -249,7 +248,7 @@ class account_abstract_payment(models.AbstractModel):
 class account_register_payments(models.TransientModel):
     _name = "account.register.payments"
     _inherit = 'account.abstract.payment'
-    _description = "Register payments on multiple invoices"
+    _description = "Register Payments"
 
     group_invoices = fields.Boolean(string="Group Invoices", help="""If enabled, groups invoices by commercial partner, invoice account,
                                                                     type and recipient bank account in the generated payments. If disabled,
@@ -692,7 +691,8 @@ class account_payment(models.Model):
             aml_obj.create(liquidity_aml_dict)
 
         #validate the payment
-        move.post()
+        if not self.journal_id.post_at_bank_rec:
+            move.post()
 
         #reconcile the invoice receivable/payable line(s) with the payment
         if self.invoice_ids:
@@ -728,20 +728,15 @@ class account_payment(models.Model):
                 'amount_currency': -self.amount,
             })
         transfer_debit_aml = aml_obj.create(transfer_debit_aml_dict)
-        dst_move.post()
+        if not self.destination_journal_id.post_at_bank_rec:
+            dst_move.post()
         return transfer_debit_aml
 
     def _get_move_vals(self, journal=None):
         """ Return dict to create the payment move
         """
         journal = journal or self.journal_id
-        if not journal.sequence_id:
-            raise UserError(_('The journal %s does not have a sequence, please specify one.') % journal.name)
-        if not journal.sequence_id.active:
-            raise UserError(_('The sequence of journal %s is deactivated.') % journal.name)
-        name = self.move_name or journal.with_context(ir_sequence_date=self.payment_date).sequence_id.next_by_id()
         return {
-            'name': name,
             'date': self.payment_date,
             'ref': self.communication or '',
             'company_id': self.company_id.id,
@@ -810,23 +805,3 @@ class account_payment(models.Model):
             })
 
         return vals
-
-    @api.model
-    def _sanitize_communication(self, communication):
-        """ Returns a sanitized version of the communication given in parameter,
-            so that:
-                - it contains only latin characters
-                - it does not contain any //
-                - it does not start or end with /
-                - it is maximum 140 characters long
-            (these are the SEPA compliance criteria)
-        """
-        communication = communication[:140]
-        while '//' in communication:
-            communication = communication.replace('//', '/')
-        if communication.startswith('/'):
-            communication = communication[1:]
-        if communication.endswith('/'):
-            communication = communication[:-1]
-        communication = re.sub('[^-A-Za-z0-9/?:().,\'+ ]', '', communication)
-        return communication

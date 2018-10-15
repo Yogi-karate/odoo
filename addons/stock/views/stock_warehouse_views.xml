@@ -35,9 +35,10 @@
                                         <field name="reception_steps" widget='radio'/>
                                         <field name="delivery_steps" widget='radio'/>
                                     </group>
-                                    <group string="Resupply" groups="stock.group_stock_multi_warehouses">
+                                    <field name="show_resupply" invisible="1"/>
+                                    <group name="group_resupply" string="Resupply" attrs="{'invisible': [('show_resupply', '!=', True)]}">
                                         <field name="warehouse_count" invisible="1"/>
-                                        <field name="resupply_wh_ids" domain="[('id', '!=', id)]" widget='many2many_checkboxes' attrs="{'invisible': [('warehouse_count', '&lt;', 1)]}"/>
+                                        <field name="resupply_wh_ids" attrs="{'invisible': [('show_resupply', '!=', True)]}" domain="[('id', '!=', id)]" widget='many2many_checkboxes'/>
                                     </group>
                                 </group>
                             </page>
@@ -203,6 +204,11 @@
                                 <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
                             </button>
                         </div>
+                        <group>
+                            <div class="alert alert-info" role="alert">
+                                <a style="cursor: pointer" class="alert-link o_form_uri" type="action" name="%(action_procurement_compute)d">Run the scheduler</a> manually to trigger the reordering rules right now.
+                            </div>
+                        </group>
                         <group>
                             <group>
                                 <field name="name" />

@@ -83,7 +83,7 @@ var AltDialog = Dialog.extend({
         this.$editable = $editable;
         this.media = media;
         this.alt = ($(this.media).attr('alt') || "").replace(/&quot;/g, '"');
-        this.title = ($(this.media).attr('title') || "").replace(/&quot;/g, '"');
+        this.tag_title = ($(this.media).attr('title') || "").replace(/&quot;/g, '"');
     },
 
     //--------------------------------------------------------------------------
@@ -363,6 +363,7 @@ var ImageWidget = MediaWidget.extend({
         if (!noRender) {
             this.$('input.url').val('').trigger('input').trigger('change');
         }
+        // TODO: Expand this for adding SVG
         var domain = this.domain.concat(['|', ['mimetype', '=', false], ['mimetype', this.options.document ? 'not in' : 'in', ['image/gif', 'image/jpe', 'image/jpeg', 'image/jpg', 'image/gif', 'image/png']]]);
         if (needle && needle.length) {
             domain.push('|', ['datas_fname', 'ilike', needle], ['name', 'ilike', needle]);
@@ -516,7 +517,7 @@ var ImageWidget = MediaWidget.extend({
             self.$('.well > span').remove();
             self.$('.well > div').show();
             _.each(attachments, function (record) {
-                record.src = record.url || '/web/image/' + record.id;
+                record.src = record.url || _.str.sprintf('/web/image/%s/%s', record.id, encodeURI(record.name)); // Name is added for SEO purposes
                 record.isDocument = !(/gif|jpe|jpg|png/.test(record.mimetype));
             });
             if (error || !attachments.length) {
@@ -960,6 +961,9 @@ var VideoWidget = MediaWidget.extend({
             return {errorCode: 1};
         }
 
+        if (ytMatch) {
+            $video.attr('src', $video.attr('src') + '&rel=0');
+        }
         if (options.loop && (ytMatch || vimMatch)) {
             $video.attr('src', $video.attr('src') + '&loop=1');
         }
@@ -1161,7 +1165,7 @@ var MediaDialog = Dialog.extend({
                 self.$media = self.$media.parent();
                 self.media = self.$media[0];
                 tabToShow = 'video';
-            } 
+            }
             self.$('[href="#editor-media-' + tabToShow + '"]').tab('show');
         });
 
@@ -1454,6 +1458,21 @@ var LinkDialog = Dialog.extend({
             this.$('input[name="url"]').val(match ? match[1] : this.data.url);
         }
 
+        // Hide the duplicate color buttons (most of the times, primary = alpha
+        // and secondary = beta for example but this may depend on the theme)
+        this.opened().then(function () {
+            var colors = [];
+            _.each(self.$('.o_btn_preview.o_link_dialog_color_item'), function (btn) {
+                var $btn = $(btn);
+                var color = $btn.css('background-color');
+                if (_.contains(colors, color)) {
+                    $btn.remove();
+                } else {
+                    colors.push(color);
+                }
+            });
+        });
+
         this._adaptPreview();
 
         this.$('input:visible:first').focus();
@@ -1503,7 +1522,7 @@ var LinkDialog = Dialog.extend({
         $preview.attr({
             target: data.isNewWindow ? '_blank' : '',
             href: data.url && data.url.length ? data.url : '#',
-            class: data.classes.replace(/pull-\w+/, '') + ' o_btn_preview',
+            class: data.classes.replace(/float-\w+/, '') + ' o_btn_preview',
         }).html((data.label && data.label.length) ? data.label : data.url);
     },
     /**
@@ -1525,10 +1544,15 @@ var LinkDialog = Dialog.extend({
         }
 
         var style = this.$('input[name="link_style_color"]:checked').val() || '';
+        var shape = this.$('select[name="link_style_shape"]').val() || '';
         var size = this.$('select[name="link_style_size"]').val() || '';
+        var shapes = shape.split(',');
+        var outline = shapes[0] === 'outline';
+        shape = shapes.slice(outline ? 1 : 0).join(' ');
         var classes = (this.data.className || '')
-            + ((style && style.length) ? (' btn btn-' + style) : '')
-            + ((size && size.length) ? (' btn-' + size) : '');
+            + (style ? (' btn btn-' + (outline ? 'outline-' : '') + style) : '')
+            + (shape ? (' ' + shape) : '')
+            + (size ? (' btn-' + size) : '');
         var isNewWindow = this.$('input[name="is_new_window"]').prop('checked');
 
         if (url.indexOf('@') >= 0 && url.indexOf('mailto:') < 0 && !url.match(/^http[s]?/i)) {

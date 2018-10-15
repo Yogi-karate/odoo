@@ -36,13 +36,13 @@ $o-onboarding-violet-ui-2: #FBEEC8;
     .o_onboarding_wrap {
         padding: $o-horizontal-padding*2 $o-horizontal-padding;
     }
-    .o_onboarding_step_title {
+    .o_onboarding_step_title, a.o_onboarding_all_done {
         cursor: pointer;
     }
 
     .o_onboarding_btn_close {
         @include o-position-absolute(auto, 0, 0);
-        padding: 6px $o-horizontal-padding + 6px;
+        padding: 6px 12px;
         cursor: pointer;
     }
 

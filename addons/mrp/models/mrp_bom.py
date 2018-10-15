@@ -6,6 +6,8 @@ from odoo.addons import decimal_precision as dp
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_round
 
+from itertools import groupby
+
 
 class MrpBom(models.Model):
     """ Defines bills of material for a product or a product template """
@@ -65,6 +67,17 @@ class MrpBom(models.Model):
         if self.product_id:
             for line in self.bom_line_ids:
                 line.attribute_value_ids = False
+
+    @api.multi
+    def write(self, values):
+        mos = self.env['mrp.production'].search_count([
+            ('bom_id', 'in', self.ids),
+            ('state', 'not in', ['done', 'cancel'])
+        ])
+        if mos and any(k not in ['code', 'sequence', 'pick_type_id', 'ready_to_produce'] for k in values.keys()):
+            raise ValidationError(_('This BoM is used in some Manufacturing Orders that are still open. You should rather archive this BoM and create a new one.'))
+        return super(MrpBom, self).write(values)
+
 
     @api.constrains('product_id', 'product_tmpl_id', 'bom_line_ids')
     def _check_product_recursion(self):
@@ -193,13 +206,14 @@ class MrpBomLine(models.Model):
     _name = 'mrp.bom.line'
     _order = "sequence, id"
     _rec_name = "product_id"
+    _description = 'Bill of Material Line'
 
     def _get_default_product_uom_id(self):
         return self.env['uom.uom'].search([], limit=1, order='id').id
 
     product_id = fields.Many2one(
         'product.product', 'Component', required=True)
-    product_tmpl_id = fields.Many2one('product.template', 'Product Template', related='product_id.product_tmpl_id')
+    product_tmpl_id = fields.Many2one('product.template', 'Product Template', related='product_id.product_tmpl_id', readonly=False)
     product_qty = fields.Float(
         'Quantity', default=1.0,
         digits=dp.get_precision('Product Unit of Measure'), required=True)
@@ -213,13 +227,14 @@ class MrpBomLine(models.Model):
         help="Gives the sequence order when displaying.")
     routing_id = fields.Many2one(
         'mrp.routing', 'Routing',
-        related='bom_id.routing_id', store=True,
+        related='bom_id.routing_id', store=True, readonly=False,
         help="The list of operations to produce the finished product. The routing is mainly used to "
              "compute work center costs during operations and to plan future loads on work centers "
              "based on production planning.")
     bom_id = fields.Many2one(
         'mrp.bom', 'Parent BoM',
         index=True, ondelete='cascade', required=True)
+    parent_product_tmpl_id = fields.Many2one('product.template', 'Parent Product Template', related='bom_id.product_tmpl_id')
     attribute_value_ids = fields.Many2many(
         'product.attribute.value', string='Apply on Variants',
         help="BOM Product Variants needed form apply this line.")
@@ -280,6 +295,13 @@ class MrpBomLine(models.Model):
         if self.product_id:
             self.product_uom_id = self.product_id.uom_id.id
 
+    @api.onchange('parent_product_tmpl_id')
+    def onchange_parent_product(self):
+        return {'domain': {'attribute_value_ids': [
+            ('id', 'in', self.parent_product_tmpl_id.mapped('attribute_line_ids.value_ids.id')),
+            ('attribute_id.create_variant', '!=', 'no_variant')
+        ]}}
+
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
@@ -292,8 +314,10 @@ class MrpBomLine(models.Model):
         custom control. It currently checks that all variant values are in the
         product. """
         if self.attribute_value_ids:
-            if not product or self.attribute_value_ids - product.attribute_value_ids:
-                return True
+            for att, att_values in groupby(self.attribute_value_ids, lambda l: l.attribute_id):
+                values = self.env['product.attribute.value'].concat(*list(att_values))
+                if not (product.attribute_value_ids & values):
+                    return True
         return False
 
     @api.multi

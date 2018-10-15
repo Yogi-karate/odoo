@@ -143,7 +143,7 @@ class ResourceCalendar(models.Model):
     (begin_datetime, end_datetime). A list of intervals is therefore a list of
     tuples, holding several intervals of work or leaves. """
     _name = "resource.calendar"
-    _description = "Resource Calendar"
+    _description = "Resource Working Time"
 
     @api.model
     def default_get(self, fields):
@@ -295,7 +295,7 @@ class ResourceCalendar(models.Model):
         )
 
     @api.multi
-    def plan_hours(self, hours, day_dt, compute_leaves=False, domain=None):
+    def plan_hours(self, hours, day_dt, compute_leaves=False, domain=None, resource=None):
         """
         `compute_leaves` controls whether or not this method is taking into
         account the global leaves.
@@ -309,11 +309,11 @@ class ResourceCalendar(models.Model):
 
         # which method to use for retrieving intervals
         if compute_leaves:
-            get_intervals = partial(self._work_intervals, domain=domain)
+            get_intervals = partial(self._work_intervals, domain=domain, resource=resource)
         else:
             get_intervals = self._attendance_intervals
 
-        if hours > 0:
+        if hours >= 0:
             delta = timedelta(days=14)
             for n in range(100):
                 dt = day_dt + delta * n
@@ -323,8 +323,7 @@ class ResourceCalendar(models.Model):
                         return revert(start + timedelta(hours=hours))
                     hours -= interval_hours
             return False
-
-        elif hours < 0:
+        else:
             hours = abs(hours)
             delta = timedelta(days=14)
             for n in range(100):
@@ -335,9 +334,6 @@ class ResourceCalendar(models.Model):
                         return revert(stop - timedelta(hours=hours))
                     hours -= interval_hours
             return False
-
-        else:
-            return revert(day_dt)
 
     @api.multi
     def plan_days(self, days, day_dt, compute_leaves=False, domain=None):
@@ -423,7 +419,7 @@ class ResourceCalendarAttendance(models.Model):
 
 class ResourceResource(models.Model):
     _name = "resource.resource"
-    _description = "Resource Detail"
+    _description = "Resources"
 
     @api.model
     def default_get(self, fields):
@@ -502,7 +498,7 @@ class ResourceResource(models.Model):
 
 class ResourceCalendarLeaves(models.Model):
     _name = "resource.calendar.leaves"
-    _description = "Leave Detail"
+    _description = "Resource Leaves Detail"
 
     name = fields.Char('Reason')
     company_id = fields.Many2one(

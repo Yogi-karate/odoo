@@ -40,7 +40,7 @@ class MailTestActivity(models.Model):
     active = fields.Boolean(default=True)
 
     def action_start(self, action_summary):
-        self.activity_schedule(
+        return self.activity_schedule(
             'test_mail.mail_act_test_todo',
             summary=action_summary
         )
@@ -110,6 +110,7 @@ class MailTestAlias(models.Model):
 
 class MailModel(models.Model):
     _name = 'test_performance.mail'
+    _description = 'Test Performance Mail'
     _inherit = 'mail.thread'
 
     name = fields.Char()

@@ -3,16 +3,16 @@
 # * website_blog
 # 
 # Translators:
-# 敬雲 林 <chingyun@yuanchih-consult.com>, 2018
 # Martin Trigaux, 2018
-# Michael Yeung, 2018
+# 敬雲 林 <chingyun@yuanchih-consult.com>, 2018
+# sejun huang <sejun.huang@gmail.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.4\n"
+"Project-Id-Version: Odoo Server saas~11.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-02 09:56+0000\n"
-"PO-Revision-Date: 2018-08-02 09:56+0000\n"
-"Last-Translator: Michael Yeung, 2018\n"
+"POT-Creation-Date: 2018-10-02 10:06+0000\n"
+"PO-Revision-Date: 2018-10-02 10:06+0000\n"
+"Last-Translator: sejun huang <sejun.huang@gmail.com>, 2018\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/odoo/teams/41243/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,26 +21,76 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
 msgid "&amp;mdash;"
 msgstr "&amp;mdash; "
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
 msgid "&amp;times;"
 msgstr "&amp;times;"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_feed
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_feed
 msgid "&lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt;"
 msgstr "xml version=\"1.0\" encoding=\"utf-8\";"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.view_blog_blog_form
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_blog_form
 msgid ""
 "(Un)archiving a blog automatically (un)archives its posts. Do you want to "
 "proceed?"
 msgstr "（取消）歸檔博客將自動（取消）歸檔其中的博客文章。是否繼續？"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "1 post"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "10 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "2 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "3 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "4 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "5 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "6 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "7 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "8 posts"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "9 posts"
+msgstr ""
 
 #. module: website_blog
 #. openerp-web
@@ -76,17 +126,22 @@ msgid ""
 msgstr "在<b>這裡寫下您的故事。</b>使用頂部的工具欄來設計文本：添加圖像或表格、設定粗體或斜體等。拖放構建塊來得到更加圖像化的博客。"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
+msgid "<span class=\"fa fa-folder-open\"/> In"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
 msgid "A new post"
 msgstr "新帖"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_about_us
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_about_us
 msgid "About us"
 msgstr "關於我們"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
 msgid "Access post"
 msgstr "訪問帖子"
 
@@ -103,24 +158,44 @@ msgid "Active"
 msgstr "有效"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_blog_view_search
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "All blogs"
+msgstr ""
+
+#. module: website_blog
+#. openerp-web
+#: code:addons/website_blog/static/src/js/s_latest_posts_frontend.js:59
+#, python-format
+msgid ""
+"An error occured with this latest posts block. If the problem persists, "
+"please consider deleting it and adding a new one"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_blog_view_search
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_search
 msgid "Archived"
 msgstr "歸檔"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_history
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_history
 msgid "Archives"
 msgstr "歸檔"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
 msgid "Atom Feed"
 msgstr "Atom 供稿"
 
 #. module: website_blog
+#: model:ir.model.fields,field_description:website_blog.field_blog_blog__message_attachment_count
+#: model:ir.model.fields,field_description:website_blog.field_blog_post__message_attachment_count
+msgid "Attachment Count"
+msgstr "附件計數"
+
+#. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__author_id
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_search
 msgid "Author"
 msgstr "作者"
 
@@ -130,16 +205,15 @@ msgid "Avatar"
 msgstr "頭像"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Black"
 msgstr "黑色"
 
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__blog_id
-#: model:ir.ui.menu,name:website_blog.menu_website_blog_root
-#: model:ir.ui.view,arch_db:website_blog.blog_blog_view_search
-#: model:ir.ui.view,arch_db:website_blog.view_blog_blog_form
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_blog_view_search
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_blog_form
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_search
 #: model:website.menu,name:website_blog.menu_news
 msgid "Blog"
 msgstr "博客"
@@ -153,8 +227,8 @@ msgstr "博客名稱"
 #: code:addons/website_blog/models/website.py:22
 #: code:addons/website_blog/models/website.py:47
 #: model:ir.model,name:website_blog.model_blog_post
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_form
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_form
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_search
 #, python-format
 msgid "Blog Post"
 msgstr "博客文章"
@@ -172,9 +246,9 @@ msgid "Blog Post <b>%s</b> seems to have a link to this page !"
 msgstr "博客文章 <b>%s</b> 似乎有一個鏈接到這個網頁！"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_complete
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_post_complete_read_next
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_form
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_complete
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_post_complete_read_next
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_form
 msgid "Blog Post Title"
 msgstr "博文標題"
 
@@ -182,15 +256,14 @@ msgstr "博文標題"
 #: code:addons/website_blog/models/website.py:24
 #: code:addons/website_blog/models/website.py:49
 #: model:ir.actions.act_window,name:website_blog.action_blog_post
-#: model:ir.ui.menu,name:website_blog.menu_page
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_list
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_list
 #, python-format
 msgid "Blog Posts"
 msgstr "博文"
 
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_blog__subtitle
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_form
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_form
 msgid "Blog Subtitle"
 msgstr "博文副標題"
 
@@ -212,13 +285,15 @@ msgstr "博客標籤"
 #. module: website_blog
 #: model:ir.actions.act_window,name:website_blog.action_blog_blog
 #: model:ir.model,name:website_blog.model_blog_blog
-#: model:ir.ui.menu,name:website_blog.menu_blog
-#: model:ir.ui.view,arch_db:website_blog.view_blog_blog_list
+#: model:ir.ui.menu,name:website_blog.menu_blog_global
+#: model:ir.ui.menu,name:website_blog.menu_website_blog_root
+#: model:ir.ui.menu,name:website_blog.menu_website_blog_root_global
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_blog_list
 msgid "Blogs"
 msgstr "博客"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Blue"
 msgstr "藍色"
 
@@ -230,10 +305,15 @@ msgstr "類別"
 #. module: website_blog
 #. openerp-web
 #: code:addons/website_blog/static/src/js/website.tour.blog.js:29
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 #, python-format
 msgid "Change Cover"
 msgstr "修改封面"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "Choose a blog"
+msgstr ""
 
 #. module: website_blog
 #. openerp-web
@@ -250,7 +330,7 @@ msgid "Click here to change your post cover."
 msgstr "點選此處更改您的文章封面。"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
 msgid ""
 "Click on \"New Page\" in the top-right corner to write your first blog post."
 msgstr "點選右上角的「新建頁面」來寫下您的第一篇博客文章。"
@@ -263,8 +343,13 @@ msgid "Click on <b>Save</b> to set the picture as cover."
 msgstr "點選<b>保存</b>將圖片設為封面。"
 
 #. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
+msgid "Close"
+msgstr "關閉"
+
+#. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__content
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_search
 msgid "Content"
 msgstr "內容"
 
@@ -274,7 +359,7 @@ msgid "Cover Properties"
 msgstr "封面屬性"
 
 #. module: website_blog
-#: model:ir.actions.act_window,help:website_blog.action_blog_post
+#: model_terms:ir.actions.act_window,help:website_blog.action_blog_post
 msgid "Create a new blog post"
 msgstr ""
 
@@ -303,17 +388,24 @@ msgid "Display Name"
 msgstr "顯示名稱"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_edit_options
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_edit_options
 msgid "Duplicate"
 msgstr "複製"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_complete
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "Facebook"
+msgstr "臉書"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Filter Color"
 msgstr "過濾顏色"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Filter Intensity"
 msgstr "篩選強度"
 
@@ -336,7 +428,7 @@ msgid "Followers (Partners)"
 msgstr "關注者(業務夥伴)"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Full Screen"
 msgstr "全螢幕"
 
@@ -346,17 +438,29 @@ msgid "Get in touch with us"
 msgstr "請與我們聯繫"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "Github"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_complete
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "Google Plus"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Green"
 msgstr "綠色"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_search
 msgid "Group By"
 msgstr "分組"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "High"
 msgstr "高"
 
@@ -387,9 +491,9 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
-msgid "In"
-msgstr "在"
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "Instagram"
+msgstr "Instagram"
 
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_blog__message_is_follower
@@ -398,8 +502,13 @@ msgid "Is Follower"
 msgstr "是訂閱者"
 
 #. module: website_blog
+#: model:ir.model.fields,field_description:website_blog.field_blog_post__is_published
+msgid "Is published"
+msgstr "發表"
+
+#. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__write_uid
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_search
 msgid "Last Contributor"
 msgstr "最近的貢獻者"
 
@@ -427,17 +536,32 @@ msgid "Last Updated on"
 msgstr "最後更新時間"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_big_picture
 msgid "Latest Posts"
 msgstr "最新發佈"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_complete
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "LinkedIn"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Low"
 msgstr "低"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model:ir.model.fields,field_description:website_blog.field_blog_blog__message_main_attachment_id
+#: model:ir.model.fields,field_description:website_blog.field_blog_post__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "主要附件"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Medium"
 msgstr "媒體"
 
@@ -445,7 +569,7 @@ msgstr "媒體"
 #: model:ir.model.fields,field_description:website_blog.field_blog_blog__message_has_error
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "郵件傳遞錯誤"
 
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_blog__message_ids
@@ -454,7 +578,7 @@ msgid "Messages"
 msgstr "消息"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Mid screen"
 msgstr "中屏"
 
@@ -465,32 +589,38 @@ msgid "Name"
 msgstr "名稱"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Narrow"
 msgstr "變窄"
 
 #. module: website_blog
 #. openerp-web
 #: code:addons/website_blog/static/src/js/website_blog.editor.js:37
-#: model:ir.ui.view,arch_db:website_blog.content_new_blogpost
 #, python-format
 msgid "New Blog Post"
 msgstr "發佈新博文"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_history
+msgid "Next year"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "No Cover"
 msgstr "沒有封面"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
-msgid "No blog post yet."
-msgstr "尚未發佈博文。"
+#. openerp-web
+#: code:addons/website_blog/static/src/js/s_latest_posts_frontend.js:44
+#, python-format
+msgid "No blog post was found. Make sure your posts are published."
+msgstr ""
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
-msgid "No keywords defined!"
-msgstr "沒有關鍵字定義!"
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+msgid "No blog post yet."
+msgstr "尚未發佈博文。"
 
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__visits
@@ -498,7 +628,12 @@ msgid "No of Views"
 msgstr "瀏覽數量"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
+msgid "No tags defined!"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "None"
 msgstr "無"
 
@@ -512,7 +647,7 @@ msgstr "行動數量"
 #: model:ir.model.fields,field_description:website_blog.field_blog_blog__message_has_error_counter
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__message_has_error_counter
 msgid "Number of error"
-msgstr ""
+msgstr "錯誤數量"
 
 #. module: website_blog
 #: model:ir.model.fields,help:website_blog.field_blog_blog__message_needaction_counter
@@ -524,6 +659,11 @@ msgstr "需要行動消息的數量"
 #: model:ir.model.fields,help:website_blog.field_blog_blog__message_has_error_counter
 #: model:ir.model.fields,help:website_blog.field_blog_post__message_has_error_counter
 msgid "Number of messages with delivery error"
+msgstr "發送錯誤的郵件數"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_options
+msgid "Number of posts"
 msgstr ""
 
 #. module: website_blog
@@ -540,7 +680,7 @@ msgid "Once you have reviewed the content on mobile, close the preview."
 msgstr "當您在手機上查看過內容後，請關閉預覽。"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_tags
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_tags
 msgid "Others"
 msgstr ""
 
@@ -550,12 +690,12 @@ msgid "Our Blog"
 msgstr "我們的博客"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_blogs
 msgid "Our Blogs"
 msgstr "我們的博客"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
 msgid "Participate on our social stream."
 msgstr "參與我們的社會活動。"
 
@@ -565,7 +705,7 @@ msgid "Posts"
 msgstr "帖子"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_status
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_status
 msgid "Published"
 msgstr "已發佈"
 
@@ -581,7 +721,7 @@ msgid "Published Post"
 msgstr "已發佈的帖子"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_form
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_form
 msgid "Publishing Options"
 msgstr "發佈選項"
 
@@ -591,9 +731,14 @@ msgid "Publishing date"
 msgstr "發佈日期"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Purple"
 msgstr "紫色"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "RSS"
+msgstr ""
 
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__ranking
@@ -601,14 +746,40 @@ msgid "Ranking"
 msgstr "等級"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_post_complete_read_next
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_big_picture_template
+#: model_terms:ir.ui.view,arch_db:website_blog.s_latest_posts_list_template
+msgid "Read More"
+msgstr "閱讀更多"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_post_complete_read_next
 msgid "Read Next <span class=\"fa fa-long-arrow-right\"/>"
 msgstr "閱讀下一頁<span class=\"fa fa-long-arrow-right\"/>"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Red"
 msgstr "紅色"
+
+#. module: website_blog
+#: model:ir.model.fields,help:website_blog.field_blog_blog__website_id
+#: model:ir.model.fields,help:website_blog.field_blog_post__website_id
+msgid "Restrict publishing to this website."
+msgstr "限制發佈到本網站。"
+
+#. module: website_blog
+#: model:ir.model.fields,field_description:website_blog.field_blog_blog__is_seo_optimized
+#: model:ir.model.fields,field_description:website_blog.field_blog_post__is_seo_optimized
+#: model:ir.model.fields,field_description:website_blog.field_blog_tag__is_seo_optimized
+msgid "SEO optimized"
+msgstr ""
+
+#. module: website_blog
+#. openerp-web
+#: code:addons/website_blog/static/src/js/website_blog.editor.js:38
+#, python-format
+msgid "Select Blog"
+msgstr ""
 
 #. module: website_blog
 #. openerp-web
@@ -625,7 +796,7 @@ msgid "Set a blog post <b>cover</b>."
 msgstr "設定博客文章<b>封面</b>。"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Size"
 msgstr "尺寸："
 
@@ -639,19 +810,19 @@ msgstr "聯絡人小尺寸圖像。自動縮放為64x64px ，保留縱橫比。�
 
 #. module: website_blog
 #. openerp-web
-#: code:addons/website_blog/models/website_blog.py:137
+#: code:addons/website_blog/models/website_blog.py:138
 #: code:addons/website_blog/static/src/js/website.tour.blog.js:52
 #, python-format
 msgid "Start writing here..."
 msgstr "在這裡開始寫入"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_status
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_status
 msgid "Status"
 msgstr "狀態"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
 msgid "Stay updated :"
 msgstr "保持最新："
 
@@ -661,14 +832,14 @@ msgid "Sub Title"
 msgstr "副標題"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_complete
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_post_complete_read_next
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_complete
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_post_complete_read_next
 msgid "Subtitle"
 msgstr "小標題"
 
 #. module: website_blog
-#: model:ir.ui.menu,name:website_blog.menu_website_blog_tag_category
-#: model:ir.ui.view,arch_db:website_blog.blog_tag_category_tree
+#: model:ir.ui.menu,name:website_blog.menu_website_blog_tag_category_global
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_tag_category_tree
 msgid "Tag Categories"
 msgstr ""
 
@@ -678,17 +849,17 @@ msgid "Tag Category"
 msgstr ""
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_tag_category_form
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_tag_category_form
 msgid "Tag Category Form"
 msgstr ""
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_tag_form
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_tag_form
 msgid "Tag Form"
 msgstr "標籤表格"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_tag_tree
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_tag_tree
 msgid "Tag List"
 msgstr "標籤列表"
 
@@ -705,8 +876,9 @@ msgstr "標籤名已存在!"
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__tag_ids
 #: model:ir.model.fields,field_description:website_blog.field_blog_tag_category__tag_ids
-#: model:ir.ui.menu,name:website_blog.menu_blog_tag
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_tags
+#: model:ir.ui.menu,name:website_blog.menu_blog_tag_global
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_tags
 msgid "Tags"
 msgstr "摘要"
 
@@ -721,7 +893,7 @@ msgid "Teaser Content"
 msgstr "預告內容"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.view_blog_post_form
+#: model_terms:ir.ui.view,arch_db:website_blog.view_blog_post_form
 msgid "Technical"
 msgstr "技術"
 
@@ -738,7 +910,7 @@ msgid "The full URL to access the document through the website."
 msgstr "通過網站訪問單據的完整網址。"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
 msgid ""
 "This page is great to improve your <strong>Search Engine Optimization</strong>;\n"
 "                   You can review titles, keywords and descriptions of all blogs at once."
@@ -752,7 +924,19 @@ msgid "Title"
 msgstr "稱謂"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_status
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_complete
+msgid "To blog content"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_complete
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "Twitter"
+msgstr "Twitter"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_status
 msgid "Unpublished"
 msgstr "未發佈"
 
@@ -769,7 +953,7 @@ msgid "Unread Messages Counter"
 msgstr "未讀消息計數器"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
 msgid "Untitled Post"
 msgstr "無標題帖文"
 
@@ -781,17 +965,19 @@ msgid "Use this icon to preview your blog post on <b>mobile devices</b>."
 msgstr "使用此圖標，在<b>移動設備</b>上預覽您的博客文章。"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_tag_form
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_tag_form
 msgid "Used in:"
 msgstr "使用在："
 
 #. module: website_blog
 #: model:ir.model.fields,field_description:website_blog.field_blog_post__website_published
-msgid "Visible in Website"
-msgstr "在網站可見"
+msgid "Visible on current website"
+msgstr "在當前網站上可見"
 
 #. module: website_blog
 #: model:ir.model,name:website_blog.model_website
+#: model:ir.model.fields,field_description:website_blog.field_blog_blog__website_id
+#: model:ir.model.fields,field_description:website_blog.field_blog_post__website_id
 msgid "Website"
 msgstr "網站"
 
@@ -839,12 +1025,19 @@ msgid "Website meta title"
 msgstr "網站元標題"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model:ir.model.fields,field_description:website_blog.field_blog_blog__website_meta_og_img
+#: model:ir.model.fields,field_description:website_blog.field_blog_post__website_meta_og_img
+#: model:ir.model.fields,field_description:website_blog.field_blog_tag__website_meta_og_img
+msgid "Website opengraph image"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "White"
 msgstr "白"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.opt_blog_rc_about_us
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_about_us
 msgid ""
 "Write a small text here for when <b>new visitors</b> find your website\n"
 "            through your <b>blog entries</b>, referenced in Google."
@@ -860,12 +1053,12 @@ msgid "Write a title, the subtitle is optional."
 msgstr "寫一個標題，副標題是可選的。"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.website_blog
 msgid "Yellow"
 msgstr "黃色"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
 msgid ""
 "You should <strong>add a banner on the top</strong> as it is a frequent landing page for new visitors.\n"
 "                   <span class=\"text-muted\">This box will not be visible to your visitors.</span>"
@@ -874,44 +1067,49 @@ msgstr ""
 "<span class=\"text-muted\">此框對您訪問者是不可見的。</span>"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
+#: model_terms:ir.ui.view,arch_db:website_blog.opt_blog_rc_follow_us
+msgid "Youtube"
+msgstr "Youtube"
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
 msgid "blog. Click here to access the blog :"
 msgstr "已在博客上發佈新帖子。點選此處訪問博客："
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
 msgid "comment"
 msgstr "評論"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
 msgid "comments"
 msgstr "評語"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.latest_blogs
+msgid "float-right"
+msgstr ""
+
+#. module: website_blog
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
 msgid "has been published on the"
 msgstr "已在博客上發佈新帖子"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
-#: model:ir.ui.view,arch_db:website_blog.latest_blogs
-msgid "pull-right"
-msgstr "右拉"
-
-#. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
 msgid "unpublished"
 msgstr "未發佈"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
 msgid "view"
 msgstr "視圖"
 
 #. module: website_blog
-#: model:ir.ui.view,arch_db:website_blog.blog_post_short
+#: model_terms:ir.ui.view,arch_db:website_blog.blog_post_short
 msgid "views"
 msgstr "瀏覽"

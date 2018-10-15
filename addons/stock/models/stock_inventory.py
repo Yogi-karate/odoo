@@ -233,7 +233,7 @@ class Inventory(models.Model):
     def _get_inventory_lines_values(self):
         # TDE CLEANME: is sql really necessary ? I don't think so
         locations = self.env['stock.location'].search([('id', 'child_of', [self.location_id.id])])
-        domain = ' location_id in %s'
+        domain = ' location_id in %s AND quantity != 0'
         args = (tuple(locations.ids),)
 
         vals = []
@@ -247,7 +247,7 @@ class Inventory(models.Model):
         if self.company_id:
             domain += ' AND company_id = %s'
             args += (self.company_id.id,)
-        
+
         #case 1: Filter on One owner only or One product for a specific owner
         if self.partner_id:
             domain += ' AND owner_id = %s'
@@ -352,7 +352,7 @@ class InventoryLine(models.Model):
         'Theoretical Quantity', compute='_compute_theoretical_qty',
         digits=dp.get_precision('Product Unit of Measure'), readonly=True, store=True)
     inventory_location_id = fields.Many2one(
-        'stock.location', 'Inventory Location', related='inventory_id.location_id', related_sudo=False)
+        'stock.location', 'Inventory Location', related='inventory_id.location_id', related_sudo=False, readonly=False)
     product_tracking = fields.Selection('Tracking', related='product_id.tracking', readonly=True)
 
     @api.one
@@ -361,9 +361,14 @@ class InventoryLine(models.Model):
         if not self.product_id:
             self.theoretical_qty = 0
             return
-        theoretical_qty = sum([x.quantity for x in self._get_quants()])
-        if theoretical_qty and self.product_uom_id and self.product_id.uom_id != self.product_uom_id:
-            theoretical_qty = self.product_id.uom_id._compute_quantity(theoretical_qty, self.product_uom_id)
+        theoretical_qty = self.product_id.get_theoretical_quantity(
+            self.product_id.id,
+            self.location_id.id,
+            lot_id=self.prod_lot_id.id,
+            package_id=self.package_id.id,
+            owner_id=self.partner_id.id,
+            to_uom=self.product_uom_id.id,
+        )
         self.theoretical_qty = theoretical_qty
 
     @api.onchange('product_id')
@@ -407,9 +412,9 @@ class InventoryLine(models.Model):
                 ('package_id', '=', line.package_id.id),
                 ('prod_lot_id', '=', line.prod_lot_id.id)])
             if existings:
-                raise UserError(_("You cannot have two inventory adjustments in state 'In Progress' with the same product,"
+                raise UserError(_("You cannot have two inventory adjustments in state 'In Progress' with the same product (%s),"
                                    " same location, same package, same owner and same lot. Please first validate"
-                                   " the first inventory adjustment before creating another one."))
+                                   " the first inventory adjustment before creating another one.") % (line.product_id.display_name))
 
     @api.constrains('product_id')
     def _check_product_id(self):
@@ -419,15 +424,6 @@ class InventoryLine(models.Model):
         for line in self:
             if line.product_id.type != 'product':
                 raise UserError(_("You can only adjust storable products."))
-
-    def _get_quants(self):
-        return self.env['stock.quant'].search([
-            ('company_id', '=', self.company_id.id),
-            ('location_id', '=', self.location_id.id),
-            ('lot_id', '=', self.prod_lot_id.id),
-            ('product_id', '=', self.product_id.id),
-            ('owner_id', '=', self.partner_id.id),
-            ('package_id', '=', self.package_id.id)])
 
     def _get_move_values(self, qty, location_id, location_dest_id, out):
         self.ensure_one()

@@ -76,11 +76,14 @@ class Message(models.Model):
         'res.partner', 'Author', index=True,
         ondelete='set null', default=_get_default_author,
         help="Author of the message. If not set, email_from may hold an email address that did not match any partner.")
-    author_avatar = fields.Binary("Author's avatar", related='author_id.image_small')
-    # recipients
-    partner_ids = fields.Many2many('res.partner', string='Recipients')
+    author_avatar = fields.Binary("Author's avatar", related='author_id.image_small', readonly=False)
+    # recipients: include inactive partners (they may have been archived after
+    # the message was sent, but they should remain visible in the relation)
+    partner_ids = fields.Many2many('res.partner', string='Recipients',
+        context={'active_test': False})
     needaction_partner_ids = fields.Many2many(
-        'res.partner', 'mail_message_res_partner_needaction_rel', string='Partners with Need Action')
+        'res.partner', 'mail_message_res_partner_needaction_rel', string='Partners with Need Action',
+        context={'active_test': False})
     needaction = fields.Boolean(
         'Need Action', compute='_get_needaction', search='_search_needaction',
         help='Need Action')
@@ -151,8 +154,8 @@ class Message(models.Model):
     @api.multi
     def _search_has_error(self, operator, operand):
         if operator == '=' and operand:
-            return [('notification_ids.email_status', 'in', ('bounce', 'exception'))]
-        return ['!', ('notification_ids.email_status', 'in', ('bounce', 'exception'))]  # this wont work and will be equivalent to "not in" beacause of orm restrictions. Dont use "has_error = False"
+            return ['&', ('notification_ids.email_status', 'in', ('bounce', 'exception')), ('author_id', '=', self.env.user.partner_id.id)]
+        return ['!', '&', ('notification_ids.email_status', 'in', ('bounce', 'exception')), ('author_id', '=', self.env.user.partner_id.id)]  # this wont work and will be equivalent to "not in" beacause of orm restrictions. Dont use "has_error = False"
 
     @api.depends('starred_partner_ids')
     def _get_starred(self):
@@ -171,19 +174,18 @@ class Message(models.Model):
     @api.multi
     def _compute_need_moderation(self):
         for message in self:
-            self.need_moderation = False
+            message.need_moderation = False
 
     @api.model
     def _search_need_moderation(self, operator, operand):
-        if operator == '=' and operand:
+        if operator == '=' and operand is True:
             return ['&', '&',
                     ('moderation_status', '=', 'pending_moderation'),
                     ('model', '=', 'mail.channel'),
                     ('res_id', 'in', self.env.user.moderation_channel_ids.ids)]
-        return ['|', '|',
-                ('moderation_status', '!=', 'pending_moderation'),
-                ('model', '!=', 'mail.channel'),
-                ('res_id', 'not in', self.env.user.moderation_channel_ids.ids)]
+
+        # no support for other operators
+        return ValueError(_('Unsupported search filter on moderation status'))
 
     #------------------------------------------------------
     # Notification API
@@ -372,14 +374,27 @@ class Message(models.Model):
             else:
                 partner_ids = [partner_tree[partner.id] for partner in message.partner_ids
                                 if partner.id in partner_tree]
-
+            # we read customer_email_status before filtering inactive user because we don't want to miss a red enveloppe
+            customer_email_status = (
+                (all(n.email_status == 'sent' for n in message.notification_ids) and 'sent') or
+                (any(n.email_status == 'exception' for n in message.notification_ids) and 'exception') or
+                (any(n.email_status == 'bounce' for n in message.notification_ids) and 'bounce') or
+                'ready'
+            )
             customer_email_data = []
-            for notification in message.notification_ids.filtered(lambda notif: notif.email_status in ('bounce', 'exception', 'canceled') or (notif.res_partner_id.partner_share and notif.res_partner_id.active)):
+            def filter_notification(notif):
+                return (
+                    (notif.email_status in ('bounce', 'exception', 'canceled') or notif.res_partner_id.partner_share) and
+                    notif.res_partner_id.active
+                )
+            for notification in message.notification_ids.filtered(filter_notification):
                 customer_email_data.append((partner_tree[notification.res_partner_id.id][0], partner_tree[notification.res_partner_id.id][1], notification.email_status))
 
+            main_attachment = message.model and message.res_id and getattr(self.env[message.model].browse(message.res_id), 'message_main_attachment_id')
             attachment_ids = []
             for attachment in message.attachment_ids:
                 if attachment.id in attachments_tree:
+                    attachments_tree[attachment.id]['is_main'] = main_attachment == attachment
                     attachment_ids.append(attachments_tree[attachment.id])
             tracking_value_ids = []
             for tracking_value_id in message_to_tracking.get(message_id, list()):
@@ -389,9 +404,7 @@ class Message(models.Model):
             message_dict.update({
                 'author_id': author,
                 'partner_ids': partner_ids,
-                'customer_email_status': (all(d[2] == 'sent' for d in customer_email_data) and 'sent') or
-                                        (any(d[2] == 'exception' for d in customer_email_data) and 'exception') or 
-                                        (any(d[2] == 'bounce' for d in customer_email_data) and 'bounce') or 'ready',
+                'customer_email_status': customer_email_status,
                 'customer_email_data': customer_email_data,
                 'attachment_ids': attachment_ids,
                 'tracking_value_ids': tracking_value_ids,
@@ -405,8 +418,19 @@ class Message(models.Model):
         return messages._format_mail_failures()
 
     @api.model
-    def message_fetch(self, domain, limit=20):
-        return self.search(domain, limit=limit).message_format()
+    def message_fetch(self, domain, limit=20, moderated_channel_ids=None):
+        messages = self.search(domain, limit=limit)
+        user_mod_channels = self.env.user.moderation_channel_ids.ids
+        if moderated_channel_ids and set(moderated_channel_ids).issubset(user_mod_channels):
+            # Split load moderated and regular messages, as the ORed domain can
+            # cause performance issues on large databases.
+            moderated_messages_dom = [['model', '=', 'mail.channel'],
+                                      ['res_id', 'in', moderated_channel_ids],
+                                      ['need_moderation', '=', True]]
+            messages |= self.search(moderated_messages_dom, limit=limit)
+            # Truncate the results to `limit`
+            messages = messages.sorted(key='id', reverse=True)[:limit]
+        return messages.message_format()
 
     @api.multi
     def message_format(self):
@@ -685,9 +709,9 @@ class Message(models.Model):
 
         if operation == 'read':
             self._cr.execute("""
-                SELECT DISTINCT m.id, m.model, m.res_id, m.author_id, m.parent_id, m.moderation_status,
+                SELECT DISTINCT m.id, m.model, m.res_id, m.author_id, m.parent_id,
                                 COALESCE(partner_rel.res_partner_id, needaction_rel.res_partner_id),
-                                channel_partner.channel_id as channel_id
+                                channel_partner.channel_id as channel_id, m.moderation_status
                 FROM "%s" m
                 LEFT JOIN "mail_message_res_partner_rel" partner_rel
                 ON partner_rel.mail_message_id = m.id AND partner_rel.res_partner_id = %%(pid)s
@@ -858,7 +882,7 @@ class Message(models.Model):
         res_id = values.get('res_id', self.env.context.get('default_res_id'))
         if not model or not res_id or model not in self.env:
             return False
-        return self.env[model].sudo().browse(res_id).name_get()[0][1]
+        return self.env[model].sudo().browse(res_id).display_name
 
     @api.model
     def _get_reply_to(self, values):
@@ -964,6 +988,8 @@ class Message(models.Model):
     def unlink(self):
         # cascade-delete attachments that are directly attached to the message (should only happen
         # for mail.messages that act as parent for a standalone mail.mail record).
+        if not self:
+            return True
         self.check_access_rule('unlink')
         self.mapped('attachment_ids').filtered(
             lambda attach: attach.res_model == self._name and (attach.res_id in self.ids or attach.res_id == 0)
@@ -1020,7 +1046,7 @@ class Message(models.Model):
         res = self.env['mail.followers']._get_recipient_data(record, subtype_id, pids, cids)
         author_id = msg_vals.get('author_id') or self.author_id.id if res else False
         for pid, cid, active, pshare, ctype, notif, groups in res:
-            if pid and pid == author_id:  # do not notify the author of its own messages
+            if pid and pid == author_id and not self.env.context.get('mail_notify_author'):  # do not notify the author of its own messages
                 continue
             if pid:
                 pdata = {'id': pid, 'active': active, 'share': pshare, 'groups': groups}

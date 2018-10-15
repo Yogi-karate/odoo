@@ -72,6 +72,7 @@ else:
 
 class IrActionsReport(models.Model):
     _name = 'ir.actions.report'
+    _description = 'Report Action'
     _inherit = 'ir.actions.actions'
     _table = 'ir_act_report_xml'
     _sequence = 'ir_actions_id_seq'
@@ -162,7 +163,7 @@ class IrActionsReport(models.Model):
 
         :param record_id: The record that will own the attachment.
         :param pdf_content: The optional name content of the file to avoid reading both times.
-        :return: The newly generated attachment if no AccessError, else None.
+        :return: A modified buffer if the previous one has been modified, None otherwise.
         '''
         attachment_name = safe_eval(self.attachment, {'object': record, 'time': time})
         if not attachment_name:
@@ -174,14 +175,13 @@ class IrActionsReport(models.Model):
             'res_model': self.model,
             'res_id': record.id,
         }
-        attachment = None
         try:
-            attachment = self.env['ir.attachment'].create(attachment_vals)
+            self.env['ir.attachment'].create(attachment_vals)
         except AccessError:
             _logger.info("Cannot save PDF report %r as attachment", attachment_vals['name'])
         else:
             _logger.info('The PDF document %s is now saved in the database', attachment_vals['name'])
-        return attachment
+        return buffer
 
     @api.model
     def get_wkhtmltopdf_state(self):
@@ -195,6 +195,10 @@ class IrActionsReport(models.Model):
         :return: wkhtmltopdf_state
         '''
         return wkhtmltopdf_state
+
+    @api.model
+    def get_paperformat(self):
+        return self.paperformat_id or self.env.user.company_id.paperformat_id
 
     @api.model
     def _build_wkhtmltopdf_args(
@@ -301,26 +305,31 @@ class IrActionsReport(models.Model):
         bodies = []
         res_ids = []
 
+        body_parent = root.xpath('//main')
         # Retrieve headers
         for node in root.xpath(match_klass.format('header')):
+            body_parent = node.getparent()
+            node.getparent().remove(node)
             header_node.append(node)
 
         # Retrieve footers
         for node in root.xpath(match_klass.format('footer')):
+            body_parent = node.getparent()
+            node.getparent().remove(node)
             footer_node.append(node)
 
         # Retrieve bodies
         for node in root.xpath(match_klass.format('article')):
             body = layout.render(dict(subst=False, body=lxml.html.tostring(node), base_url=base_url))
             bodies.append(body)
-            oemodelnode = node.find(".//*[@data-oe-model='%s']" % self.model)
-            if oemodelnode is not None:
-                res_id = oemodelnode.get('data-oe-id')
-                if res_id:
-                    res_id = int(res_id)
+            if node.get('data-oe-model') == self.model:
+                res_ids.append(int(node.get('data-oe-id', 0)))
             else:
-                res_id = False
-            res_ids.append(res_id)
+                res_ids.append(None)
+
+        if not bodies:
+            body = bytearray().join([lxml.html.tostring(c) for c in body_parent.getchildren()])
+            bodies.append(body)
 
         # Get paperformat arguments set in the root html tag. They are prioritized over
         # paperformat-record arguments.
@@ -354,7 +363,7 @@ class IrActionsReport(models.Model):
         :param set_viewport_size: Enable a viewport sized '1024x1280' or '1280x1024' depending of landscape arg.
         :return: Content of the pdf as a string
         '''
-        paperformat_id = self.paperformat_id or self.env.user.company_id.paperformat_id
+        paperformat_id = self.get_paperformat()
 
         # Build the base command args for wkhtmltopdf bin
         command_args = self._build_wkhtmltopdf_args(
@@ -403,6 +412,9 @@ class IrActionsReport(models.Model):
                 else:
                     message = _('Wkhtmltopdf failed (error code: %s). Message: %s')
                 raise UserError(message % (str(process.returncode), err[-1000:]))
+            else:
+                if err:
+                    _logger.warning('wkhtmltopdf: %s' % err)
         except:
             raise
 
@@ -454,7 +466,7 @@ class IrActionsReport(models.Model):
         if values is None:
             values = {}
 
-        context = dict(self.env.context, inherit_branding=True)  # Tell QWeb to brand the generated html
+        context = dict(self.env.context, inherit_branding=values.get('enable_editor'))
 
         # Browse the user instead of using the sudo self.env.user
         user = self.env['res.users'].browse(self.env.uid)
@@ -468,7 +480,7 @@ class IrActionsReport(models.Model):
         values.update(
             time=time,
             context_timestamp=lambda t: fields.Datetime.context_timestamp(self.with_context(tz=user.tz), t),
-            editable=True,
+            editable=values.get('enable_editor'),
             user=user,
             res_company=user.company_id,
             website=website,
@@ -517,7 +529,11 @@ class IrActionsReport(models.Model):
                 if len(res_ids) == 1:
                     # Only one record, so postprocess directly and append the whole pdf.
                     if res_ids[0] in record_map and not res_ids[0] in save_in_attachment:
-                        self.postprocess_pdf_report(record_map[res_ids[0]], pdf_content_stream)
+                        new_stream = self.postprocess_pdf_report(record_map[res_ids[0]], pdf_content_stream)
+                        # If the buffer has been modified, mark the old buffer to be closed as well.
+                        if new_stream and new_stream != pdf_content_stream:
+                            close_streams([pdf_content_stream])
+                            pdf_content_stream = new_stream
                     streams.append(pdf_content_stream)
                 else:
                     # In case of multiple docs, we need to split the pdf according the records.
@@ -538,7 +554,11 @@ class IrActionsReport(models.Model):
                             stream = io.BytesIO()
                             attachment_writer.write(stream)
                             if res_ids[i] and res_ids[i] not in save_in_attachment:
-                                self.postprocess_pdf_report(record_map[res_ids[i]], stream)
+                                new_stream = self.postprocess_pdf_report(record_map[res_ids[i]], stream)
+                                # If the buffer has been modified, mark the old buffer to be closed as well.
+                                if new_stream and new_stream != stream:
+                                    close_streams([stream])
+                                    stream = new_stream
                             streams.append(stream)
                         close_streams([pdf_content_stream])
                     else:
@@ -553,6 +573,17 @@ class IrActionsReport(models.Model):
                 streams.append(io.BytesIO(content))
 
         # Build the final pdf.
+        # If only one stream left, no need to merge them (and then, preserve embedded files).
+        if len(streams) == 1:
+            result = streams[0].getvalue()
+        else:
+            result = self._merge_pdfs(streams)
+
+        # We have to close the streams after PdfFileWriter's call to write()
+        close_streams(streams)
+        return result
+
+    def _merge_pdfs(self, streams):
         writer = PdfFileWriter()
         for stream in streams:
             reader = PdfFileReader(stream)
@@ -560,14 +591,16 @@ class IrActionsReport(models.Model):
         result_stream = io.BytesIO()
         streams.append(result_stream)
         writer.write(result_stream)
-        result = result_stream.getvalue()
-
-        # We have to close the streams after PdfFileWriter's call to write()
-        close_streams(streams)
-        return result
+        return result_stream.getvalue()
 
     @api.multi
     def render_qweb_pdf(self, res_ids=None, data=None):
+        if not data:
+            data = {}
+
+        # remove editor feature in pdf generation
+        data.update(enable_editor=False)
+
         # In case of test environment without enough workers to perform calls to wkhtmltopdf,
         # fallback to render_html.
         if tools.config['test_enable']:
@@ -639,6 +672,10 @@ class IrActionsReport(models.Model):
 
         bodies, html_ids, header, footer, specific_paperformat_args = self.with_context(context)._prepare_html(html)
 
+        if self.attachment and set(res_ids) != set(html_ids):
+            raise UserError(_("The report's template '%s' is wrong, please contact your administrator. \n\n"
+                "Can not separate file to save as attachment because the report's template does not contains the attributes 'data-oe-model' and 'data-oe-id' on the div with 'article' classname.") %  self.name)
+
         pdf_content = self._run_wkhtmltopdf(
             bodies,
             header=header,
@@ -671,15 +708,17 @@ class IrActionsReport(models.Model):
         report_model_name = 'report.%s' % self.report_name
         report_model = self.env.get(report_model_name)
 
+        data = data and dict(data) or {}
+
         if report_model is not None:
-            data = report_model._get_report_values(docids, data=data)
+            data.update(report_model._get_report_values(docids, data=data))
         else:
             docs = self.env[self.model].browse(docids)
-            data = {
+            data.update({
                 'doc_ids': docids,
                 'doc_model': self.model,
                 'docs': docs,
-            }
+            })
         return data
 
     @api.multi
@@ -698,7 +737,7 @@ class IrActionsReport(models.Model):
         :param report_name: Name of the template to generate an action for
         """
         discard_logo_check = self.env.context.get('discard_logo_check')
-        if (self.env.uid == SUPERUSER_ID) and ((not self.env.user.company_id.external_report_layout) or (not discard_logo_check and not self.env.user.company_id.logo)) and config:
+        if (self.env.uid == SUPERUSER_ID) and ((not self.env.user.company_id.external_report_layout_id) or (not discard_logo_check and not self.env.user.company_id.logo)) and config:
             template = self.env.ref('base.view_company_report_form_with_print') if self.env.context.get('from_transient_model', False) else self.env.ref('base.view_company_report_form')
             return {
                 'name': _('Choose Your Document Layout'),

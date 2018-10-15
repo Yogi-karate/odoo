@@ -69,7 +69,7 @@
                                                     <field name="readonly"/>
                                                     <field name="store" groups="base.group_no_one"/>
                                                     <field name="index" groups="base.group_no_one"/>
-                                                    <field name="copy" groups="base.group_no_one"/>
+                                                    <field name="copied" groups="base.group_no_one"/>
                                                 </group>
                                                 <group>
                                                     <field name="translate"
@@ -255,7 +255,7 @@
                                         <field name="readonly"/>
                                         <field name="store" groups="base.group_no_one"/>
                                         <field name="index" groups="base.group_no_one"/>
-                                        <field name="copy" groups="base.group_no_one"/>
+                                        <field name="copied" groups="base.group_no_one"/>
                                     </group>
                                     <group>
                                         <field name="translate"
@@ -349,6 +349,10 @@
                     <field name="model_id"/>
                     <field name="ttype"/>
                     <field name="state"/>
+                    <field name="index"/>
+                    <field name="store"/>
+                    <field name="readonly"/>
+                    <field name="relation"/>
                 </tree>
             </field>
         </record>
@@ -371,6 +375,7 @@
                     <field name="readonly"/>
                     <group expand="0" string="Group By">
                         <filter string="Object" name="group_by_object" domain="[]" context="{'group_by':'model_id'}"/>
+                        <filter string="Type" name="group_by_ttype" domain="[]" context="{'group_by':'ttype'}"/>
                     </group>
                 </search>
             </field>

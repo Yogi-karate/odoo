@@ -36,6 +36,12 @@ $body-color: $o-main-text-color;
 
 $link-hover-decoration: none;
 
+// Muted
+//
+// Style .text-muted elements
+
+$text-muted: $gray-500 !default;
+
 // Grid columns
 //
 // Set the number of columns and specify the width of the gutters.
@@ -72,8 +78,8 @@ $headings-font-weight: bold;
 //
 // Customizes the `.table` component with basic values, each used across all table variations.
 
-$table-accent-bg: #EFEFF8; // FIXME: expose
-$table-hover-bg: darken($table-accent-bg, 5%);
+$table-accent-bg: rgba($black, .01);
+$table-hover-bg: rgba($black, .04);
 
 // Dropdowns
 //
@@ -84,6 +90,9 @@ $dropdown-border-color: $gray-300;
 $dropdown-link-color: $o-main-text-color;
 $dropdown-link-hover-color: $gray-900;
 $dropdown-link-hover-bg: $gray-200;
+
+$dropdown-link-active-color: $gray-900;
+$dropdown-link-active-bg: $gray-300;
 
 // Z-index master list
 

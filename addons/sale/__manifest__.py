@@ -9,7 +9,7 @@
     'description': """
 This module contains all the common features of Sales Management and eCommerce.
     """,
-    'depends': ['sales_team', 'account', 'portal'],
+    'depends': ['sales_team', 'payment', 'portal'],
     'data': [
         'security/sale_security.xml',
         'security/ir.model.access.csv',
@@ -28,16 +28,18 @@ This module contains all the common features of Sales Management and eCommerce.
         'views/mail_activity_views.xml',
         'views/assets.xml',
         'views/sale_portal_templates.xml',
+        'views/sale_product_configurator_templates.xml',
         'views/sale_onboarding_views.xml',
         'views/res_config_settings_views.xml',
-        'views/res_users_views.xml',
+        'views/payment_views.xml',
+        'views/product_attribute_views.xml',
+        'wizard/sale_product_configurator_views.xml',
     ],
     'demo': [
         'data/sale_demo.xml',
         'data/product_product_demo.xml',
     ],
     'uninstall_hook': "uninstall_hook",
-    'css': ['static/src/css/sale.css'],
     'installable': True,
-    'auto_install': False,
+    'auto_install': False
 }

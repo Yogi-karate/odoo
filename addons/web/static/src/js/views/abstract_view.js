@@ -50,7 +50,7 @@ var AbstractView = Class.extend({
     // groupby menu or not.  This is useful for the views which do not support
     // grouping data.
     groupable: true,
-
+    enableTimeRangeMenu: false,
     config: {
         Model: AbstractModel,
         Renderer: AbstractRenderer,
@@ -74,6 +74,11 @@ var AbstractView = Class.extend({
      * @param {number} [params.count]
      * @param {string} [params.controllerID]
      * @param {string[]} params.domain
+     * @param {string[][]} params.timeRange
+     * @param {string[][]} params.comparisonTimeRange
+     * @param {string} params.timeRangeDescription
+     * @param {string} params.comparisonTimeRangeDescription
+     * @param {boolean} params.compare
      * @param {string[]} params.groupBy
      * @param {number} [params.currentId]
      * @param {boolean} params.isEmbedded
@@ -103,12 +108,29 @@ var AbstractView = Class.extend({
         // the boolean parameter 'isEmbedded' determines if the view should be considered
         // as a subview. For now this is only used by the graph controller that appends a
         // 'Group By' button beside the 'Measures' button when the graph view is embedded.
-        this.isEmbedded = params.isEmbedded || false;
+        var isEmbedded = params.isEmbedded || false;
 
         this.rendererParams = {
             arch: this.arch,
+            isEmbedded: isEmbedded,
             noContentHelp: params.action && params.action.help,
         };
+
+        var timeRangeMenuData = params.context.timeRangeMenuData;
+        var timeRange = [];
+        var comparisonTimeRange = [];
+        var compare = false;
+        var timeRangeDescription = "";
+        var comparisonTimeRangeDescription = "";
+        if (this.enableTimeRangeMenu && timeRangeMenuData) {
+            timeRange = timeRangeMenuData.timeRange;
+            comparisonTimeRange = timeRangeMenuData.comparisonTimeRange;
+            compare = comparisonTimeRange.length > 0;
+            timeRangeDescription = timeRangeMenuData.timeRangeDescription;
+            comparisonTimeRangeDescription = timeRangeMenuData.comparisonTimeRangeDescription;
+            this.rendererParams.timeRangeDescription = timeRangeDescription;
+            this.rendererParams.comparisonTimeRangeDescription = comparisonTimeRangeDescription;
+        }
 
         this.controllerParams = {
             modelName: params.modelName,
@@ -119,7 +141,8 @@ var AbstractView = Class.extend({
                 duplicate: this.arch.attrs.duplicate ? JSON.parse(this.arch.attrs.duplicate) : true,
             },
             groupable: this.groupable,
-            isEmbedded: this.isEmbedded,
+            enableTimeRangeMenu: this.enableTimeRangeMenu,
+            isEmbedded: isEmbedded,
             controllerID: params.controllerID,
             bannerRoute: this.arch.attrs.banner_route,
         };
@@ -144,6 +167,11 @@ var AbstractView = Class.extend({
             count: params.count || ((this.controllerParams.ids !== undefined) &&
                    this.controllerParams.ids.length) || 0,
             domain: params.domain,
+            timeRange: timeRange,
+            timeRangeDescription: timeRangeDescription,
+            comparisonTimeRange: comparisonTimeRange,
+            comparisonTimeRangeDescription: comparisonTimeRangeDescription,
+            compare: compare,
             groupedBy: params.groupBy,
             modelName: params.modelName,
             res_id: params.currentId,

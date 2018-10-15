@@ -3,6 +3,7 @@ odoo.define('web.search_view_tests', function (require) {
 
 var testUtils = require('web.test_utils');
 var createActionManager = testUtils.createActionManager;
+var patchDate = testUtils.patchDate;
 
 QUnit.module('Search View', {
     beforeEach: function () {
@@ -90,6 +91,20 @@ QUnit.module('Search View', {
             type: 'ir.actions.act_window',
             views: [[2, 'list']],
             search_view_id: [7, 'search'],
+        }, {
+            id: 9,
+            name: 'Partners Action 9',
+            res_model: 'partner',
+            type: 'ir.actions.act_window',
+            views: [[false, 'pivot']],
+            search_view_id: [5, 'search'],
+        }, {
+            id: 10,
+            name: 'Partners Action 10',
+            res_model: 'partner',
+            type: 'ir.actions.act_window',
+            views: [[false, 'pivot']],
+            search_view_id: [8, 'search'],
         }
         ];
 
@@ -108,6 +123,12 @@ QUnit.module('Search View', {
                         '<field name="date_field" type="row" interval="day"/>' +
                         '<field name="float_field" type="measure"/>' +
                     '</graph>',
+
+            // pivot views
+            'partner,false,pivot': '<pivot>' +
+                        '<field name="date_field" type="row" interval="day"/>' +
+                        '<field name="float_field" type="measure"/>' +
+                '</pivot>',
 
             // search views
             'partner,false,search': '<search>'+
@@ -154,7 +175,92 @@ QUnit.module('Search View', {
                     '<separator/>' +
                     '<filter string="11" name="coolName11" domain="[]"/>' +
                 '</search>',
+            'partner,8,search': '<search>'+
+                    '<field name="foo"/>' +
+                    '<field name="date_field"/>' +
+                    '<field name="birthday"/>' +
+                    '<field name="bar"/>' +
+                    '<field name="float_field"/>' +
+                    '<filter string="Date Field Filter" name="positive" date="date_field"/>' +
+                    '<filter string="Date Field Groupby" name="coolName" context="{\'group_by\': \'date_field:day\'}"/>' +
+                '</search>',
         };
+
+        this.periodOptions = [
+          'last_7_days',
+          'last_30_days',
+          'last_365_days',
+          'today',
+          'this_week',
+          'this_month',
+          'this_quarter',
+          'this_year',
+          'yesterday',
+          'last_week',
+          'last_month',
+          'last_quarter',
+          'last_year',
+        ];
+
+        // assuming that the current time is: 2017-03-22:01:00:00
+        this.periodDomains = [
+            // last 7 days (whole days)
+            ['&', ["date_field", ">=", "2017-03-15"],["date_field", "<", "2017-03-22"]],
+            // last 30 days
+            ['&', ["date_field", ">=", "2017-02-20"],["date_field", "<", "2017-03-22"]],
+            // last 365 days
+            ['&', ["date_field", ">=", "2016-03-22"],["date_field", "<", "2017-03-22"]],
+            // today
+            ['&', ["date_field", ">=", "2017-03-22"],["date_field", "<", "2017-03-23"]],
+            // this week
+            ['&', ["date_field", ">=", "2017-03-20"],["date_field", "<", "2017-03-27"]],
+            // this month
+            ['&', ["date_field", ">=", "2017-03-01"],["date_field", "<", "2017-04-01"]],
+            // this quarter
+            ['&', ["date_field", ">=", "2017-01-01"],["date_field", "<", "2017-04-01"]],
+            // this year
+            ['&', ["date_field", ">=", "2017-01-01"],["date_field", "<", "2018-01-01"]],
+            // yesterday
+            ['&', ["date_field", ">=", "2017-03-21"],["date_field", "<", "2017-03-22"]],
+            // last week
+            ['&', ["date_field", ">=", "2017-03-13"],["date_field", "<", "2017-03-20"]],
+            // last month
+            ['&', ["date_field", ">=", "2017-02-01"],["date_field", "<", "2017-03-01"]],
+            // last quarter
+            ['&', ["date_field", ">=", "2016-10-01"],["date_field", "<", "2017-01-01"]],
+            // last year
+            ['&', ["date_field", ">=", "2016-01-01"],["date_field", "<", "2017-01-01"]],
+        ];
+
+        // assuming that the current time is: 2017-03-22:01:00:00
+        this.previousPeriodDomains = [
+            // last 7 days (whole days) - 1 week
+            ['&', ["date_field", ">=", "2017-03-08"],["date_field", "<", "2017-03-15"]],
+            // last 30 days - 30 days
+            ['&', ["date_field", ">=", "2017-01-21"],["date_field", "<", "2017-02-20"]],
+            // last 365 days
+            ['&', ["date_field", ">=", "2015-03-23"],["date_field", "<", "2016-03-22"]],
+            // today - 1 day
+            ['&', ["date_field", ">=", "2017-03-21"],["date_field", "<", "2017-03-22"]],
+            // this week - 1 week
+            ['&', ["date_field", ">=", "2017-03-13"],["date_field", "<", "2017-03-20"]],
+            // this month - 1 month
+            ['&', ["date_field", ">=", "2017-02-01"],["date_field", "<", "2017-03-01"]],
+            // this quarter - 3 months
+            ['&', ["date_field", ">=", "2016-10-01"],["date_field", "<", "2017-01-01"]],
+            // this year - 1 year
+            ['&', ["date_field", ">=", "2016-01-01"],["date_field", "<", "2017-01-01"]],
+            // yesterday - 1 day
+            ['&', ["date_field", ">=", "2017-03-20"],["date_field", "<", "2017-03-21"]],
+            // last week - 1 week
+            ['&', ["date_field", ">=", "2017-03-06"],["date_field", "<", "2017-03-13"]],
+            // last month - 1 month
+            ['&', ["date_field", ">=", "2017-01-01"],["date_field", "<", "2017-02-01"]],
+            // last quarter - 3 months
+            ['&', ["date_field", ">=", "2016-07-01"],["date_field", "<", "2016-10-01"]],
+            // last year - 1 year
+            ['&', ["date_field", ">=", "2015-01-01"],["date_field", "<", "2016-01-01"]],
+        ];
     },
 }, function () {
     QUnit.module('Groupby Menu');
@@ -319,7 +425,7 @@ QUnit.module('Search View', {
         assert.strictEqual($('.o_content tr.o_group_header').length, 4);
         actionManager.destroy();
     });
-    
+
     QUnit.test('a separator in groupbys does not cause problems', function (assert) {
         assert.expect(6);
 
@@ -391,42 +497,13 @@ QUnit.module('Search View', {
     });
 
     QUnit.test('filter by a date field using period works', function (assert) {
-
         assert.expect(14);
+
+        var self = this;
 
         this.archs['partner,4,search'] = '<search>'+
             '<filter string="AAA" name="some_filter" date="date_field" default_period="this_week"></filter>' +
         '</search>';
-
-        var domains = [
-            [],
-            // today
-            ['&', ["date_field", ">=", "2017-03-22"],["date_field", "<", "2017-03-23"]],
-            // this week
-            ['&', ["date_field", ">=", "2017-03-20"],["date_field", "<", "2017-03-27"]],
-            // this month
-            ['&', ["date_field", ">=", "2017-03-01"],["date_field", "<", "2017-04-01"]],
-            // this quarter
-            ['&', ["date_field", ">=", "2017-01-01"],["date_field", "<", "2017-04-01"]],
-            // this year
-            ['&', ["date_field", ">=", "2017-01-01"],["date_field", "<", "2018-01-01"]],
-            // yesterday
-            ['&', ["date_field", ">=", "2017-03-21"],["date_field", "<", "2017-03-22"]],
-            // last week
-            ['&', ["date_field", ">=", "2017-03-13"],["date_field", "<", "2017-03-20"]],
-            // last month
-            ['&', ["date_field", ">=", "2017-02-01"],["date_field", "<", "2017-03-01"]],
-            // last quarter
-            ['&', ["date_field", ">=", "2016-10-01"],["date_field", "<", "2017-01-01"]],
-            // last year
-            ['&', ["date_field", ">=", "2016-01-01"],["date_field", "<", "2017-01-01"]],
-            // last 7 days (whole days)
-            ['&', ["date_field", ">=", "2017-03-15"],["date_field", "<", "2017-03-22"]],
-            // last 30 days
-            ['&', ["date_field", ">=", "2017-02-20"],["date_field", "<", "2017-03-22"]],
-            // last 365 days
-            ['&', ["date_field", ">=", "2016-03-22"],["date_field", "<", "2017-03-22"]],
-        ];
 
         var RealDate = window.Date;
 
@@ -443,8 +520,8 @@ QUnit.module('Search View', {
             archs: this.archs,
             data: this.data,
             mockRPC: function (route, args) {
-                if (route === '/web/dataset/search_read') {
-                    assert.deepEqual(args.domain, domains.shift());
+                if (route === '/web/dataset/search_read' && args.domain.length) {
+                    assert.deepEqual(args.domain, self.periodDomains.shift());
                 }
                 return this._super.apply(this, arguments);
             },
@@ -456,6 +533,16 @@ QUnit.module('Search View', {
         $('.o_search_options .fa-filter').click();
         // open menu options
         $('.o_menu_item').click();
+
+        var periodOptions = $('.o_menu_item .o_item_option').map(function () {
+            return $(this).data('option_id');
+        }).toArray();
+        assert.deepEqual(periodOptions, this.periodOptions,
+            "13 period options should be available:");
+
+        $('.o_menu_item .o_item_option[data-option_id="last_7_days"]').click();
+        $('.o_menu_item .o_item_option[data-option_id="last_30_days"]').click();
+        $('.o_menu_item .o_item_option[data-option_id="last_365_days"]').click();
         $('.o_menu_item .o_item_option[data-option_id="today"]').click();
         $('.o_menu_item .o_item_option[data-option_id="this_week"]').click();
         $('.o_menu_item .o_item_option[data-option_id="this_month"]').click();
@@ -466,9 +553,6 @@ QUnit.module('Search View', {
         $('.o_menu_item .o_item_option[data-option_id="last_month"]').click();
         $('.o_menu_item .o_item_option[data-option_id="last_quarter"]').click();
         $('.o_menu_item .o_item_option[data-option_id="last_year"]').click();
-        $('.o_menu_item .o_item_option[data-option_id="last_7_days"]').click();
-        $('.o_menu_item .o_item_option[data-option_id="last_30_days"]').click();
-        $('.o_menu_item .o_item_option[data-option_id="last_365_days"]').click();
 
         actionManager.destroy();
         window.Date = RealDate;
@@ -499,7 +583,7 @@ QUnit.module('Search View', {
         actionManager.doAction(6);
         $('span.fa-filter').click();
         $('.o_filters_menu .o_menu_item a').click();
-        $('.o_item_option:first').click();
+        $('.o_item_option[data-option_id="today"]').click();
         $('span.fa-star').click();
         $('.o_favorites_menu .o_save_search a').click();
         $('.o_favorites_menu .o_save_name button').click();
@@ -523,5 +607,219 @@ QUnit.module('Search View', {
         }
         actionManager.destroy();
     });
+
+    QUnit.test('selection via autocompletion modifies appropriately submenus', function (assert) {
+        assert.expect(4);
+
+        var actionManager = createActionManager({
+            actions: this.actions,
+            archs: this.archs,
+            data: this.data,
+        });
+
+        actionManager.doAction(9);
+
+        $('.o_searchview_input').trigger($.Event('keypress', {
+            which: 97,
+        }));
+
+        $('.o_searchview_input').trigger($.Event('keyup', {
+            which: $.ui.keyCode.ENTER,
+            keyCode: $.ui.keyCode.ENTER,
+        }));
+
+        $('.o_searchview_input').trigger($.Event('keypress', {
+            which: 103,
+        }));
+
+        $('.o_searchview_input').trigger($.Event('keyup', {
+            which: $.ui.keyCode.ENTER,
+            keyCode: $.ui.keyCode.ENTER,
+        }));
+
+        assert.strictEqual($('.o_searchview_input_container .o_facet_values').eq(0).text().trim(),
+            "Date Field Filter: This Month",
+            "There should be a filter facet with label 'Date Field Filter: This Month'");
+        assert.strictEqual($('.o_searchview_input_container .o_facet_values').eq(1).text().trim(),
+            "Date Field Groupby: Day",
+            "There should be a filter facet with label 'Date Field Groupby: Day'");
+
+        $('button .fa-filter').click();
+        $('.o_filters_menu .o_menu_item').eq(0).click();
+        assert.strictEqual($('.o_filters_menu .o_item_option a.selected').text().trim(), "This Month",
+            "The item 'This Month' should be selected in the filters menu");
+
+        $('button .fa-bars').click();
+        $('.o_group_by_menu .o_menu_item').eq(0).click();
+        assert.strictEqual($('.o_group_by_menu .o_item_option a.selected').text().trim(), "Day",
+            "The item 'Day' should be selected in the groupby menu");
+
+        actionManager.destroy();
+    });
+
+    QUnit.test('save filters created via autocompletion works', function (assert) {
+        assert.expect(2);
+
+        var actionManager = createActionManager({
+            actions: this.actions,
+            archs: this.archs,
+            data: this.data,
+            intercepts: {
+                create_filter: function (ev) {
+                    assert.ok(ev.data.filter.domain === "[['foo', 'ilike', 'a']]");
+                },
+            },
+        });
+
+        actionManager.doAction(10);
+
+        $('.o_searchview_input').trigger($.Event('keypress', {
+            which: 97,
+        }));
+
+        $('.o_searchview_input').trigger($.Event('keyup', {
+            which: $.ui.keyCode.ENTER,
+            keyCode: $.ui.keyCode.ENTER,
+        }));
+
+        assert.strictEqual($('.o_searchview_input_container .o_facet_values span').text().trim(), "a");
+
+        $('button .fa-star').click();
+        $('.o_favorites_menu a.o_save_search').click();
+        $('.o_favorites_menu div.o_save_name button').click();
+
+        actionManager.destroy();
+    });
+
+    QUnit.test('time range menu stays hidden', function (assert) {
+        assert.expect(6);
+
+        var actionManager = createActionManager({
+            actions: this.actions,
+            archs: this.archs,
+            data: this.data,
+        });
+
+        actionManager.doAction(1);
+
+        // check that the fifth dropdown is the time range menu and is hidden
+        assert.ok($('.btn-group.o_dropdown').eq(4).hasClass('o_hidden'));
+        assert.ok($('.btn-group.o_dropdown').eq(4).children().eq(1).hasClass('o_time_range_menu'));
+        // check if search view has no facets
+        assert.strictEqual($('.o_facet_values').length, 0);
+
+        // activate groupby
+        $('button .fa-bars').click();
+        $('.o_menu_item a').eq(0).click();
+        // check that there is a facet
+        assert.strictEqual($('div.o_facet_values').length, 1);
+        // check that the fifth dropdown is the time range menu and is still hidden
+        assert.ok($('.btn-group.o_dropdown').eq(4).hasClass('o_hidden'));
+        assert.ok($('.btn-group.o_dropdown').eq(4).children().eq(1).hasClass('o_time_range_menu'));
+        actionManager.destroy();
+    });
+
+    QUnit.test('time range menu in comparison mode', function (assert) {
+        assert.expect(43);
+
+        var self = this;
+        var nbrReadGroup = 0;
+
+        var periodOptionText, periodOptionValue;
+        var unpatchDate = patchDate(2017, 2, 22, 1, 0, 0);
+
+        var actionManager = createActionManager({
+            actions: this.actions,
+            archs: this.archs,
+            data: this.data,
+            mockRPC: function (route, args) {
+                if (route === '/web/dataset/call_kw/partner/read_group') {
+                    nbrReadGroup++;
+                    var timeRangeMenuData = args.kwargs.context.timeRangeMenuData;
+                    if (timeRangeMenuData) {
+                        // nbrReadGroup % 2 === 0 is true when the read group is for data, false
+                        // for comparison data
+                        if (nbrReadGroup % 2 === 0) {
+                            assert.deepEqual(timeRangeMenuData.timeRange,
+                                self.periodDomains.shift(),
+                                "time range domain for " + periodOptionText);
+                        } else {
+                            assert.deepEqual(timeRangeMenuData.comparisonTimeRange,
+                                self.previousPeriodDomains.shift(),
+                                "comparaison time range domain for " + periodOptionText);
+                        }
+                    }
+                }
+                return this._super.apply(this, arguments);
+            },
+        });
+        // time range menu should be available in graph view
+        actionManager.doAction(4);
+
+        var $timeRangeMenu = $('.o_time_range_menu');
+        assert.strictEqual($timeRangeMenu.not('.o_hidden').length, 1,
+            "Time range menu should be visible");
+        assert.strictEqual($('.o_facet_values').length, 0,
+            "Search view has no facet");
+
+        var $periodOptions = $timeRangeMenu.find('.o_time_range_selector option');
+        var periodOptions = $periodOptions.map(function () {
+            return $(this).val();
+        }).toArray();
+        assert.deepEqual(periodOptions, this.periodOptions,
+            "13 period options should be available:");
+
+        $periodOptions.each(function () {
+            periodOptionText = $(this).text().trim();
+            periodOptionValue = $(this).val();
+            // opens time range menu dropdown
+            $('.o_time_range_menu_button').click();
+            var $timeRangeMenu = $('.o_time_range_menu');
+            // comparison is not checked by default
+            if (!$timeRangeMenu.find('.o_comparison_checkbox').is(':checked')) {
+                $timeRangeMenu.find('.o_comparison_checkbox').click();
+                assert.strictEqual($('.o_comparison_time_range_selector:visible').length, 1,
+                    "Comparison has to be checked (only at the first time)");
+            }
+            // select one period option to test it
+            $timeRangeMenu.find('.o_time_range_selector').val(periodOptionValue);
+            // apply
+            $timeRangeMenu.find('.o_apply_range').click();
+            assert.strictEqual($('.o_facet_values').text().trim(),
+                "Date: " + periodOptionText + " / Previous Period",
+                "Facet should be updated with this period: " + periodOptionValue);
+        });
+
+        unpatchDate();
+        actionManager.destroy();
+    });
+
+    QUnit.test('a default time range only in context is taken into account', function (assert) {
+        assert.expect(2);
+
+        var actionManager = createActionManager({
+            actions: this.actions,
+            archs: this.archs,
+            data: this.data,
+            mockRPC: function (route, args) {
+                // there are two read_group calls (for the groupby lists [] and ["date_field:day"])
+                if (route === '/web/dataset/call_kw/partner/read_group') {
+                    var timeRangeMenuData = args.kwargs.context.timeRangeMenuData;
+                    assert.ok(timeRangeMenuData.timeRange.length > 0, "time range should be non empty");
+                }
+                return this._super.apply(this, arguments);
+            },
+        });
+
+        actionManager.doAction({
+            res_model: 'partner',
+            type: 'ir.actions.act_window',
+            views: [[false, 'pivot']],
+            context: {time_ranges: {range: 'today', field: 'date_field'}}
+        });
+
+        actionManager.destroy();
+    });
+
 });
 });

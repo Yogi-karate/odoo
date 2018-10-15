@@ -26,6 +26,7 @@ QUnit.module('Views', {
                     {id: 5, foo: 4, bar: false, product_id: 41, date: "2016-05-01"},
                     {id: 6, foo: 63, bar: false, product_id: 41},
                     {id: 7, foo: 42, bar: false, product_id: 41},
+                    {id: 8, foo: 48, bar: false, product_id: 41, date: "2016-04-01"},
                 ]
             },
             product: {
@@ -84,8 +85,8 @@ QUnit.module('Views', {
             // So, instead we will do some white box testing.
             assert.strictEqual(graph.model.chart.data[0].value, 3,
                 "should have first datapoint with value 3");
-            assert.strictEqual(graph.model.chart.data[1].value, 4,
-                "should have first datapoint with value 4");
+            assert.strictEqual(graph.model.chart.data[1].value, 5,
+                "should have first datapoint with value 5");
             graph.destroy();
             done();
         });
@@ -103,6 +104,21 @@ QUnit.module('Views', {
                 '</graph>',
         });
         assert.strictEqual(graph.renderer.state.mode, "pie", "should be in pie chart mode by default");
+        graph.destroy();
+    });
+
+    QUnit.test('title attribute', function (assert) {
+        assert.expect(1);
+
+        var graph = createView({
+            View: GraphView,
+            model: "foo",
+            data: this.data,
+            arch: '<graph title="Partners" type="pie">' +
+                        '<field name="bar"/>' +
+                '</graph>',
+        });
+        assert.strictEqual(graph.$('label').text(), "Partners", "should have 'Partners as title'");
         graph.destroy();
     });
 
@@ -132,11 +148,9 @@ QUnit.module('Views', {
     });
 
     QUnit.test('displaying line chart with only 1 data point', function (assert) {
-        assert.expect(2);
-
-        // this test makes sure the line chart does not crash when only one data
-        // point is displayed.  This was the case since a line cannot be drawn with
-        // only one point of reference.
+        assert.expect(1);
+         // this test makes sure the line chart does not crash when only one data
+        // point is displayed.
         var done = assert.async();
         this.data.foo.records = this.data.foo.records.slice(0,1);
         var graph = createView({
@@ -148,11 +162,51 @@ QUnit.module('Views', {
                 '</graph>',
         });
         return concurrency.delay(0).then(function () {
-            assert.ok(!graph.$('svg').length, "should not have a svg");
-            assert.ok(graph.$('.o_view_nocontent').length, "should have an error message");
+            assert.ok(graph.$('svg').length, "should have a svg");
             graph.destroy();
             done();
         });
+    });
+
+    QUnit.skip('displaying line chart data with multiple data point', function (assert) {
+        assert.expect(1);
+
+        var graph = createView({
+            View: GraphView,
+            model: "foo",
+            data: this.data,
+            arch: '<graph type="line">' +
+                        '<field name="date"/>' +
+                '</graph>',
+        });
+
+        assert.strictEqual(graph.$('.nv-x text').text(), "March 2016May 2016",
+            "should contain intermediate x labels only");
+
+        graph.destroy();
+    });
+
+    QUnit.test('displaying line chart data with multiple groupbys', function (assert) {
+        // this test makes sure the line chart shows all data labels (X axis) when
+        // it is grouped by several fields
+        assert.expect(3);
+
+        var graph = createView({
+            View: GraphView,
+            model: 'foo',
+            data: this.data,
+            arch: '<graph type="line"><field name="foo" /></graph>',
+            groupBy: ['product_id', 'bar'],
+        });
+
+        assert.strictEqual(graph.$('.nv-x text:contains(xphone)').length, 1,
+            "should contain a text element with product xphone on X axis");
+        assert.strictEqual(graph.$('.nv-x text:contains(xpad)').length, 1,
+            "should contain a text element with product xpad on X axis");
+        assert.strictEqual(graph.$('text:contains(true)').length, 1,
+            "should have an entry for each value of field 'bar' in the legend");
+
+        graph.destroy();
     });
 
     QUnit.test('switching measures', function (assert) {
@@ -190,7 +244,74 @@ QUnit.module('Views', {
         });
     });
 
-    QUnit.test('no content helper', function (assert) {
+    QUnit.test('no content helper (bar chart)', function (assert) {
+        assert.expect(2);
+        this.data.foo.records = [];
+
+        var graph = createView({
+            View: GraphView,
+            model: "foo",
+            data: this.data,
+            arch: '<graph string="Gloups">' +
+                        '<field name="product_id"/>' +
+                '</graph>',
+        });
+        assert.strictEqual(graph.$('div.o_graph_svg_container svg.nvd3-svg').length, 0,
+                    "should not contain a div with a svg element");
+        assert.strictEqual(graph.$('div.o_view_nocontent').length, 1,
+            "should display the no content helper");
+        graph.destroy();
+    });
+
+    QUnit.test('no content helper (pie chart)', function (assert) {
+        assert.expect(2);
+        this.data.foo.records =  []
+
+        var graph = createView({
+            View: GraphView,
+            model: "foo",
+            data: this.data,
+            arch: '<graph type="pie">' +
+                        '<field name="product_id"/>' +
+                '</graph>',
+        });
+        assert.strictEqual(graph.$('div.o_graph_svg_container svg.nvd3-svg').length, 0,
+            "should not contain a div with a svg element");
+        assert.strictEqual(graph.$('div.o_view_nocontent').length, 1,
+            "should display the no content helper");
+        graph.destroy();
+    });
+
+    QUnit.test('render pie chart in comparison mode', function (assert) {
+        assert.expect(2);
+
+        var graph = createView({
+            View: GraphView,
+            model: "foo",
+            data: this.data,
+            context: {
+                timeRangeMenuData: {
+                    //Q3 2018
+                    timeRange: ['&', ["date", ">=", "2018-07-01"],["date", "<=", "2018-09-30"]],
+                    timeRangeDescription: 'This Quarter',
+                    //Q4 2018
+                    comparisonTimeRange: ['&', ["date", ">=", "2018-10-01"],["date", "<=", "2018-12-31"]],
+                    comparisonTimeRangeDescription: 'Previous Period',
+                },
+            },
+            arch: '<graph type="pie">' +
+                        '<field name="product_id"/>' +
+                '</graph>',
+        });
+
+        assert.strictEqual(graph.$('div.o_view_nocontent').length, 0,
+        "should not display the no content helper");
+        assert.strictEqual($('.o_graph_svg_container svg > text').text(),
+            "No data to displayNo data to display", "should display two empty pie charts instead");
+        graph.destroy();
+    });
+
+    QUnit.test('no content helper after update', function (assert) {
         var done = assert.async();
         assert.expect(4);
 
@@ -671,7 +792,7 @@ QUnit.module('Views', {
         });
 
         assert.strictEqual(graph.$("svg.nvd3-svg:contains('Undefined')").length, 0);
-        assert.strictEqual(graph.$("svg.nvd3-svg:contains('January')").length, 1);
+        assert.strictEqual(graph.$("svg.nvd3-svg:contains('March')").length, 1);
 
         graph.$buttons.find('.o_graph_button[data-mode=bar]').click();
         assert.strictEqual(graph.$("svg.nvd3-svg:contains('Undefined')").length, 1);

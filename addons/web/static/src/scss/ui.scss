@@ -45,3 +45,36 @@
         transform: rotate(180deg);
     }
 }
+
+// Overwrite bts4 custom-checkbox design (un-checked state only)
+.custom-control.custom-checkbox {
+    .custom-control-input:not(:checked):not(:indeterminate) {
+        ~ .custom-control-label:before {
+            background: none;
+            outline: 1px solid $o-main-text-color;
+        }
+        &:disabled ~ .custom-control-label:before {
+            background: $o-brand-lightsecondary;
+            opacity: 0.25;
+        }
+    }
+    @media print {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+
+.o_catch_attention {
+    position: relative;
+    z-index: 1;
+    animation: catchAttention 200ms ease 0s infinite normal;
+}
+
+@keyframes catchAttention {
+    0% {
+        outline: 0px solid fade-out($o-brand-primary, 0.0);
+    }
+    100% {
+        outline: 20px solid fade-out($o-brand-primary, 1.0);
+    }
+}

@@ -27,11 +27,11 @@ from werkzeug import urls
 
 from odoo import _, api, exceptions, fields, models, tools
 from odoo.tools import pycompat, ustr
+from odoo.tools.misc import clean_context
 from odoo.tools.safe_eval import safe_eval
 
 
 _logger = logging.getLogger(__name__)
-BLACKLIST_MAX_BOUNCED_LIMIT = 5
 
 
 class MailThread(models.AbstractModel):
@@ -109,6 +109,8 @@ class MailThread(models.AbstractModel):
     message_has_error_counter = fields.Integer(
         'Number of error', compute='_compute_message_has_error',
         help="Number of messages with delivery error")
+    message_attachment_count = fields.Integer('Attachment Count', compute='_compute_message_attachment_count')
+    message_main_attachment_id = fields.Many2one(string="Main Attachment", comodel_name='ir.attachment')
 
     @api.one
     @api.depends('message_follower_ids')
@@ -235,6 +237,16 @@ class MailThread(models.AbstractModel):
     def _search_message_has_error(self, operator, operand):
         return [('message_ids.has_error', operator, operand)]
 
+    @api.multi
+    def _compute_message_attachment_count(self):
+        read_group_var = self.env['ir.attachment'].read_group([('res_model', '=', self._name)],
+                                                              fields=['res_id'],
+                                                              groupby=['res_id'])
+
+        attachment_count_dict = dict((d['res_id'], d['res_id_count']) for d in read_group_var)
+        for record in self:
+            record.message_attachment_count = attachment_count_dict.get(record.id, 0)
+
     # ------------------------------------------------------
     # CRUD overrides for automatic subscription and logging
     # ------------------------------------------------------
@@ -312,7 +324,7 @@ class MailThread(models.AbstractModel):
 
         # Perform the tracking
         if tracked_fields:
-            track_self.message_track(tracked_fields, initial_values)
+            track_self.with_context(clean_context(self._context)).message_track(tracked_fields, initial_values)
 
         return result
 
@@ -320,6 +332,8 @@ class MailThread(models.AbstractModel):
     def unlink(self):
         """ Override unlink to delete messages and followers. This cannot be
         cascaded, because link is done through (res_model, res_id). """
+        if not self:
+            return True
         self.env['mail.message'].search([('model', '=', self._name), ('res_id', 'in', self.ids)]).unlink()
         res = super(MailThread, self).unlink()
         self.env['mail.followers'].sudo().search(
@@ -362,7 +376,7 @@ class MailThread(models.AbstractModel):
                 alias = aliases[0]
 
         if alias:
-            email_link = "<a href='mailto:%(email)s'>%(email)s</a>" % {'email': alias.name_get()[0][1]}
+            email_link = "<a href='mailto:%(email)s'>%(email)s</a>" % {'email': alias.display_name}
             if nothing_here:
                 return "<p class='o_view_nocontent_smiling_face'>%(dyn_help)s</p>" % {
                     'dyn_help': _("Add a new %(document)s or send an email to %(email_link)s") % {
@@ -370,7 +384,9 @@ class MailThread(models.AbstractModel):
                         'email_link': email_link
                     }
                 }
-            return "%(static_help)s<p>%(dyn_help)s</p>" % {
+            # do not add alias two times if it was added previously
+            if "oe_view_nocontent_alias" not in help:
+                return "%(static_help)s<p class='oe_view_nocontent_alias'>%(dyn_help)s</p>" % {
                     'static_help': help,
                     'dyn_help': _("Create a new %(document)s by sending an email to %(email_link)s") %  {
                         'document': document_name,
@@ -856,8 +872,8 @@ class MailThread(models.AbstractModel):
         """ Generic wrapper on ``_notify_get_reply_to`` checking mail.thread inheritance
         and allowing to call model-specific implementation in a one liner. This
         method should not be overridden. """
-        if records and hasattr(records, '_notify_get_reply_to'):   
-            return records._notify_get_reply_to(default=default, company=company, doc_names=doc_names)    
+        if records and hasattr(records, '_notify_get_reply_to'):
+            return records._notify_get_reply_to(default=default, company=company, doc_names=doc_names)
         return self._notify_get_reply_to(default=default, records=records, company=company, doc_names=doc_names)
 
     @api.multi
@@ -1306,6 +1322,7 @@ class MailThread(models.AbstractModel):
                     # if a new thread is created, parent is irrelevant
                     message_dict.pop('parent_id', None)
                     thread = MessageModel.message_new(message_dict, custom_values)
+                    thread_id = thread.id
             else:
                 if thread_id:
                     raise ValueError("Posting a message without model should be with a null res_id, to create a private message.")
@@ -1453,14 +1470,6 @@ class MailThread(models.AbstractModel):
         Mail Returned to Sender) is received for an existing thread. The default
         behavior is to check is an integer  ``message_bounce`` column exists.
         If it is the case, its content is incremented.
-        In addition, an auto blacklist rule check if the email can be blacklisted
-        to avoid sending mails indefinitely to this email address.
-        This rule checks if the email bounced too much. If this is the case,
-        the email address is added to the blacklist in order to avoid continuing
-        to send mass_mail to that email address. If it bounced too much times
-        in the last month and the bounced are at least separated by one week,
-        to avoid blacklist someone because of a temporary mail server error,
-        then the email is considered as invalid and is blacklisted.
 
         :param mail_id: ID of the sent email that bounced. It may not exist anymore
                         but it could be usefull if the information was kept. This is
@@ -1470,14 +1479,6 @@ class MailThread(models.AbstractModel):
         if 'message_bounce' in self._fields:
             for record in self:
                 record.message_bounce = record.message_bounce + 1
-                three_months_ago = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(weeks=13))
-                stats = self.env['mail.mail.statistics']\
-                    .search(['&', ('bounced', '>', three_months_ago), ('email','=ilike',email)])\
-                    .mapped('bounced')
-                if len(stats) >= BLACKLIST_MAX_BOUNCED_LIMIT:
-                    if max(stats) > min(stats) + datetime.timedelta(weeks=1):
-                        blacklist_rec = self.env['mail.blacklist'].sudo()._add(email)
-                        blacklist_rec._message_log('This email has been automatically blacklisted because of too much bounced.')
 
     def _message_extract_payload_postprocess(self, message, body, attachments):
         """ Perform some cleaning / postprocess in the body and attachments
@@ -1911,6 +1912,7 @@ class MailThread(models.AbstractModel):
                     if not attachment:
                         attachment = fname_mapping.get(node.get('data-filename'), '')
                     if attachment:
+                        attachment.generate_access_token()
                         node.set('src', '/web/image/%s?access_token=%s' % (attachment.id, attachment.access_token))
                         postprocessed = True
             if postprocessed:
@@ -1943,7 +1945,6 @@ class MailThread(models.AbstractModel):
                     to the related document. Should only be set by Chatter.
             :return int: ID of newly created mail.message
         """
-
         if attachments is None:
             attachments = {}
         if self.ids and not self.ensure_one():
@@ -2059,6 +2060,14 @@ class MailThread(models.AbstractModel):
         """ Hook to add custom behavior after having posted the message. Both
         message and computed value are given, to try to lessen query count by
         using already-computed values instead of having to rebrowse things. """
+        # Set main attachment field if necessary
+        attachment_ids = msg_vals['attachment_ids']
+        if not self._abstract and attachment_ids and self.ids and not self.message_main_attachment_id:
+            all_attachments = self.env['ir.attachment'].browse([attachment_tuple[1] for attachment_tuple in attachment_ids])
+            prioritary_attachments = all_attachments.filtered(lambda x: x.mimetype.endswith('pdf')) \
+                                     or all_attachments.filtered(lambda x: x.mimetype.startswith('image')) \
+                                     or all_attachments
+            self.write({'message_main_attachment_id': prioritary_attachments[0].id})
         # Notify recipients of the newly-created message (Inbox / Email + channels)
         if msg_vals.get('moderation_status') != 'pending_moderation':
             message._notify(

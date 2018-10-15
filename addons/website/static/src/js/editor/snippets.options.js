@@ -9,6 +9,26 @@ var options = require('web_editor.snippets.options');
 var _t = core._t;
 var qweb = core.qweb;
 
+options.Class.include({
+
+    //--------------------------------------------------------------------------
+    // Private
+    //--------------------------------------------------------------------------
+
+    /**
+     * Refreshes all animations related to the given element.
+     *
+     * @private
+     * @param {jQuery} [$el=this.$target]
+     */
+    _refreshAnimations: function ($el) {
+        this.trigger_up('animation_start_demand', {
+            editableMode: true,
+            $target: $el || this.$target,
+        });
+    },
+});
+
 options.registry.menu_data = options.Class.extend({
     xmlDependencies: ['/website/static/src/xml/website.editor.xml'],
 
@@ -125,7 +145,7 @@ options.registry.carousel = options.Class.extend({
             self.trigger_up('option_update', {
                 optionNames: ['background', 'background_position', 'colorpicker', 'sizing_y'],
                 name: 'target',
-                data: self.$target.find('.item.active'),
+                data: self.$target.find('.carousel-item.active'),
             });
         });
 
@@ -167,7 +187,7 @@ options.registry.carousel = options.Class.extend({
      */
     cleanForSave: function () {
         this._super.apply(this, arguments);
-        this.$target.find('.item').removeClass('next prev left right active')
+        this.$target.find('.carousel-item').removeClass('next prev left right active')
             .first().addClass('active');
         this.$target.find('.carousel-indicators').find('li').removeClass('active').html('')
             .first().addClass('active');
@@ -185,12 +205,12 @@ options.registry.carousel = options.Class.extend({
      */
     addSlide: function (previewMode) {
         var self = this;
-        var cycle = this.$inner.find('.item').length;
-        var $active = this.$inner.find('.item.active, .item.prev, .item.next').first();
+        var cycle = this.$inner.find('.carousel-item').length;
+        var $active = this.$inner.find('.carousel-item.active, .carousel-item.prev, .carousel-item.next').first();
         var index = $active.index();
         this.$('.carousel-control-prev, .carousel-control-next, .carousel-indicators').removeClass('d-none');
         this.$indicators.append('<li data-target="#' + this.id + '" data-slide-to="' + cycle + '"></li>');
-        var $clone = this.$('.item:first').clone(true);
+        var $clone = this.$('.carousel-item:first').clone(true);
         $clone.removeClass('active').insertAfter($active);
         _.defer(function () {
             self.$target.carousel().carousel(++index);
@@ -209,7 +229,7 @@ options.registry.carousel = options.Class.extend({
 
         var self = this;
 
-        var $items = this.$inner.find('.item');
+        var $items = this.$inner.find('.carousel-item');
         var cycle = $items.length - 1;
         var $active = $items.filter('.active');
         var index = $active.index();
@@ -267,6 +287,58 @@ options.registry.carousel = options.Class.extend({
 
         /* Fix: backward compatibility saas-3 */
         this.$target.find('.item.text_image, .item.image_text, .item.text_only').find('.container > .carousel-caption > div, .container > img.carousel-image').attr('contentEditable', 'true');
+    },
+});
+
+options.registry.navTabs = options.Class.extend({
+    /**
+     * @override
+     */
+    start: function () {
+        this.$navLinks = this.$target.find('.nav-link');
+        var $el = this.$target;
+        do {
+            $el = $el.parent();
+            this.$tabPanes = $el.find('.tab-pane');
+        } while (this.$tabPanes.length === 0 && !$el.is('body'));
+
+        return this._super.apply(this, arguments);
+    },
+    /**
+     * @override
+     */
+    onBuilt: function () {
+        this._generateUniqueIDs();
+    },
+    /**
+     * @override
+     */
+    onClone: function () {
+        this._generateUniqueIDs();
+    },
+
+    //--------------------------------------------------------------------------
+    // Private
+    //--------------------------------------------------------------------------
+
+    /**
+     * @private
+     */
+    _generateUniqueIDs: function () {
+        for (var i = 0 ; i < this.$navLinks.length ; i++) {
+            var id = _.now() + '_' + _.uniqueId();
+            var idLink = 'nav_tabs_link_' + id;
+            var idContent = 'nav_tabs_content_' + id;
+            this.$navLinks.eq(i).attr({
+                'id': idLink,
+                'href': '#' + idContent,
+                'aria-controls': idContent,
+            });
+            this.$tabPanes.eq(i).attr({
+                'id': idContent,
+                'aria-labelledby': idLink,
+            });
+        }
     },
 });
 
@@ -390,7 +462,7 @@ options.registry.layout_column = options.Class.extend({
         var colClass = 'col-lg-' + colSize;
         _.each($columns, function (column) {
             var $column = $(column);
-            $column.attr('class', $column.attr('class').replace(/\bcol-lg-(offset-)?\d+\b/g, ''));
+            $column.attr('class', $column.attr('class').replace(/\b(col|offset)-lg(-\d+)?\b/g, ''));
             $column.addClass(colClass);
         });
         if (colOffset) {
@@ -412,8 +484,10 @@ options.registry.parallax = options.Class.extend({
      * @override
      */
     start: function () {
-        this._refresh_callback = this._refresh.bind(this);
-        this.$target.on('snippet-option-change snippet-option-preview', this._refresh_callback);
+        var self = this;
+        this.$target.on('snippet-option-change snippet-option-preview', function () {
+            self._refreshAnimations();
+        });
         return this._super.apply(this, arguments);
     },
     /**
@@ -425,13 +499,17 @@ options.registry.parallax = options.Class.extend({
             name: 'target',
             data: this.$target.find('> .s_parallax_bg'),
         });
-        this._refresh();
+        // Refresh the parallax animation on focus; at least useful because
+        // there may have been changes in the page that influenced the parallax
+        // rendering (new snippets, ...).
+        // TODO make this automatic.
+        this._refreshAnimations();
     },
     /**
      * @override
      */
     onMove: function () {
-        this._refresh();
+        this._refreshAnimations();
     },
 
     //--------------------------------------------------------------------------
@@ -445,27 +523,13 @@ options.registry.parallax = options.Class.extend({
      */
     scroll: function (previewMode, value) {
         this.$target.attr('data-scroll-background-ratio', value);
-        this._refresh();
+        this._refreshAnimations();
     },
 
     //--------------------------------------------------------------------------
     // Private
     //--------------------------------------------------------------------------
 
-    /**
-     * Notifies the parallax animation that it needs to be reinitialized.
-     *
-     * @private
-     */
-    _refresh: function () {
-        var self = this;
-        _.defer(function () {
-            self.trigger_up('animation_start_demand', {
-                editableMode: true,
-                $target: self.$target,
-            });
-        });
-    },
     /**
      * @override
      */
@@ -534,7 +598,7 @@ var FacebookPageDialog = weWidgets.Dialog.extend({
                         } else if (!self.fbData.small_header) {
                             self.fbData.height = self.fbData.show_facepile ? 225 : 150;
                         }
-                        options.registry.facebookPage.prototype.markFbElement(self, self.$previewPage, self.fbData);
+                        options.registry.facebookPage.prototype.markFbElement(self.getParent(), self.$previewPage, self.fbData);
                     },
                     404: function () {
                         self._toggleWarning(false);
@@ -667,10 +731,7 @@ options.registry.facebookPage = options.Class.extend({
             $el.attr('data-' + key, value);
             $el.data(key, value);
         });
-        self.trigger_up('animation_start_demand', {
-            editableMode: true,
-            $target: $el,
-        });
+        self._refreshAnimations($el);
     },
 });
 
@@ -729,10 +790,7 @@ options.registry.ul = options.Class.extend({
         this.$target.find('li:has(.o_ul_toggle_self, .o_ul_toggle_next), li:has(>ul,>ol):not(:has(>li))').css('list-style', 'none');
 
         this.$target.find('li:not(:has(>ul))').css('list-style', '');
-        this.trigger_up('animation_start_demand', {
-            editableMode: true,
-            $target: this.$target,
-        });
+        this._refreshAnimations();
     },
 });
 
@@ -801,7 +859,7 @@ options.registry.collapse = options.Class.extend({
         $tab.data('parent', '#'+tablist_id);
 
         // link to the collapse
-        var $panel = this.$target.find('.panel-collapse');
+        var $panel = this.$target.find('.collapse');
         var panel_id = $panel.attr('id');
         if (!panel_id) {
             while ($('#'+(panel_id = 'myCollapseTab' + time)).length) {
@@ -829,7 +887,7 @@ options.registry.gallery = options.Class.extend({
         // Make sure image previews are updated if images are changed
         this.$target.on('save', 'img', function (ev) {
             var $img = $(ev.currentTarget);
-            var index = self.$target.find('.item.active').index();
+            var index = self.$target.find('.carousel-item.active').index();
             self.$('.carousel:first li[data-target]:eq(' + index + ')')
                 .css('background-image', 'url(' + $img.attr('src') + ')');
         });
@@ -932,6 +990,7 @@ options.registry.gallery = options.Class.extend({
      * Displays the images with the "masonry" layout.
      */
     masonry: function () {
+        var self = this;
         var imgs = this._getImages();
         var columns = this._getColumns();
         var colClass = 'col-lg-' + (12 / columns);
@@ -954,7 +1013,7 @@ options.registry.gallery = options.Class.extend({
             var $lowest;
             _.each(cols, function (col) {
                 var $col = $(col);
-                var height = $col.height();
+                var height = $col.is(':empty') ? 0 : $col.find('img').last().offset().top + $col.find('img').last().height() - self.$target.offset().top;
                 if (height < min) {
                     min = height;
                     $lowest = $col;
@@ -1039,10 +1098,7 @@ options.registry.gallery = options.Class.extend({
         // Apply layout animation
         this.$target.off('slide.bs.carousel').off('slid.bs.carousel');
         this.$('li.fa').off('click');
-        this.trigger_up('animation_start_demand', {
-            editableMode: true,
-            $target: this.$target,
-        });
+        this._refreshAnimations();
     },
     /**
      * Allows to change the style of the individual images.
@@ -1217,6 +1273,99 @@ options.registry.gallery_img = options.Class.extend({
                 $image: this.$target,
                 position: value,
             },
+        });
+    },
+});
+
+options.registry.topMenuTransparency = options.Class.extend({
+
+    //--------------------------------------------------------------------------
+    // Options
+    //--------------------------------------------------------------------------
+
+    /**
+     * Handles the toggling between normal and overlay positions of the header.
+     *
+     * @see this.selectClass for params
+     */
+    transparent: function (previewMode, value, $opt) {
+        var self = this;
+        this.trigger_up('action_demand', {
+            actionName: 'toggle_page_option',
+            params: [{name: 'header_overlay'}],
+            onSuccess: function () {
+                self.trigger_up('action_demand', {
+                    actionName: 'toggle_page_option',
+                    params: [{name: 'header_color', value: ''}],
+                });
+            },
+        });
+    },
+
+    //--------------------------------------------------------------------------
+    // Private
+    //--------------------------------------------------------------------------
+
+    /**
+     * @override
+     */
+    _setActive: function () {
+        this._super.apply(this, arguments);
+
+        var enabled;
+        this.trigger_up('action_demand', {
+            actionName: 'get_page_option',
+            params: ['header_overlay'],
+            onSuccess: function (value) {
+                enabled = value;
+            },
+        });
+        this.$el.find('[data-transparent]').addBack('[data-transparent]').toggleClass('active', !!enabled);
+    },
+});
+
+options.registry.topMenuColor = options.registry.colorpicker.extend({
+    /**
+     * @override
+     */
+    start: function () {
+        var self = this;
+        var def = this._super.apply(this, arguments);
+        this.$target.on('snippet-option-change', function () {
+            self.onFocus();
+        });
+        return def;
+    },
+    /**
+     * @override
+     */
+    onFocus: function () {
+        var enabled;
+        this.trigger_up('action_demand', {
+            actionName: 'get_page_option',
+            params: ['header_overlay'],
+            onSuccess: function (value) {
+                enabled = value;
+            },
+        });
+        this.$el.toggleClass('d-none', !enabled);
+    },
+
+    //--------------------------------------------------------------------------
+    // Handlers
+    //--------------------------------------------------------------------------
+
+    /**
+     * @override
+     */
+    _onColorButtonClick: function () {
+        this._super.apply(this, arguments);
+        var bgs = this.$target.attr('class').match(/bg-(\w|-)+/g);
+        var allowedBgs = this.classes.split(' ');
+        var color = _.intersection(bgs, allowedBgs).join(' ');
+        this.trigger_up('action_demand', {
+            actionName: 'toggle_page_option',
+            params: [{name: 'header_color', value: color}],
         });
     },
 });

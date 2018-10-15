@@ -20,6 +20,7 @@ var get_running_key = utils.get_running_key;
 var get_running_delay_key = utils.get_running_delay_key;
 var get_first_visible_element = utils.get_first_visible_element;
 var do_before_unload = utils.do_before_unload;
+var get_jquery_element_from_selector = utils.get_jquery_element_from_selector;
 
 return core.Class.extend(mixins.EventDispatcherMixin, ServicesMixin, {
     init: function(parent, consumed_tours) {
@@ -187,14 +188,14 @@ return core.Class.extend(mixins.EventDispatcherMixin, ServicesMixin, {
         if (tip.in_modal !== false && this.$modal_displayed.length) {
             $trigger = this.$modal_displayed.find(tip.trigger);
         } else {
-            $trigger = $(tip.trigger);
+            $trigger = get_jquery_element_from_selector(tip.trigger);
         }
         var $visible_trigger = get_first_visible_element($trigger);
 
         var extra_trigger = true;
         var $extra_trigger = undefined;
         if (tip.extra_trigger) {
-            $extra_trigger = $(tip.extra_trigger);
+            $extra_trigger = get_jquery_element_from_selector(tip.extra_trigger);
             extra_trigger = get_first_visible_element($extra_trigger).length;
         }
 
@@ -206,6 +207,22 @@ return core.Class.extend(mixins.EventDispatcherMixin, ServicesMixin, {
                 tip.widget.update($visible_trigger);
             }
         } else {
+            if ($trigger.iframeContainer || ($extra_trigger && $extra_trigger.iframeContainer)) {
+                var $el = $();
+                if ($trigger.iframeContainer) {
+                    $el = $el.add($trigger.iframeContainer);
+                }
+                if (($extra_trigger && $extra_trigger.iframeContainer) && $trigger.iframeContainer !== $extra_trigger.iframeContainer) {
+                    $el = $el.add($extra_trigger.iframeContainer);
+                }
+                var self = this;
+                $el.off('load').one('load', function () {
+                    $el.off('load');
+                    if (self.active_tooltips[tour_name] === tip) {
+                        self.update(tour_name);
+                    }
+                });
+            }
             this._deactivate_tip(tip);
 
             if (this.running_tour === tour_name) {
@@ -304,7 +321,8 @@ return core.Class.extend(mixins.EventDispatcherMixin, ServicesMixin, {
                     console.log(log);
                 });
                 console.log(document.body.outerHTML);
-                console.log("error " + error); // phantomJS wait for message starting by error
+                console.error(error); // will be displayed as error info
+                console.log("error"); // phantomJS wait for message starting by error to stop
             } else {
                 console.log(_.str.sprintf("Tour %s succeeded", tour_name));
                 console.log("ok"); // phantomJS wait for exact message "ok"
@@ -355,17 +373,11 @@ return core.Class.extend(mixins.EventDispatcherMixin, ServicesMixin, {
      * Tour predefined steps
      */
     STEPS: {
-        MENU_MORE: {
-            edition: "community",
-            trigger: "body > header > nav",
-            position: "bottom",
+        SHOW_APPS_MENU_ITEM: {
+            edition: 'community',
+            trigger: '.o_menu_apps a',
             auto: true,
-            run: function (actions) {
-                var $more = $('.o_extra_menu_items > .dropdown-toggle');
-                if ($more.length) {
-                    actions.auto($more);
-                }
-            },
+            position: "bottom",
         },
 
         TOGGLE_HOME_MENU: {

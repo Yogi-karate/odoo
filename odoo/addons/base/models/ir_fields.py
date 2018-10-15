@@ -34,6 +34,7 @@ class ConversionNotFound(ValueError):
 
 class IrFieldsConverter(models.AbstractModel):
     _name = 'ir.fields.converter'
+    _description = 'Fields Converter'
 
     @api.model
     def _format_import_error(self, error_type, error_msg, error_params=(), error_args=None):
@@ -303,6 +304,7 @@ class IrFieldsConverter(models.AbstractModel):
 
         id = None
         warnings = []
+        error_msg = ''
         action = {'type': 'ir.actions.act_window', 'target': 'new',
                   'view_mode': 'tree,form', 'view_type': 'form',
                   'views': [(False, 'tree'), (False, 'form')],
@@ -335,7 +337,7 @@ class IrFieldsConverter(models.AbstractModel):
             else:
                 xmlid = "%s.%s" % (self._context.get('_import_current_module', ''), value)
             flush(xmlid)
-            id = getattr(self.env.ref(xmlid, raise_if_not_found=False), 'id', None)
+            id = self.env['ir.model.data'].xmlid_to_res_id(xmlid, raise_if_not_found=False) or None
         elif subfield is None:
             field_type = _(u"name")
             flush()
@@ -346,6 +348,13 @@ class IrFieldsConverter(models.AbstractModel):
                         _(u"Found multiple matches for field '%%(field)s' (%d matches)")
                         % (len(ids))))
                 id, _name = ids[0]
+            else:
+                name_create_enabled_fields = self.env.context.get('name_create_enabled_fields') or {}
+                if name_create_enabled_fields.get(field.name):
+                    try:
+                        id, _name = RelatedModel.name_create(name=value)
+                    except Exception as e:
+                        error_msg = repr(e)
         else:
             raise self._format_import_error(
                 Exception,
@@ -354,10 +363,14 @@ class IrFieldsConverter(models.AbstractModel):
             )
 
         if id is None:
+            if error_msg:
+                message = _("No matching record found for %(field_type)s '%(value)s' in field '%%(field)s' and the following error was encountered when we attempted to create one: %(error_message)s")
+            else:
+                message = _("No matching record found for %(field_type)s '%(value)s' in field '%%(field)s'")
             raise self._format_import_error(
                 ValueError,
-                _(u"No matching record found for %(field_type)s '%(value)s' in field '%%(field)s'"),
-                {'field_type': field_type, 'value': value},
+                message,
+                {'field_type': field_type, 'value': value, 'error_message': error_msg},
                 {'moreinfo': action})
         return id, field_type, warnings
 

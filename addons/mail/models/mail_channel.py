@@ -27,7 +27,7 @@ class ChannelPartner(models.Model):
     _primary_email = ['partner_email']
 
     partner_id = fields.Many2one('res.partner', string='Recipient', ondelete='cascade')
-    partner_email = fields.Char('Email', related='partner_id.email')
+    partner_email = fields.Char('Email', related='partner_id.email', readonly=False)
     channel_id = fields.Many2one('mail.channel', string='Channel', ondelete='cascade')
     seen_message_id = fields.Many2one('mail.message', string='Last Seen')
     fold_state = fields.Selection([('open', 'Open'), ('folded', 'Folded'), ('closed', 'Closed')], string='Conversation Fold State', default='open')
@@ -54,7 +54,7 @@ class Moderation(models.Model):
 class Channel(models.Model):
     """ A mail.channel is a discussion group that may behave like a listener
     on documents. """
-    _description = 'Discussion channel'
+    _description = 'Discussion Channel'
     _name = 'mail.channel'
     _mail_flat_thread = False
     _mail_post_access = 'read'
@@ -187,9 +187,9 @@ class Channel(models.Model):
 
     @api.onchange('moderator_ids')
     def _onchange_moderator_ids(self):
-        missing_partners = self.mapped('moderator_ids.partner_id') - self.channel_partner_ids
-        if missing_partners:
-            self.channel_partner_ids |= missing_partners
+        missing_partners = self.mapped('moderator_ids.partner_id') - self.mapped('channel_last_seen_partner_ids.partner_id')
+        for partner in missing_partners:
+            self.channel_last_seen_partner_ids += self.env['mail.channel.partner'].new({'partner_id': partner.id})
 
     @api.onchange('email_send')
     def _onchange_email_send(self):
@@ -425,7 +425,7 @@ class Channel(models.Model):
         if self.env.user in self.moderator_ids or self.env.user.has_group('base.group_system'):
             success = self._send_guidelines(self.channel_partner_ids)
             if not success:
-                raise UserError('Template "mail.mail_template_channel_send_guidelines" was not found. No email has been sent. Please contact an administrator to fix this issue.')
+                raise UserError('View "mail.mail_channel_send_guidelines" was not found. No email has been sent. Please contact an administrator to fix this issue.')
         else:
             raise UserError("Only an administrator or a moderator can send guidelines to channel members!")
 
@@ -434,19 +434,23 @@ class Channel(models.Model):
         """ Send guidelines of a given channel. Returns False if template used for guidelines
         not found. Caller may have to handle this return value. """
         self.ensure_one()
-        template = self.env.ref('mail.mail_template_channel_send_guidelines', raise_if_not_found=False)
-        if not template:
-            _logger.warning('Template "mail.mail_template_channel_send_guidelines" was not found.')
+        view = self.env.ref('mail.mail_channel_send_guidelines', raise_if_not_found=False)
+        if not view:
+            _logger.warning('View "mail.mail_channel_send_guidelines" was not found.')
             return False
         banned_emails = self.env['mail.moderation'].sudo().search([
             ('status', '=', 'ban'),
             ('channel_id', 'in', self.ids)
         ]).mapped('email')
         for partner in partners.filtered(lambda p: p.email and not (p.email in banned_emails)):
-            # the sudo is needed because because send_mail will create a message (a mail). As the template is
-            # linked to res.partner model the current user could not have the rights to modify this model. It
-            # means it could prevent users to create the mail.message necessary for the mail.mail.
-            template.with_context(lang=partner.lang, channel=self).sudo().send_mail(partner.id)
+            create_values = {
+                'body_html': view.render({'channel': self, 'partner': partner}, engine='ir.qweb', minimal_qcontext=True),
+                'subject': _("Guidelines of channel %s") % self.name,
+                'email_from': partner.company_id.catchall or partner.company_id.email,
+                'recipient_ids': [(4, partner.id)]
+            }
+            mail = self.env['mail.mail'].create(create_values)
+            mail.send()
         return True
 
     @api.multi
@@ -621,8 +625,8 @@ class Channel(models.Model):
                     AND P.partner_id IN %s
                     AND channel_type LIKE 'chat'
                 GROUP BY P.channel_id
-                HAVING COUNT(P.partner_id) = %s
-            """, (tuple(partners_to), len(partners_to),))
+                HAVING array_agg(P.partner_id ORDER BY P.partner_id) = %s
+            """, (tuple(partners_to), sorted(list(partners_to)),))
             result = self.env.cr.dictfetchall()
             if result:
                 # get the existing channel between the given partners
@@ -726,6 +730,27 @@ class Channel(models.Model):
 
         # broadcast the channel header to the added partner
         self._broadcast(partner_ids)
+
+    @api.multi
+    def notify_typing(self, is_typing, is_website_user=False):
+        """ Broadcast the typing notification to channel members
+            :param is_typing: (boolean) tells whether the current user is typing or not
+            :param is_website_user: (boolean) tells whether the user that notifies comes
+              from the website-side. This is useful in order to distinguish operator and
+              unlogged users for livechat, because unlogged users have the same
+              partner_id as the admin (default: False).
+        """
+        notifications = []
+        for channel in self:
+            data = {
+                'info': 'typing_status',
+                'is_typing': is_typing,
+                'is_website_user': is_website_user,
+                'partner_id': self.env.user.partner_id.id,
+            }
+            notifications.append([(self._cr.dbname, 'mail.channel', channel.id), data]) # notify backend users
+            notifications.append([channel.uuid, data]) # notify frontend users
+        self.env['bus.bus'].sendmany(notifications)
 
     #------------------------------------------------------
     # Instant Messaging View Specific (Slack Client Action)

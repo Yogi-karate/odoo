@@ -3,109 +3,26 @@
 # * website_forum
 # 
 # Translators:
-# Martin Trigaux, 2017
-# Максим Дронь <dronmax@gmail.com>, 2017
-# Collex100, 2017
-# Gennady Marchenko <gennadym@gmail.com>, 2017
-# Sergey Vilizhanin, 2017
-# Alex Puchkov <ap@alteco.co>, 2017
-# Amaro Vita <vita.amaro@gmail.com>, 2017
-# Masha Koc <mariya.kos.ua@gmail.com>, 2017
-# Max Belyanin <maxbelyanin@gmail.com>, 2017
-# Denis Trepalin <zekarious@gmail.com>, 2017
-# Viktor Pogrebniak <vp@aifil.ru>, 2017
+# Максим Дронь <dronmax@gmail.com>, 2018
+# Gennady Marchenko <gennadym@gmail.com>, 2018
+# Martin Trigaux, 2018
+# Collex100, 2018
+# Sergey Vilizhanin, 2018
+# Max Belyanin <maxbelyanin@gmail.com>, 2018
+# Amaro Vita <vita.amaro@gmail.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.4\n"
+"Project-Id-Version: Odoo Server saas~11.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-02 09:56+0000\n"
-"PO-Revision-Date: 2018-08-02 09:56+0000\n"
-"Last-Translator: Viktor Pogrebniak <vp@aifil.ru>, 2017\n"
+"POT-Creation-Date: 2018-10-02 10:06+0000\n"
+"PO-Revision-Date: 2018-10-02 10:06+0000\n"
+"Last-Translator: Amaro Vita <vita.amaro@gmail.com>, 2018\n"
 "Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
-
-#. module: website_forum
-#: model:mail.template,body_html:website_forum.validation_email
-msgid ""
-"\n"
-"<div summary=\"o_mail_notification\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px 5px; font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>\n"
-"<div summary=\"o_mail_notification\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"vertical-align:top; padding:0px; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;\">\n"
-"                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:0px auto;padding:0\">\n"
-"                </div>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; background: #FFFFFF repeat top /100%; color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-align:justify; margin:0 auto; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                <p>Dear ${object.name},</p>\n"
-"                <p>You have been invited to validate your email in order to get access to\n"
-"                \"${object.company_id.name}\" Q/A Forums.</p>\n"
-"                <p>To validate your email, please click on the following link:</p>\n"
-"                <a style=\"margin-left: 15px; padding:5px 10px; border-radius: 3px; background-color:#875A7B; text-align:center; text-decoration:none; color:#F7FBFD;\" href=\"${ctx.get('token_url')}\">\n"
-"                    Validate my account for \"${object.company_id.name}\" Q/A Forums\n"
-"                </a>\n"
-"                <p>Thanks for your participation!</p>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>"
-msgstr ""
-"\n"
-"<div summary=\"o_mail_notification\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px 5px; font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>\n"
-"<div summary=\"o_mail_notification\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"vertical-align:top; padding:0px; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;\">\n"
-"                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:0px auto;padding:0\">\n"
-"                </div>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; background: #FFFFFF repeat top /100%; color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-align:justify; margin:0 auto; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                <p>Дорогой(-я) ${object.name},</p>\n"
-"                <p>Вас пригласили пройти проверку email по заявке на допуск Вас к\n"
-"                форуму с вопросами и ответами «${object.company_id.name}».</p>\n"
-"                <p>Чтобы проверить email, перейдите по следующей ссылке:</p>\n"
-"                <a style=\"margin-left: 15px; padding:5px 10px; border-radius: 3px; background-color:#875A7B; text-align:center; text-decoration:none; color:#F7FBFD;\" href=\"${ctx.get('token_url')}\">\n"
-"                    Проверка моей записи для форума с вопросами и ответами «${object.company_id.name}».\n"
-"                </a>\n"
-"                <p>Благодарим Вас за участие!</p>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>"
 
 #. module: website_forum
 #. openerp-web
@@ -115,7 +32,7 @@ msgid ""
 " karma is required to perform this action. You can earn karma by having your"
 " answers upvoted by the community."
 msgstr ""
-"карма требуется для выполнения этого действия. Вы можете заработать карму, "
+" карма требуется для выполнения этого действия. Вы можете заработать карму, "
 "имея свои ответы отмеченные сообществом."
 
 #. module: website_forum
@@ -124,22 +41,24 @@ msgid "${object.company_id.name} Forums validation"
 msgstr "${object.company_id.name} проверка форума"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.tag
-msgid "&amp;nbsp;&amp;nbsp;<i class=\"fa fa-times\"/>&amp;nbsp;&amp;nbsp;"
-msgstr "&amp;nbsp;&amp;nbsp;<i class=\"fa fa-times\"/>&amp;nbsp;&amp;nbsp;"
+#: model_terms:ir.ui.view,arch_db:website_forum.tag
+msgid ""
+"&amp;nbsp;&amp;nbsp;<i class=\"fa fa-times\" title=\"Close\" role=\"img\" "
+"aria-label=\"Close\"/>&amp;nbsp;&amp;nbsp;"
+msgstr ""
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "&amp;times;"
 msgstr "&amp;раз;"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "(The above section was adapted from Stackoverflow’s FAQ.)"
 msgstr "(Приведенный выше раздел был адаптирован из FAQ по StackOverflow.)"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid ""
 "(Un)archiving a forum automatically (un)archives its posts. Do you want to "
 "proceed?"
@@ -148,7 +67,7 @@ msgstr ""
 "Хотите продолжить?"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_form
 msgid ""
 "(Un)archiving a post automatically (un)archives its answers. Do you want to "
 "proceed?"
@@ -157,12 +76,12 @@ msgstr ""
 "Хотите продолжить?"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "(votes - 1) **"
 msgstr "(голосов - 1) **"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "/ (days + 2) **"
 msgstr "/ (дни + 2) **"
 
@@ -185,31 +104,31 @@ msgstr ""
 "        ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "<b> [Closed]</b>"
 msgstr "<b> [Закрыто]</b>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "<b> [Deleted]</b>"
 msgstr "<b> [Удалено]</b>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
-#: model:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "<b> [Offensive]</b>"
 msgstr "<b> [Наступление]</b>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.users
+#: model_terms:ir.ui.view,arch_db:website_forum.users
 msgid "<b> badges:</b>"
 msgstr "<b> значки:</b>"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers should not add or expand questions</b>. Instead\n"
 "    either edit the question or add a comment."
@@ -218,7 +137,7 @@ msgstr ""
 "     этого либо измените вопрос, или добавьте комментарий."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers should not add or expand questions</b>. Instead either edit the "
 "question or add a question comment."
@@ -227,7 +146,7 @@ msgstr ""
 "измените вопрос, или добавьте вопрос комментарий."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers should not comment other answers</b>. Instead\n"
 "    add a comment on the other answers."
@@ -236,7 +155,7 @@ msgstr ""
 "    этого добавьте комментарий на другие ответы."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers should not comment other answers</b>. Instead add a comment on "
 "the other answers."
@@ -245,7 +164,7 @@ msgstr ""
 "комментарий на другие ответы."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers should not start debates</b>\n"
 "    This community Q&amp;A is not a discussion group. Please avoid holding debates in\n"
@@ -258,7 +177,7 @@ msgstr ""
 "    краткого обсуждения, пожалуйста, используйте средства для вставки комментариев."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers shouldn't just point to other Questions</b>. Instead add a "
 "question comment indication \"Possible duplicate of...\". However, it's ok "
@@ -271,7 +190,7 @@ msgstr ""
 " соответствующую дополнительную информацию."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers shouldn't just point to other questions</b>.\n"
 "    Instead add a comment indicating <i>\"Possible duplicate\n"
@@ -286,7 +205,7 @@ msgstr ""
 "    информацию."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers shouldn't just provide a\n"
 "    link a solution</b>. Instead provide the solution\n"
@@ -301,7 +220,7 @@ msgstr ""
 "    ответ, ссылаясь на источники или дополнительное чтение."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Answers shouldn't just provide a link a solution</b>. Instead provide the"
 " solution description text in your answer, even if it's just a copy/paste. "
@@ -314,7 +233,7 @@ msgstr ""
 "ссылаясь на источники или дополнительное чтение."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Before you ask - please make sure to search for a similar question.</b> You can\n"
 "    search questions by their title or tags.  It’s also OK to\n"
@@ -325,17 +244,17 @@ msgstr ""
 "    вы ответить на свой вопрос."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_badges
+#: model_terms:ir.ui.view,arch_db:website_forum.user_badges
 msgid "<b>No badge yet!</b><br/>"
 msgstr "<b>Нет значка!</b><br/>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_votes
+#: model_terms:ir.ui.view,arch_db:website_forum.user_votes
 msgid "<b>No vote given by you yet!</b>"
 msgstr "<b>Еще нет голоса данный вами!</b>"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "<b>Please avoid asking questions that are too subjective\n"
 "    and argumentative</b> or not relevant to this community."
@@ -344,7 +263,7 @@ msgstr ""
 "    характер и аргументированный</b> или не имеющих отношение к этому обществу."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answer
 msgid ""
 "<b>Please try to give a substantial answer.</b> If you wanted to comment on the question or answer, just\n"
 "        <b>use the commenting tool.</b> Please remember that you can always <b>revise your answers</b>\n"
@@ -357,27 +276,42 @@ msgstr ""
 "        - это действительно помогает выбрать лучшие вопросы и ответы!"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_discussion
+#: model_terms:ir.ui.view,arch_db:website_forum.new_discussion
 msgid "<b>Share</b> Something Awesome."
 msgstr "<b>Поделитесь</b> Чем-то удивительным."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
 msgid "<b>[Answer]</b>"
 msgstr "<b>[Ответ]</b>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.badge
+#: model_terms:ir.ui.view,arch_db:website_forum.header
+msgid "<i class=\"fa fa-arrow-right\"/> Back to"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.header
+msgid "<i class=\"fa fa-arrow-right\"/> Read Guidelines"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
+msgid "<i class=\"fa fa-arrow-right\"/>Edit Your Profile"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.badge
 msgid "<i class=\"text-muted\"> awarded users</i>"
 msgstr "<i class=\"text-muted\"> награжденные пользователи</i>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_badges
+#: model_terms:ir.ui.view,arch_db:website_forum.user_badges
 msgid "<i class=\"text-muted\">awarded users</i>"
 msgstr "<i class=\"text-muted\">награжденные пользователи</i>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
 msgid ""
 "<small class=\"text-muted\">\n"
 "                    Flagged\n"
@@ -388,59 +322,44 @@ msgstr ""
 "                </small>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
-msgid "<small>profile</small>"
-msgstr "<small>профиль</small>"
-
-#. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
-msgid ""
-"<span class=\"caret\"/>\n"
-"                                <span class=\"sr-only\">Select Post</span>"
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
+msgid "<small class=\"text-muted\">profile</small>"
 msgstr ""
-"<span class=\"caret\"/>\n"
-"                                <span class=\"sr-only\">Выберите публикацию</span>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
-msgid ""
-"<span class=\"sr-only\">Toggle navigation</span>\n"
-"                        <span class=\"icon-bar\"/>\n"
-"                        <span class=\"icon-bar\"/>"
+#: model_terms:ir.ui.view,arch_db:website_forum.header
+msgid "<span class=\"sr-only\">Select Post</span>"
 msgstr ""
-"<span class=\"sr-only\">Переключение навигации</span>\n"
-"                        <span class=\"icon-bar\"/>\n"
-"                        <span class=\"icon-bar\"/>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid ""
 "<span class=\"text-muted\">(only one answer per question is allowed)</span>"
 msgstr ""
 "<span class=\"text-muted\">(допускается только один ответ на вопрос)</span>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "<span class=\"text-muted\">bio</span>"
 msgstr "<span class=\"text-muted\">bio</span>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid "<span class=\"text-muted\">or</span>"
 msgstr "<span class=\"text-muted\">илиr</span>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "<span class=\"text-muted\">stats</span>"
 msgstr "<span class=\"text-muted\">stats</span>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "<span> on </span>"
 msgstr "<span> на </span>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
 msgid ""
 "<span> • </span>\n"
 "                Flagged"
@@ -449,24 +368,120 @@ msgstr ""
 "                Помечено"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "<span>By </span>"
 msgstr "<span>По </span>"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_new_answer
+#: model:mail.template,body_html:website_forum.validation_email
+msgid ""
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: 16px; background-color: #F1F1F1; color: #454748; width: 100%; border-collapse:separate;\"><tr><td align=\"center\">\n"
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"padding: 16px; background-color: white; color: #454748; border-collapse:separate;\">\n"
+"<tbody>\n"
+"    <!-- HEADER -->\n"
+"    <tr>\n"
+"        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                <tr>\n"
+"                    <td valign=\"middle\">\n"
+"                        <span style=\"font-size: 10px;\">Your Forum</span><br/>\n"
+"                        <span style=\"font-size: 20px; font-weight: bold;\">\n"
+"                            ${object.company_id.name} Forum validation\n"
+"                        </span>\n"
+"                    </td>\n"
+"                    <td valign=\"middle\" align=\"right\">\n"
+"                        <img src=\"/logo.png?company=${user.company_id.id}\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${user.company_id.name}\"/>\n"
+"                    </td>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <td colspan=\"2\" style=\"text-align:center;\">\n"
+"                        <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
+"                    </td>\n"
+"                </tr>\n"
+"            </table>\n"
+"        </td>\n"
+"    </tr>\n"
+"    <!-- CONTENT -->\n"
+"    <tr>\n"
+"        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                <tr>\n"
+"                    <td valign=\"top\" style=\"font-size: 13px;\">\n"
+"                        <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                            Hello ${object.name},<br/><br/>\n"
+"                            You have been invited to validate your email in order to get access to \"${object.company_id.name}\" Q/A Forums.\n"
+"                            To validate your email, please click on the following link:\n"
+"                            <div style=\"margin: 16px 0px 16px 0px;\">\n"
+"                                <a href=\"${ctx.get('token_url')}\" style=\"background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;\">\n"
+"                                    Validate my account\n"
+"                                </a>\n"
+"                            </div>\n"
+"                            Thanks for your participation!\n"
+"                        </p>\n"
+"                    </td>\n"
+"                </tr>\n"
+"                <tr>\n"
+"                    <td style=\"text-align:center;\">\n"
+"                        <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
+"                    </td>\n"
+"                </tr>\n"
+"            </table>\n"
+"        </td>\n"
+"    </tr>\n"
+"    <!-- FOOTER -->\n"
+"    <tr>\n"
+"        <td align=\"center\" style=\"min-width: 590px;\">\n"
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\" font-family: 'Verdana Regular'; color: #454748; min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                <tr>\n"
+"                    <td valign=\"middle\" align=\"left\">\n"
+"                         ${user.company_id.name}\n"
+"                    </td>\n"
+"                    <td valign=\"middle\" align=\"right\" style=\"opacity: 0.7;\">\n"
+"                        ${user.company_id.phone}\n"
+"                        % if user.company_id.email:\n"
+"                            | <a href=\"'mailto:%s' % ${user.company_id.email}\" style=\"text-decoration:none; color: #454748;\">\n"
+"                                ${user.company_id.email}\n"
+"                            </a>\n"
+"                        % endif\n"
+"                        % if user.company_id.website:\n"
+"                            | <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #454748;\">\n"
+"                                ${user.company_id.website}\n"
+"                            </a>\n"
+"                        % endif\n"
+"                    </td>\n"
+"                </tr>\n"
+"            </table>\n"
+"        </td>\n"
+"    </tr>\n"
+"</tbody>\n"
+"</table>\n"
+"</td></tr>\n"
+"<!-- POWERED BY -->\n"
+"<tr><td align=\"center\" style=\"min-width: 590px;\">\n"
+"    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;\">\n"
+"        <tr><td style=\"text-align: center; font-size: 13px;\">\n"
+"            Powered by <a target=\"_blank\" href=\"https://www.odoo.com?utm_source=db&amp;utm_medium=forum\" style=\"color: #875A7B;\">Odoo</a>\n"
+"        </td></tr>\n"
+"    </table>\n"
+"</td></tr>\n"
+"</table>\n"
+"            "
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_new_answer
 msgid "A new answer on"
 msgstr "Новый ответ на"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_validation
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_validation
 msgid "A new question"
 msgstr "Новый вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.tag
+#: model_terms:ir.ui.view,arch_db:website_forum.tag
 msgid ""
 "A tag is a label that categorizes your question with other,\n"
 "            similar questions. Using the right tags makes it easier for\n"
@@ -477,12 +492,12 @@ msgstr ""
 "            других найти и ответить на ваш вопрос. (Наведите курсор мыши, чтобы следовать/неследовать тегу(ам))"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "About This Community"
 msgstr "Об этом сообществе"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Accept <i class=\"fa fa-check\"/>"
 msgstr "Принять <i class=\"fa fa-check\"/>"
 
@@ -497,7 +512,7 @@ msgid "Accept an answer to all questions"
 msgstr "Принять ответ на все вопросы"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Accepted Answer"
 msgstr "Принятый ответ"
 
@@ -521,21 +536,21 @@ msgid "Active"
 msgstr "Активно"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "Activity"
 msgstr "Мероприятие"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answer
 msgid "Add a Comment"
 msgstr "Добавить комментарий"
 
 #. module: website_forum
 #. openerp-web
-#: code:addons/website_forum/static/src/js/website_forum.editor.js:43
+#: code:addons/website_forum/static/src/js/website_forum.editor.js:45
 #, python-format
-msgid "Add page in menu"
-msgstr "Добавить страницу в меню"
+msgid "Add to menu"
+msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,help:website_forum.field_forum_forum__allow_share
@@ -548,8 +563,8 @@ msgstr ""
 "содержания форума."
 
 #. module: website_forum
-#: code:addons/website_forum/controllers/main.py:196
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: code:addons/website_forum/controllers/main.py:203
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 #, python-format
 msgid "All"
 msgstr "Все"
@@ -560,7 +575,12 @@ msgid "Allow Bump"
 msgstr "Разрешить столкновение"
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:511
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+msgid "Answer"
+msgstr "Ответ"
+
+#. module: website_forum
+#: code:addons/website_forum/models/forum.py:521
 #: model:mail.message.subtype,description:website_forum.mt_answer_edit
 #: model:mail.message.subtype,name:website_forum.mt_answer_edit
 #, python-format
@@ -623,12 +643,12 @@ msgid "Answered"
 msgstr "Отвечено"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Answered Questions"
 msgstr "Ответили на вопросы"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_form
 msgid "Answered by"
 msgstr "Отвечено от"
 
@@ -639,9 +659,10 @@ msgstr "Отвечен собственный вопрос, по крайней 
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__child_ids
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_form
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Answers"
 msgstr "Ответы"
 
@@ -651,8 +672,8 @@ msgid "Appears in"
 msgstr "Появляется в"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_view_search
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_view_search
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Archived"
 msgstr "Архивировано"
 
@@ -662,12 +683,12 @@ msgid "Article"
 msgstr "Статья"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Ask Your Question"
 msgstr "Задайте ваш вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Ask a Question"
 msgstr "Задать вопрос"
 
@@ -719,7 +740,7 @@ msgid "Asked on"
 msgstr "Задан вопрос по"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Asked:"
 msgstr "Задано:"
 
@@ -729,7 +750,14 @@ msgid "Asking a question"
 msgstr "Задать вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model:ir.model.fields,field_description:website_forum.field_forum_forum__message_attachment_count
+#: model:ir.model.fields,field_description:website_forum.field_forum_post__message_attachment_count
+#: model:ir.model.fields,field_description:website_forum.field_forum_tag__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Author"
 msgstr "Автор"
 
@@ -739,33 +767,37 @@ msgid "Autobiographer"
 msgstr "Автобиограф"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_user_tooltip
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.users
+msgid "Avatar"
+msgstr "Аватар"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Avoid unnecessary introductions (Hi,... Please... Thanks...),"
 msgstr "Избегайте ненужных введений (Привет, ... Пожалуйста ... Спасибо ...),"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
-msgid "Back to"
-msgstr "Назад к"
-
-#. module: website_forum
-#: code:addons/website_forum/controllers/main.py:336
-#: code:addons/website_forum/controllers/main.py:338
-#: code:addons/website_forum/controllers/main.py:407
+#: code:addons/website_forum/controllers/main.py:343
+#: code:addons/website_forum/controllers/main.py:345
+#: code:addons/website_forum/controllers/main.py:414
 #, python-format
 msgid "Bad Request"
 msgstr "Неправильный запрос"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_res_users__badge_ids
-#: model:ir.ui.view,arch_db:website_forum.badge
-#: model:ir.ui.view,arch_db:website_forum.header
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.badge
+#: model_terms:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "Badges"
 msgstr "Значки"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.badge
+#: model_terms:ir.ui.view,arch_db:website_forum.badge
 msgid ""
 "Besides gaining reputation with your questions and answers,\n"
 "            you receive badges for being especially helpful. Badges\n"
@@ -776,9 +808,15 @@ msgstr ""
 "            появляются на вашей странице профиля и ваших публикациях."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Biography"
 msgstr "Биография"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.badge
+#: model_terms:ir.ui.view,arch_db:website_forum.user_badges
+msgid "Bronze badge"
+msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_res_users__bronze_badge
@@ -873,7 +911,7 @@ msgid "Change question tags"
 msgstr "Изменить тег вопроса"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_badges
+#: model_terms:ir.ui.view,arch_db:website_forum.user_badges
 msgid "Check available badges"
 msgstr "Проверить доступные значки"
 
@@ -896,9 +934,14 @@ msgid "Chief Commentator"
 msgstr "Главный комментатор"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "City"
 msgstr "Город"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
+msgid "Clear"
+msgstr "Очистить"
 
 #. module: website_forum
 #. openerp-web
@@ -909,33 +952,33 @@ msgstr "Кликните <em>Продолжить</em> чтобы создать
 
 #. module: website_forum
 #. openerp-web
-#: code:addons/website_forum/static/src/js/website_tour_forum.js:71
+#: code:addons/website_forum/static/src/js/website_tour_forum.js:73
 #, python-format
 msgid "Click here to accept this answer."
 msgstr "Кликните тут, чтобы принять этот ответ."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid ""
 "Click here to send a verification email allowing you to participate to the "
 "forum."
 msgstr ""
 "Кликните тут, чтобы отправить письмо с подтверждением, позволяющее "
-"участвовать в форуме. "
+"участвовать в форуме."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Click to get bad question samples"
 msgstr "Нажмите, чтобы получить примеры плохого вопроса"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Click to get good question titles"
 msgstr "Нажмите, чтобы получить заголовок хорошего вопроса"
 
 #. module: website_forum
 #. openerp-web
-#: code:addons/website_forum/static/src/js/website_tour_forum.js:64
+#: code:addons/website_forum/static/src/js/website_tour_forum.js:65
 #, python-format
 msgid "Click to post your answer."
 msgstr "Нажмите, чтобы опубликовать ответ."
@@ -948,16 +991,14 @@ msgid "Click to post your question."
 msgstr "Нажмите, чтобы опубликовать ваш вопрос."
 
 #. module: website_forum
-#. openerp-web
-#: code:addons/website_forum/static/src/xml/website_forum_share_templates.xml:46
 #: selection:forum.post,state:0
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
-#, python-format
+#: model_terms:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Close"
 msgstr "Закрыть"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid "Close Post"
 msgstr ""
 
@@ -972,7 +1013,7 @@ msgid "Close own posts"
 msgstr "Закрыть свои сообщения"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid "Close post"
 msgstr ""
 
@@ -992,11 +1033,11 @@ msgid "Closing Reason"
 msgstr "Причина закрытия"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_answer
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
-#: model:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
-#: model:ir.ui.view,arch_db:website_forum.post_answers
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Comment"
 msgstr "Комментарий"
 
@@ -1011,7 +1052,7 @@ msgid "Comment own posts"
 msgstr "Комментарий собственные сообщения"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_comment
+#: model_terms:ir.ui.view,arch_db:website_forum.post_comment
 msgid "Comment this post..."
 msgstr "Комментировать эту публикацию..."
 
@@ -1025,9 +1066,9 @@ msgid "Commentator"
 msgstr "Комментатор"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_answer
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
-#: model:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_display_post_answer
 msgid "Comments"
 msgstr "Комментарии"
 
@@ -1044,7 +1085,7 @@ msgid "Completed own biography"
 msgstr "Заполнил собственную биографию"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid ""
 "Congratulations! Your email has just been validated. You may now participate"
 " to our forums."
@@ -1054,7 +1095,7 @@ msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__content
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Content"
 msgstr "Содержание"
 
@@ -1064,12 +1105,12 @@ msgid "Convert all answers to comments and vice versa"
 msgstr "Конвертировать все ответы на комментарии и наоборот"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
 msgid "Convert as a comment"
 msgstr "Преобразовать как комментарий"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_comment
+#: model_terms:ir.ui.view,arch_db:website_forum.post_comment
 msgid "Convert as an answer"
 msgstr "Преобразовать как ответ"
 
@@ -1094,12 +1135,12 @@ msgid "Correct answer or answer accepted"
 msgstr "Правильный ответ или ответ принят"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Country"
 msgstr "Страна"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Country..."
 msgstr "Страна..."
 
@@ -1110,12 +1151,12 @@ msgid "Create Date"
 msgstr "Дата создания"
 
 #. module: website_forum
-#: model:ir.actions.act_window,help:website_forum.action_forum_post
+#: model_terms:ir.actions.act_window,help:website_forum.action_forum_post
 msgid "Create a new forum post"
 msgstr ""
 
 #. module: website_forum
-#: model:ir.actions.act_window,help:website_forum.forum_tag_action
+#: model_terms:ir.actions.act_window,help:website_forum.forum_tag_action
 msgid "Create a new tag"
 msgstr ""
 
@@ -1175,8 +1216,9 @@ msgid "Define the visibility of the challenge through menus"
 msgstr "Определите видимость задачи через меню"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answers
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_comment
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1206,7 +1248,7 @@ msgid "Description"
 msgstr "Описание"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Design Welcome Message"
 msgstr "Разработка Приветственного сообщение"
 
@@ -1220,6 +1262,8 @@ msgstr "Упорядочено"
 
 #. module: website_forum
 #: selection:forum.forum,default_post_type:0 selection:forum.post,post_type:0
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Discussion"
 msgstr "Обсуждение"
 
@@ -1248,26 +1292,22 @@ msgid "Downvote"
 msgstr "Против"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_post
-#: model:ir.ui.view,arch_db:website_forum.post_answers
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_post
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Edit"
 msgstr "Править"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Edit Profile"
 msgstr "Редактировать профиль"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Edit Your Previous Answer"
 msgstr "Редактировать ваш предыдущий ответ"
-
-#. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
-msgid "Edit Your Profile"
-msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__karma_edit_all
@@ -1280,17 +1320,17 @@ msgid "Edit own posts"
 msgstr "Редактировать свои сообщения"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_post
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_post
 msgid "Edit reply"
 msgstr "Редактировать ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
 msgid "Edit your Link"
 msgstr "Редактировать вашу ссылку"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_post
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_post
 msgid "Edit your Post"
 msgstr "Редактировать ваше сообщение"
 
@@ -1308,7 +1348,7 @@ msgid "Editor Features: image and links"
 msgstr "Функции редактора: изображения и ссылки"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Email"
 msgstr "Email"
 
@@ -1326,6 +1366,11 @@ msgstr "Проинформировано"
 #, python-format
 msgid "Enter a name for your new forum."
 msgstr "Введите имя для вашего нового форума."
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+msgid "External link"
+msgstr ""
 
 #. module: website_forum
 #: model:gamification.badge,name:website_forum.badge_q_3
@@ -1368,12 +1413,17 @@ msgid "Favourite Question (5)"
 msgstr "Избранный вопрос (5)"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "Favourite Questions"
 msgstr "Избранные вопросы"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.tag
+msgid "Filter"
+msgstr "Фильтр"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Filter on"
 msgstr "Фильтр включен"
 
@@ -1398,8 +1448,8 @@ msgid "First upvote"
 msgstr "Первый за голос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answers
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Flag"
 msgstr "Флаг"
 
@@ -1411,9 +1461,9 @@ msgstr "Пометить сообщение как оскорбительно"
 
 #. module: website_forum
 #: selection:forum.post,state:0
-#: model:ir.ui.view,arch_db:website_forum.moderation_queue
-#: model:ir.ui.view,arch_db:website_forum.post_answers
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Flagged"
 msgstr "Помечен"
 
@@ -1423,12 +1473,12 @@ msgid "Flagged by"
 msgstr "Помечен"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Followed"
 msgstr "Подписано"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "Followed Questions"
 msgstr "Отслеживаемые вопросы"
 
@@ -1454,7 +1504,7 @@ msgid "Followers (Partners)"
 msgstr "Подписчики (Партнеры)"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "For example, if you ask an interesting question or give a helpful answer, your\n"
 "    input will be upvoted. On the other hand if the answer is misleading - it will\n"
@@ -1477,9 +1527,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_forum.field_forum_post_vote__forum_id
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__forum_id
 #: model:ir.ui.menu,name:website_forum.menu_website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_view_search
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model:ir.ui.menu,name:website_forum.menu_website_forum_global
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_all
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_view_search
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model:website.menu,name:website_forum.menu_website_forums
 msgid "Forum"
 msgstr "Форум"
 
@@ -1490,30 +1543,33 @@ msgid "Forum Badge Level"
 msgstr "Уровень значка форума"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.res_users_view_form_preference
-#: model:ir.ui.view,arch_db:website_forum.view_users_form_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.res_users_view_form_preference
+#: model_terms:ir.ui.view,arch_db:website_forum.view_users_form_forum
 msgid "Forum Karma"
 msgstr "Карма форума"
 
 #. module: website_forum
+#. openerp-web
+#: code:addons/website_forum/static/src/js/website_forum.editor.js:34
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__name
+#, python-format
 msgid "Forum Name"
 msgstr "Название форума"
 
 #. module: website_forum
 #: model:ir.model,name:website_forum.model_forum_post
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_form
 msgid "Forum Post"
 msgstr "Пост форума"
 
 #. module: website_forum
 #: model:ir.actions.act_window,name:website_forum.action_forum_post
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_list
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_list
 msgid "Forum Posts"
 msgstr "Сообщения форума"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Forum Settings"
 msgstr "Настройки форума"
 
@@ -1524,26 +1580,25 @@ msgstr "Тег форума"
 
 #. module: website_forum
 #: model:ir.actions.act_window,name:website_forum.action_forum_forum
-#: model:ir.ui.menu,name:website_forum.menu_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_list
-#: model:website.menu,name:website_forum.menu_website_forums
+#: model:ir.ui.menu,name:website_forum.menu_forum_global
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_list
 msgid "Forums"
 msgstr "Форумы"
 
 #. module: website_forum
 #: model:ir.model,name:website_forum.model_gamification_badge
-msgid "Gamification badge"
-msgstr "Значок игрофикации"
+msgid "Gamification Badge"
+msgstr ""
 
 #. module: website_forum
 #: model:ir.model,name:website_forum.model_gamification_challenge
-msgid "Gamification challenge"
-msgstr "Задача игрофикации"
+msgid "Gamification Challenge"
+msgstr ""
 
 #. module: website_forum
 #: model:ir.model,name:website_forum.model_gamification_badge_user
-msgid "Gamification user badge"
-msgstr "Значок пользователя игрофикации"
+msgid "Gamification User Badge"
+msgstr ""
 
 #. module: website_forum
 #. openerp-web
@@ -1551,6 +1606,12 @@ msgstr "Значок пользователя игрофикации"
 #, python-format
 msgid "Give your question title."
 msgstr "Дайте вашему вопросу заголовок."
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.badge
+#: model_terms:ir.ui.view,arch_db:website_forum.user_badges
+msgid "Gold badge"
+msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_res_users__gold_badge
@@ -1576,7 +1637,7 @@ msgid "Good Question"
 msgstr "Хороший вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_graph
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_graph
 msgid "Graph of Posts"
 msgstr "График публикаций"
 
@@ -1599,12 +1660,12 @@ msgid "Great Question"
 msgstr "Прекрасный вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Group By"
-msgstr "Группировать"
+msgstr "Группировать по"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__faq
 msgid "Guidelines"
 msgstr "Руководство"
@@ -1632,7 +1693,12 @@ msgid "Help"
 msgstr "Помощь"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:forum.forum,welcome_message:website_forum.forum_help
+msgid "Hide Intro"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid ""
 "How to create a physical inventory at an anterior date?, How is the "
 "'remaining hours' field computed on tasks?, How to configure TPS and TVQ's "
@@ -1685,7 +1751,7 @@ msgstr ""
 "ссылкам"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "If this approach is not for you, please respect the community and use Google+\n"
 "    communities instead."
@@ -1694,7 +1760,7 @@ msgstr ""
 "   вместо сообщества."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid ""
 "If you close this post, it will be hidden for most users. Only\n"
 "            users having a high karma can see closed posts to moderate\n"
@@ -1705,7 +1771,7 @@ msgstr ""
 "          их."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "If you fit in one of these example or if your motivation for asking the\n"
 "    question is “I would like to participate in a discussion about ______”, then\n"
@@ -1720,7 +1786,7 @@ msgstr ""
 "     то вы, вероятно, правильно действуете."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid ""
 "If you mark this post as offensive, it will be hidden for most users. Only\n"
 "            users having a high karma can see offensive posts to moderate\n"
@@ -1738,7 +1804,7 @@ msgid "Insert tags related to your question."
 msgstr "Вставьте теги, связанные с вашим вопросом."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid ""
 "Inventory Date Problem, Task remaining hours, Can you help solve solve my "
 "tax computation problem in Canada?"
@@ -1769,30 +1835,30 @@ msgid "Is the author's biography visible from his post"
 msgstr "Авторская биография видна из его публикации"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "It appears your email has not been verified."
 msgstr "Кажется ваша электронная почта не была проверена."
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:882
-#: code:addons/website_forum/models/forum.py:902
+#: code:addons/website_forum/models/forum.py:890
+#: code:addons/website_forum/models/forum.py:910
 #, python-format
 msgid "It is not allowed to vote for its own post."
 msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_res_users__karma
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "Karma"
 msgstr "Карма"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "Karma Gains"
 msgstr "Сила кармы"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "Karma Related Rights"
 msgstr "Карма смежные права"
 
@@ -1822,7 +1888,7 @@ msgid "Karma to unlink"
 msgstr "Карма для отмены связи"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Keep Informed"
 msgstr "Держать в курсе"
 
@@ -1857,12 +1923,12 @@ msgid "Last Updated on"
 msgstr "Последнее обновление"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Last activity date"
 msgstr "Дата последней активности"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Last updated:"
 msgstr "Последнее обновление:"
 
@@ -1873,17 +1939,27 @@ msgstr "Слева 10 ответов со счетом 10 или более"
 
 #. module: website_forum
 #: selection:forum.forum,default_post_type:0
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Link"
 msgstr "Ссылка"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__allow_link
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Links"
 msgstr "Ссылки"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model:ir.model.fields,field_description:website_forum.field_forum_forum__message_main_attachment_id
+#: model:ir.model.fields,field_description:website_forum.field_forum_post__message_main_attachment_id
+#: model:ir.model.fields,field_description:website_forum.field_forum_tag__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
 msgid "Mark as offensive"
 msgstr ""
 
@@ -1907,12 +1983,12 @@ msgid "Moderate posts"
 msgstr "Модерировать публикации"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Moderation Tools"
 msgstr "Инструменты модерации"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "More over:"
 msgstr "Более:"
 
@@ -1922,18 +1998,18 @@ msgid "Most Voted"
 msgstr "Лучшие"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Most answered"
 msgstr "Больше всего ответов"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Most voted"
 msgstr "Больше всего голосов"
 
 #. module: website_forum
 #. openerp-web
-#: code:addons/website_forum/static/src/xml/website_forum_share_templates.xml:48
+#: code:addons/website_forum/static/src/xml/website_forum_share_templates.xml:47
 #, python-format
 msgid ""
 "Move this question to the top of the list by sharing it on social networks."
@@ -1948,9 +2024,15 @@ msgstr "Мои голоса"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__name
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_form
 msgid "Name"
 msgstr "Название"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.user_votes
+#: model_terms:ir.ui.view,arch_db:website_forum.vote
+msgid "Negative vote"
+msgstr ""
 
 #. module: website_forum
 #: model:mail.message.subtype,description:website_forum.mt_answer_new
@@ -1960,14 +2042,13 @@ msgid "New Answer"
 msgstr "Новый ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "New Discussion"
 msgstr "Новое обсуждение"
 
 #. module: website_forum
 #. openerp-web
-#: code:addons/website_forum/static/src/js/website_forum.editor.js:32
-#: model:ir.ui.view,arch_db:website_forum.content_new_forum
+#: code:addons/website_forum/static/src/js/website_forum.editor.js:33
 #, python-format
 msgid "New Forum"
 msgstr "Новый форум"
@@ -1980,14 +2061,14 @@ msgid "New Question"
 msgstr "Новый вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_discussion
+#: model_terms:ir.ui.view,arch_db:website_forum.new_discussion
 msgid "New Topic"
 msgstr "Новая тема"
 
 #. module: website_forum
 #: selection:forum.forum,default_order:0
-#: model:ir.ui.view,arch_db:website_forum.forum_index
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Newest"
 msgstr "Свежайшее"
 
@@ -2010,7 +2091,7 @@ msgid "Nice Question"
 msgstr "Замечательный вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_all
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_all
 msgid "No forum post yet."
 msgstr ""
 
@@ -2020,7 +2101,7 @@ msgid "Nofollow links"
 msgstr "Не следовать ссылкам"
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:501
+#: code:addons/website_forum/models/forum.py:511
 #, python-format
 msgid "Not enough karma to retag."
 msgstr "Не хватает кармы обновлять теги."
@@ -2093,17 +2174,17 @@ msgstr "Количество непрочитанных сообщений"
 
 #. module: website_forum
 #: selection:forum.post,state:0
-#: model:ir.ui.view,arch_db:website_forum.moderation_queue
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
 msgid "Offensive"
 msgstr "Оскорбительно"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid "Offensive Post"
 msgstr ""
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
 msgid "On"
 msgstr "Вкл"
 
@@ -2115,17 +2196,17 @@ msgid "On average,"
 msgstr "В среднем,"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "Options"
 msgstr "Параметры"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "Orders"
 msgstr "Заказы"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_all
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_all
 msgid "Our forums"
 msgstr "Наши форумы"
 
@@ -2138,12 +2219,12 @@ msgid "Peer Pressure"
 msgstr "Давление общественности"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.moderation_queue
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
 msgid "Pending"
 msgstr "В ожидании"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "People"
 msgstr "Люди"
 
@@ -2153,12 +2234,12 @@ msgid "Plain Content"
 msgstr "Обычное содержание"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_post
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_post
 msgid "Please enter a descriptive question (should finish by a '?')"
 msgstr "Пожалуйста, введите описательный вопрос (должен заканчиваться '?')"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid ""
 "Please enter a valid email address in order to receive notifications from "
 "answers or comments."
@@ -2191,16 +2272,22 @@ msgid "Popular Question (500)"
 msgstr "Популярный вопрос (500)"
 
 #. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.user_votes
+#: model_terms:ir.ui.view,arch_db:website_forum.vote
+msgid "Positive vote"
+msgstr ""
+
+#. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_post_vote__post_id
-#: model:ir.ui.view,arch_db:website_forum.new_link
-#: model:ir.ui.view,arch_db:website_forum.post_comment
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.post_comment
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Post"
 msgstr "Провести"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answer
-#: model:ir.ui.view,arch_db:website_forum.post_reply
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_reply
 msgid "Post Answer"
 msgstr "Опубликовать ответ"
 
@@ -2210,33 +2297,38 @@ msgid "Post Closing Reason"
 msgstr "Опубликовать причину закрытия"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answer
-#: model:ir.ui.view,arch_db:website_forum.post_reply
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_reply
 msgid "Post Comment"
 msgstr "Публиковать коментарий"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
 msgid "Post Title"
 msgstr "Заголовок публикации"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "Post Types"
 msgstr "Типы публикации"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model:ir.model,name:website_forum.model_forum_post_vote
+msgid "Post Vote"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Post Your Question"
 msgstr "Опубликовать ваш вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_discussion
+#: model_terms:ir.ui.view,arch_db:website_forum.new_discussion
 msgid "Post Your Topic"
 msgstr "Опубликуйте вашу тему"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid "Post:"
 msgstr "Публикация:"
 
@@ -2251,7 +2343,7 @@ msgid "Posted 100 comments"
 msgstr "Опубликовано 100 комментариев"
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:438
+#: code:addons/website_forum/models/forum.py:448
 #, python-format
 msgid "Posting answer on a [Deleted] or [Closed] question is not possible."
 msgstr ""
@@ -2259,19 +2351,19 @@ msgstr ""
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__post_ids
 #: model:ir.ui.menu,name:website_forum.menu_forum_posts
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Posts"
 msgstr "Посты"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Provide enough details and, if possible, give an example."
 msgstr ""
 "Обеспечить достаточное количество деталей и, если это возможно, приведите "
 "пример."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Public profile"
 msgstr "Публичный профиль"
 
@@ -2285,7 +2377,7 @@ msgstr "Эксперт"
 
 #. module: website_forum
 #. openerp-web
-#: code:addons/website_forum/static/src/js/website_tour_forum.js:58
+#: code:addons/website_forum/static/src/js/website_tour_forum.js:59
 #, python-format
 msgid "Put your answer here."
 msgstr "Поместите свой ответ здесь."
@@ -2300,11 +2392,13 @@ msgstr "Поместите свой вопрос здесь."
 #. module: website_forum
 #: selection:forum.forum,default_post_type:0 selection:forum.post,post_type:0
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__parent_id
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Question"
 msgstr "Вопрос"
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:514
+#: code:addons/website_forum/models/forum.py:524
 #: model:mail.message.subtype,description:website_forum.mt_question_edit
 #: model:mail.message.subtype,name:website_forum.mt_question_edit
 #, python-format
@@ -2317,12 +2411,12 @@ msgid "Question downvoted"
 msgstr "Вопрос проголосован против"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
 msgid "Question has accepted answer"
 msgstr "Вопрос принял ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.404
+#: model_terms:ir.ui.view,arch_db:website_forum.404
 msgid "Question not found!"
 msgstr "Вопрос не найден!"
 
@@ -2342,13 +2436,13 @@ msgid "Question set as favorite by 5 users"
 msgstr "Вопрос установили как любимый 5 пользователей"
 
 #. module: website_forum
-#: code:addons/website_forum/controllers/main.py:338
+#: code:addons/website_forum/controllers/main.py:345
 #, python-format
 msgid "Question should not be empty."
 msgstr ""
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Question tools"
 msgstr "Инструменты вопроса"
 
@@ -2374,30 +2468,25 @@ msgstr "За вопрос проголосовали За 6 раз"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__allow_question
-#: model:ir.ui.view,arch_db:website_forum.forum_index
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Questions"
 msgstr "Вопросы"
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:532
+#: code:addons/website_forum/models/forum.py:542
 #, python-format
 msgid "Re: %s"
 msgstr "Re: %s"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Reactivate"
 msgstr "Реактивировать"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
-msgid "Read Guidelines"
-msgstr "Читать руководство"
-
-#. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Real name"
 msgstr "Реальное имя"
 
@@ -2412,7 +2501,7 @@ msgid "Reason Type"
 msgstr "Тип причины"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid "Reason:"
 msgstr "Причина:"
 
@@ -2422,35 +2511,45 @@ msgid "Received at least 3 upvote for an answer for the first time"
 msgstr "Получено 3 За голоса для ответа на первый раз"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
 msgid "Redirect to external link"
 msgstr "Перенаправление на внешнюю ссылку"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
+msgid "Refuse"
+msgstr "Отклонить"
+
+#. module: website_forum
+#: model_terms:forum.forum,welcome_message:website_forum.forum_help
+msgid "Register"
+msgstr "Регистрация"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Reject <i class=\"fa fa-times\"/>"
 msgstr "Отклонить <i class=\"fa fa-times\"/>"
 
 #. module: website_forum
 #: selection:forum.forum,default_order:0
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__relevancy
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Relevance"
 msgstr "Актуальность"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_forum_form
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_forum_form
 msgid "Relevance Computation"
 msgstr "Вычисление актуальности"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Reopen"
 msgstr "Возобновить"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answers
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Reply"
 msgstr "Ответить"
 
@@ -2460,8 +2559,14 @@ msgid "Reply to own question"
 msgstr "Ответ на свой вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.404
-#: model:ir.ui.view,arch_db:website_forum.private_profile
+#: model:ir.model.fields,help:website_forum.field_forum_forum__website_id
+#: model:ir.model.fields,help:website_forum.field_forum_post__website_id
+msgid "Restrict publishing to this website."
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.404
+#: model_terms:ir.ui.view,arch_db:website_forum.private_profile
 msgid "Return to the question list."
 msgstr "Вернуться к списку вопросов."
 
@@ -2471,7 +2576,14 @@ msgid "Reviewed by"
 msgstr "Отзыв от"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_post
+#: model:ir.model.fields,field_description:website_forum.field_forum_forum__is_seo_optimized
+#: model:ir.model.fields,field_description:website_forum.field_forum_post__is_seo_optimized
+#: model:ir.model.fields,field_description:website_forum.field_forum_tag__is_seo_optimized
+msgid "SEO optimized"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_post
 msgid "Save"
 msgstr "Сохранить"
 
@@ -2484,7 +2596,7 @@ msgid "Scholar"
 msgstr "Ученый"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Search in Post"
 msgstr "Искать в публикации"
 
@@ -2494,17 +2606,17 @@ msgid "Second Relevance Parameter"
 msgstr "Второй параметр релевантности"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_new_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_new_answer
 msgid "See post"
 msgstr "Просмотреть сообщение"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
 msgid "See question"
 msgstr "Смотрить вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Seen:"
 msgstr "Просмотрено:"
 
@@ -2524,7 +2636,12 @@ msgid "Self-Learner"
 msgstr "Самообучение"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answers
+msgid "Send answer"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid ""
 "Set a clear, explicit and concise question title\n"
 "                (check"
@@ -2538,12 +2655,12 @@ msgid "Settings / Gamification Tools"
 msgstr "Настройки / Геймофикационные инструменты"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Share"
 msgstr "Совместный доступ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
 msgid ""
 "Share an awesome link. Your post will appear in the 'Newest' top-menu.\n"
 "            If the community vote on your post, it will get traction by being promoted\n"
@@ -2568,6 +2685,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__allow_share
 msgid "Sharing Options"
 msgstr "Параметры общего доступа"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.badge
+#: model_terms:ir.ui.view,arch_db:website_forum.user_badges
+msgid "Silver badge"
+msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_res_users__silver_badge
@@ -2604,7 +2727,7 @@ msgstr ""
 "К сожалению, анонимные пользователи не могут выбрать правильный ответ."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.404
+#: model_terms:ir.ui.view,arch_db:website_forum.404
 msgid "Sorry, this question is not available anymore."
 msgstr "Извините, этот вопрос больше не доступен."
 
@@ -2616,12 +2739,12 @@ msgid "Sorry, you cannot vote for your own posts"
 msgstr "К сожалению вы не можете голосовать за свои собственные сообщения"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Sort by"
 msgstr "Сортировать по"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Stats"
 msgstr "Статистика"
 
@@ -2643,8 +2766,8 @@ msgid "Student"
 msgstr "Студент"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
-#: model:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
 msgid "Submit a Link"
 msgstr "Отправить ссылку"
 
@@ -2658,10 +2781,10 @@ msgstr "Помощник"
 
 #. module: website_forum
 #: model:ir.actions.act_window,name:website_forum.forum_tag_action
-#: model:ir.ui.menu,name:website_forum.menu_forum_tag
-#: model:ir.ui.view,arch_db:website_forum.forum_tag_view_form
-#: model:ir.ui.view,arch_db:website_forum.forum_tag_view_list
-#: model:ir.ui.view,arch_db:website_forum.view_forum_post_search
+#: model:ir.ui.menu,name:website_forum.menu_forum_tag_global
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_tag_view_form
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_tag_view_list
+#: model_terms:ir.ui.view,arch_db:website_forum.view_forum_post_search
 msgid "Tag"
 msgstr "Тег"
 
@@ -2672,13 +2795,13 @@ msgstr "Такой тег уже существует!"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__tag_ids
-#: model:ir.ui.view,arch_db:website_forum.edit_post
-#: model:ir.ui.view,arch_db:website_forum.forum_index
-#: model:ir.ui.view,arch_db:website_forum.header
-#: model:ir.ui.view,arch_db:website_forum.new_discussion
-#: model:ir.ui.view,arch_db:website_forum.new_link
-#: model:ir.ui.view,arch_db:website_forum.new_question
-#: model:ir.ui.view,arch_db:website_forum.tag
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_post
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.new_discussion
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.tag
 msgid "Tags"
 msgstr "Теги"
 
@@ -2712,23 +2835,23 @@ msgstr ""
 
 #. module: website_forum
 #. openerp-web
-#: code:addons/website_forum/static/src/xml/website_forum_share_templates.xml:9
+#: code:addons/website_forum/static/src/xml/website_forum_share_templates.xml:6
 #, python-format
 msgid "Thanks for posting!"
 msgstr "Спасибо за публикацию!"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "The"
-msgstr " "
+msgstr "Это"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.moderation_queue
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
 msgid "The flagged queue is empty."
 msgstr "Помечено очередь пуста."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
 "    questions related to Odoo."
@@ -2737,17 +2860,17 @@ msgstr ""
 "будут отвечать на вопросы, связанные с Odoo."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.moderation_queue
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
 msgid "The offensive queue is empty."
 msgstr "Наступление очередь пуста."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.moderation_queue
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
 msgid "The validation queue is empty."
 msgstr "Очередь проверки пуст."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "Therefore questions and answers can be edited like wiki pages by experienced users of\n"
 "    this site in order to improve the overall quality of the knowledge base content.\n"
@@ -2760,7 +2883,7 @@ msgstr ""
 "    как только ваша карма будет достаточно высокой."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "This community is for professional and enthusiast users,\n"
 "    partners and programmers. You can ask questions about:"
@@ -2771,6 +2894,7 @@ msgstr ""
 #. module: website_forum
 #: code:addons/website_forum/models/forum.py:51
 #: model:forum.forum,description:website_forum.forum_help
+#: model_terms:forum.forum,welcome_message:website_forum.forum_help
 #, python-format
 msgid ""
 "This community is for professionals and enthusiasts of our products and "
@@ -2793,13 +2917,13 @@ msgstr ""
 "является количество дней с момента создания публикации"
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:409
+#: code:addons/website_forum/models/forum.py:411
 #, python-format
 msgid "This forum does not allow %s"
 msgstr "Этот форум не позволяет %s"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "This forum has been archived."
 msgstr ""
 
@@ -2818,7 +2942,7 @@ msgid "This post is already flagged"
 msgstr "Этот пост уже помечен"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid ""
 "This post is currently awaiting moderation and not yet published... Do you "
 "want <i>Accept</i> or <i>Reject</i> this post ?"
@@ -2827,12 +2951,12 @@ msgstr ""
 "Вы хотите <i>Принять</i> или <i>Отклонить</i> этот пост?"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.private_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.private_profile
 msgid "This profile is private!"
 msgstr "Это приватный профиль!"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Threads"
 msgstr "Потоки"
 
@@ -2842,14 +2966,14 @@ msgid "Title"
 msgstr "Заголовок"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_post
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_post
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Title must not be empty"
 msgstr "Заголовок поста не может быть пустым"
 
 #. module: website_forum
-#: code:addons/website_forum/controllers/main.py:336
-#: code:addons/website_forum/controllers/main.py:407
+#: code:addons/website_forum/controllers/main.py:343
+#: code:addons/website_forum/controllers/main.py:414
 #, python-format
 msgid "Title should not be empty."
 msgstr "Заголовок не должен быть пустым."
@@ -2860,13 +2984,18 @@ msgid "To"
 msgstr "До"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "To prevent your question from being flagged and possibly removed, avoid asking\n"
 "    subjective questions where …"
 msgstr ""
 "Для предотвращения что бы вопрос был помечен и возможно удален, не задавайте\n"
-"     субъективные вопросы, где ..."
+"     субъективные вопросы, где …"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
+msgid "Toggle favorite status"
+msgstr ""
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__vote_count
@@ -2874,7 +3003,7 @@ msgid "Total Votes"
 msgstr "Итого голосов"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "Trending"
 msgstr "Тренды"
 
@@ -2894,12 +3023,12 @@ msgid "URL of Link Articles"
 msgstr "URL ссылки статей"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
 msgid "URL to Share"
 msgstr "URL поделиться"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "Unanswered"
 msgstr "Не отвечено"
 
@@ -2928,7 +3057,7 @@ msgid "Unread Messages Counter"
 msgstr "Счетчик непрочитанных сообщений"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Update"
 msgstr "Обновить"
 
@@ -2991,44 +3120,48 @@ msgstr ""
 "редактировать ответы и отмечать правильные."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_validation
+#: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
+msgid "Validate"
+msgstr "Проверить"
+
+#. module: website_forum
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_validation
 msgid "Validate question"
 msgstr "Проверить вопрос"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
 msgid "View"
 msgstr "Вид"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "View Your Badges"
 msgstr "Посмотреть ваши значки"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.display_post_question_block
+#: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
 msgid "Views"
 msgstr "Виды"
 
 #. module: website_forum
-#: model:ir.model,name:website_forum.model_forum_post_vote
 #: model:ir.model.fields,field_description:website_forum.field_forum_post_vote__vote
 msgid "Vote"
 msgstr "Голосовать"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__vote_ids
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "Votes"
 msgstr "Голоса"
 
 #. module: website_forum
 #: selection:forum.post,state:0
 msgid "Waiting Validation"
-msgstr "ожидает подтверждения"
+msgstr "Ожидает подтверждения"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "Waiting for validation"
 msgstr "Ожидание проверки"
 
@@ -3038,7 +3171,7 @@ msgid "Waiting post"
 msgstr "Ожидающая публикация"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
 msgid ""
 "We keep a high level of quality in showcased posts, around 20% of the submited\n"
 "            posts will be featured."
@@ -3047,7 +3180,9 @@ msgstr ""
 "             публикаций будут опубликованы."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.edit_profile
+#: model:ir.model.fields,field_description:website_forum.field_forum_forum__website_id
+#: model:ir.model.fields,field_description:website_forum.field_forum_post__website_id
+#: model_terms:ir.ui.view,arch_db:website_forum.edit_profile
 msgid "Website"
 msgstr "Вебсайт"
 
@@ -3092,27 +3227,39 @@ msgid "Website meta title"
 msgstr "Мета-название Веб-сайта"
 
 #. module: website_forum
+#: model:ir.model.fields,field_description:website_forum.field_forum_forum__website_meta_og_img
+#: model:ir.model.fields,field_description:website_forum.field_forum_post__website_meta_og_img
+#: model:ir.model.fields,field_description:website_forum.field_forum_tag__website_meta_og_img
+msgid "Website opengraph image"
+msgstr ""
+
+#. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__welcome_message
 msgid "Welcome Message"
 msgstr "Приветствующее сообщение"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,welcome_message:website_forum.forum_help
+msgid "Welcome!"
+msgstr ""
+
+#. module: website_forum
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "What kinds of questions can I ask here?"
 msgstr "Какие вопросы я могу задать здесь?"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "What should I avoid in my answers?"
 msgstr "Чего следует избегать в моих ответов?"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "What should I avoid in my questions?"
 msgstr "Чего следует избегать в моих вопросах?"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "When a question or answer is upvoted, the user who posted them will gain some\n"
 "    points, which are called \"karma points\". These points serve as a rough\n"
@@ -3130,12 +3277,12 @@ msgid "When clicking on the post, it redirects to an external link"
 msgstr "При нажатии на этот пост, он перенаправляет по внешней ссылке"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "Why can other people edit my questions/answers?"
 msgstr "Почему другие люди могут редактировать мои вопросы/ответы?"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid ""
 "You already have one pending post.<br/>\n"
 "            Please wait for a moderator to validate your previous post before continuing."
@@ -3144,31 +3291,31 @@ msgstr ""
 "            Пожалуйста, подождите модераторации, чтобы подтвердить свой предыдущий пост, прежде чем продолжить."
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:138
+#: code:addons/website_forum/models/forum.py:139
 #, python-format
 msgid ""
 "You cannot choose %s as default post since the forum does not allow it."
 msgstr "Вы не можете выбрать %s по умолчанию пост с форумом это не разрешено."
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:428
+#: code:addons/website_forum/models/forum.py:438
 #, python-format
 msgid "You cannot create recursive forum posts."
 msgstr ""
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answer
 msgid "You cannot post an empty answer"
 msgstr "Вы не можете отправить пустой ответ"
 
 #. module: website_forum
-#: code:addons/website_forum/models/forum.py:946
+#: code:addons/website_forum/models/forum.py:953
 #, python-format
 msgid "You don't have enough karma to create a new Tag."
 msgstr ""
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "You should only ask practical, answerable questions based\n"
 "    on actual problems that you face. Chatty, open-ended\n"
@@ -3181,42 +3328,42 @@ msgstr ""
 "    другие вопросы от первой страницы."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.post_answer
 msgid "Your Answer"
 msgstr "Ваш ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_discussion
+#: model_terms:ir.ui.view,arch_db:website_forum.new_discussion
 msgid "Your Discussion Title..."
 msgstr "Ваше название обсуждения..."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "Your Question Title..."
 msgstr "Ваш вопрос название..."
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_reply
+#: model_terms:ir.ui.view,arch_db:website_forum.post_reply
 msgid "Your Reply"
 msgstr "Ваш ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "accept any answer"
 msgstr "принять любой ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "and"
 msgstr "и"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.close_post
+#: model_terms:ir.ui.view,arch_db:website_forum.close_post
 msgid "back to post"
 msgstr "вернуться к записи"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "bad examples"
 msgstr "плохие примеры"
 
@@ -3226,37 +3373,37 @@ msgid "bronze"
 msgstr "бронза"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "by"
 msgstr "по"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "by activity date"
 msgstr "по дате активности"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "by most answered"
 msgstr "по большинству ответов"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "by most voted"
 msgstr "по большинству голосов"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "by newest"
 msgstr "по новым"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_index
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "by relevance"
 msgstr "по релевантности"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "close any posts"
 msgstr "закрыть все сообщения"
 
@@ -3266,22 +3413,22 @@ msgid "contains offensive or malicious remarks"
 msgstr "содержит оскорбительные или злобные замечания"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "delete any comment"
 msgstr "удалить любой комментарий"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "delete any question or answer"
 msgstr "удалите любой вопрос или ответ"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "delete own comment"
 msgstr "удалить собственный комментарий"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "downvote"
 msgstr "против"
 
@@ -3291,37 +3438,37 @@ msgid "duplicate post"
 msgstr "дублировать публикацию"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_link
+#: model_terms:ir.ui.view,arch_db:website_forum.new_link
 msgid "e.g. https://www.odoo.com"
 msgstr "например https://www.odoo.com"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "edit any post, view offensive flags"
 msgstr "редактировать любые публикации, просматривать оскорбительные флаги"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "every answer is equally valid: “What’s your favorite ______?”"
 msgstr "каждый ответ в равной степени относится: \"Какой ваш любимый ______?\""
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "flag offensive, close own questions"
 msgstr "флаг оскорбления, закрыть собственные вопросы"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "flagged"
 msgstr "помечено"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "follower(s)"
 msgstr "подписчик(и)"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "for reason:"
 msgstr "по причине:"
 
@@ -3331,17 +3478,17 @@ msgid "gold"
 msgstr "золото"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.new_question
 msgid "good examples"
 msgstr "хорошие примеры"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "has been closed"
 msgstr "был закрыт"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_validation
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_validation
 msgid ""
 "has been posted and require your validation. Click here to access the "
 "question :"
@@ -3350,12 +3497,12 @@ msgstr ""
 "доступ к вопросу:"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_new_answer
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_new_answer
 msgid "has been posted. Click here to access the post :"
 msgstr "был опубликован. Нажмите здесь, чтобы получить доступ к посту:"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
 msgid "has been posted. Click here to access the question :"
 msgstr "был опубликован. Нажмите здесь, чтобы получить доступ к вопросу:"
 
@@ -3367,18 +3514,18 @@ msgid "here"
 msgstr "здесь"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "how to configure or customize Odoo to specific business needs,"
 msgstr ""
 "как сконфигурировать или настроить Odoo для конкретных деловых потребностей,"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "how to develop modules for your own need,"
-msgstr "как разрабатывать модули для собственных нужд"
+msgstr "как разрабатывать модули для собственных нужд,"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "how to install Odoo on a specific infrastructure,"
 msgstr "как установить Odoo на конкретной инфраструктуре,"
 
@@ -3399,7 +3546,7 @@ msgid "inappropriate and unacceptable statements"
 msgstr "неуместно и неприемлемые заявления"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "insert text link, upload files"
 msgstr "вставьте текст ссылки, загрузить файлы"
 
@@ -3409,12 +3556,12 @@ msgid "insulting and offensive language"
 msgstr "оскорбление и оскорбительные язык"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "it is a rant disguised as a question: “______ sucks, am I right?”"
 msgstr "это громкие слова, замаскированный под вопрос: \"______ отстой, я прав?\""
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "karma"
 msgstr "карма"
 
@@ -3426,17 +3573,17 @@ msgid "karma points"
 msgstr "баллы кармы"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "last connection"
 msgstr "последнее подключение"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "location"
 msgstr "местоположение"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "member since"
 msgstr "участник с"
 
@@ -3456,10 +3603,10 @@ msgid "off-topic or not relevant"
 msgstr "не по теме или неактуальный"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
-#: model:ir.ui.view,arch_db:website_forum.forum_post_template_validation
-#: model:ir.ui.view,arch_db:website_forum.post_comment
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_new_question
+#: model_terms:ir.ui.view,arch_db:website_forum.forum_post_template_validation
+#: model_terms:ir.ui.view,arch_db:website_forum.post_comment
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "on"
 msgstr "на"
 
@@ -3475,7 +3622,7 @@ msgstr ""
 "       5 часов. Вопросы, делились на две социальные сети"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "post"
 msgstr "публикация"
 
@@ -3495,18 +3642,18 @@ msgid "spam or advertising"
 msgstr "спам или реклама"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "specific questions about Odoo service offers, etc."
 msgstr "конкретные вопросы о Odoo сервисных предложениях, и др."
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "there is no actual problem to be solved: “I’m curious if other people feel "
 "like I do.”"
 msgstr ""
-"нет никаких фактических проблем, чтобы решить: «Мне любопытно, если другие "
-"люди чувствуют себя, как я»."
+"нет никаких фактических проблем, чтобы решить: “Мне любопытно, если другие "
+"люди чувствуют себя, как я.”"
 
 #. module: website_forum
 #: model:forum.post.reason,name:website_forum.reason_14
@@ -3514,12 +3661,12 @@ msgid "threatening language"
 msgstr "ненормативный язык"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "time"
 msgstr "время"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "times"
 msgstr "раз"
 
@@ -3534,12 +3681,12 @@ msgid "too subjective and argumentative"
 msgstr "слишком субъективно и спорно"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "upvote, add comments"
 msgstr "проголосовать, добавить комментарий"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.post_description_full
+#: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
 msgid "views"
 msgstr "просмотры"
 
@@ -3549,17 +3696,17 @@ msgid "violent language"
 msgstr "брань"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "votes"
 msgstr "голосов"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.header
+#: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "waiting for validation"
 msgstr "ожидает подтверждения"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "we are being asked an open-ended, hypothetical question: “What if ______ "
 "happened?”"
@@ -3568,19 +3715,19 @@ msgstr ""
 "случилось?»"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.user_detail_full
+#: model_terms:ir.ui.view,arch_db:website_forum.user_detail_full
 msgid "website"
 msgstr "веб-сайт"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid "what's the best way to use Odoo for a specific business need,"
 msgstr ""
 "какой самый лучший способ использовать Odoo для определенной потребности "
 "бизнеса,"
 
 #. module: website_forum
-#: model:forum.forum,faq:website_forum.forum_help
+#: model_terms:forum.forum,faq:website_forum.forum_help
 msgid ""
 "your answer is provided along with the question, and you expect more "
 "answers: “I use ______ for ______, what do you use?”"
@@ -3589,6 +3736,6 @@ msgstr ""
 "«Я использую ______ для ______, что используете вы?»"
 
 #. module: website_forum
-#: model:ir.ui.view,arch_db:website_forum.faq
+#: model_terms:ir.ui.view,arch_db:website_forum.faq
 msgid "your biography can be seen as tooltip"
 msgstr "ваша биография может быть показана, как всплывающая подсказка"

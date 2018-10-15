@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class SaleReport(models.Model):
     _name = "sale.report"
-    _description = "Sales Orders Statistics"
+    _description = "Sales Analysis Report"
     _auto = False
     _rec_name = 'date'
     _order = 'date desc'
@@ -15,7 +15,7 @@ class SaleReport(models.Model):
     name = fields.Char('Order Reference', readonly=True)
     date = fields.Datetime('Order Date', readonly=True)
     confirmation_date = fields.Datetime('Confirmation Date', readonly=True)
-    product_id = fields.Many2one('product.product', 'Product', readonly=True)
+    product_id = fields.Many2one('product.product', 'Product Variant', readonly=True)
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', readonly=True)
     product_uom_qty = fields.Float('Qty Ordered', readonly=True)
     qty_delivered = fields.Float('Qty Delivered', readonly=True)
@@ -28,14 +28,14 @@ class SaleReport(models.Model):
     price_subtotal = fields.Float('Untaxed Total', readonly=True)
     untaxed_amount_to_invoice = fields.Float('Untaxed Amount To Invoice', readonly=True)
     untaxed_amount_invoiced = fields.Float('Untaxed Amount Invoiced', readonly=True)
-    product_tmpl_id = fields.Many2one('product.template', 'Product Template', readonly=True)
+    product_tmpl_id = fields.Many2one('product.template', 'Product', readonly=True)
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
     nbr = fields.Integer('# of Lines', readonly=True)
     pricelist_id = fields.Many2one('product.pricelist', 'Pricelist', readonly=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True)
     team_id = fields.Many2one('crm.team', 'Sales Team', readonly=True, oldname='section_id')
     country_id = fields.Many2one('res.country', 'Customer Country', readonly=True)
-    commercial_partner_id = fields.Many2one('res.partner', 'Commercial Entity', readonly=True)
+    commercial_partner_id = fields.Many2one('res.partner', 'Customer Entity', readonly=True)
     state = fields.Selection([
         ('draft', 'Draft Quotation'),
         ('sent', 'Quotation Sent'),
@@ -49,10 +49,10 @@ class SaleReport(models.Model):
     discount = fields.Float('Discount %', readonly=True)
     discount_amount = fields.Float('Discount Amount', readonly=True)
 
-    order_id = fields.Integer('Order ID', readonly=True)
+    order_id = fields.Many2one('sale.order', 'Order #', readonly=True)
 
     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
-        with_ = """currency_rate as (%s) %s""" % (self.env['res.currency']._select_companies_rates(), with_clause)
+        with_ = ("WITH %s" % with_clause) if with_clause else ""
 
         select_ = """
             min(l.id) as id,
@@ -62,10 +62,10 @@ class SaleReport(models.Model):
             sum(l.qty_delivered / u.factor * u2.factor) as qty_delivered,
             sum(l.qty_invoiced / u.factor * u2.factor) as qty_invoiced,
             sum(l.qty_to_invoice / u.factor * u2.factor) as qty_to_invoice,
-            sum(l.price_total / COALESCE(cr.rate, 1.0)) as price_total,
-            sum(l.price_subtotal / COALESCE(cr.rate, 1.0)) as price_subtotal,
-            sum(l.untaxed_amount_to_invoice / COALESCE(cr.rate, 1.0)) as untaxed_amount_to_invoice,
-            sum(l.untaxed_amount_invoiced / COALESCE(cr.rate, 1.0)) as untaxed_amount_invoiced,
+            sum(l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) as price_total,
+            sum(l.price_subtotal / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) as price_subtotal,
+            sum(l.untaxed_amount_to_invoice / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) as untaxed_amount_to_invoice,
+            sum(l.untaxed_amount_invoiced / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) as untaxed_amount_invoiced,
             count(*) as nbr,
             s.name as name,
             s.date_order as date,
@@ -85,7 +85,7 @@ class SaleReport(models.Model):
             sum(p.weight * l.product_uom_qty / u.factor * u2.factor) as weight,
             sum(p.volume * l.product_uom_qty / u.factor * u2.factor) as volume,
             l.discount as discount,
-            sum((l.price_unit * l.discount / 100.0 / COALESCE(cr.rate, 1.0))) as discount_amount,
+            sum((l.price_unit * l.discount / 100.0 / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)) as discount_amount,
             s.id as order_id
         """
 
@@ -101,10 +101,6 @@ class SaleReport(models.Model):
                     left join uom_uom u on (u.id=l.product_uom)
                     left join uom_uom u2 on (u2.id=t.uom_id)
                     left join product_pricelist pp on (s.pricelist_id = pp.id)
-                    left join currency_rate cr on (cr.currency_id = pp.currency_id and
-                        cr.company_id = s.company_id and
-                        cr.date_start <= coalesce(s.date_order, now()) and
-                        (cr.date_end is null or cr.date_end > coalesce(s.date_order, now())))
                 %s
         """ % from_clause
 
@@ -130,7 +126,7 @@ class SaleReport(models.Model):
             s.id %s
         """ % (groupby)
 
-        return 'WITH %s (SELECT %s FROM %s WHERE l.product_id IS NOT NULL GROUP BY %s)' % (with_, select_, from_, groupby_)
+        return '%s (SELECT %s FROM %s WHERE l.product_id IS NOT NULL GROUP BY %s)' % (with_, select_, from_, groupby_)
 
     @api.model_cr
     def init(self):
@@ -140,6 +136,7 @@ class SaleReport(models.Model):
 
 class SaleOrderReportProforma(models.AbstractModel):
     _name = 'report.sale.report_saleproforma'
+    _description = 'Proforma Report'
 
     @api.multi
     def _get_report_values(self, docids, data=None):

@@ -340,7 +340,9 @@ ActionManager.include({
                 action.controllerID = controller.jsID;
                 return self._executeAction(action, options).done(function () {
                     if (lazyLoadedController) {
-                        self.controllerStack.unshift(lazyLoadedController.jsID);
+                        // controller should be placed just before the current one
+                        var index = self.controllerStack.length - 1;
+                        self.controllerStack.splice(index, 0, lazyLoadedController.jsID);
                         self.controlPanel.update({
                             breadcrumbs: self._getBreadcrumbs(),
                         }, {clear: false});
@@ -429,6 +431,7 @@ ActionManager.include({
             if (View) {
                 views.push({
                     accessKey: View.prototype.accessKey || View.prototype.accesskey,
+                    displayName: View.prototype.display_name,
                     fieldsView: fieldsView,
                     icon: View.prototype.icon,
                     isMobileFriendly: View.prototype.mobile_friendly,
@@ -528,15 +531,22 @@ ActionManager.include({
             group_by_seq: groupbys || [],
             eval_context: this.userContext,
         });
+        var groupBy = results.group_by.length ?
+                        results.group_by :
+                        (action.context.group_by || []);
+        groupBy = (typeof groupBy === 'string') ? [groupBy] : groupBy;
+
         if (results.error) {
             throw new Error(_.str.sprintf(_t("Failed to evaluate search criterions")+": \n%s",
                             JSON.stringify(results.error)));
         }
-        var groupBy = results.group_by.length ? results.group_by : (action.context.group_by || []);
+
+        var context = _.omit(results.context, 'time_ranges');
+
         return {
-            context: results.context,
+            context: context,
             domain: results.domain,
-            groupBy: (typeof groupBy === 'string') ? [groupBy] : groupBy,
+            groupBy: groupBy,
         };
     },
     /**
@@ -708,7 +718,7 @@ ActionManager.include({
 
         // determine the action to execute according to the actionData
         if (actionData.special) {
-            def = $.when({type: 'ir.actions.act_window_close'});
+            def = $.when({type: 'ir.actions.act_window_close', infos: 'special'});
         } else if (actionData.type === 'object') {
             // call a Python Object method, which may return an action to execute
             var args = recordID ? [[recordID]] : [env.resIDs];

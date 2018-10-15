@@ -26,6 +26,14 @@ class AccountAccountType(models.Model):
         help="The 'Internal Type' is used for features available on "\
         "different types of accounts: liquidity type is for cash or bank accounts"\
         ", payable/receivable is for vendor/customer accounts.")
+    internal_group = fields.Selection([
+        ('equity', 'Equity'),
+        ('asset', 'Asset'),
+        ('liability', 'Liability'),
+        ('income', 'Income'),
+        ('expense', 'Expense'),
+    ], string="Internal Group",
+       help="The 'Internal Group' is used to filter accounts based on the internal group set on the account type.")
     note = fields.Text(string='Description')
 
 
@@ -70,6 +78,7 @@ class AccountAccount(models.Model):
     user_type_id = fields.Many2one('account.account.type', string='Type', required=True, oldname="user_type",
         help="Account Type is used for information purpose, to generate country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
     internal_type = fields.Selection(related='user_type_id.type', string="Internal Type", store=True, readonly=True)
+    internal_group = fields.Selection(related='user_type_id.internal_group', string="Internal Group", store=True, readonly=True)
     #has_unreconciled_entries = fields.Boolean(compute='_compute_has_unreconciled_entries',
     #    help="The account has at least one unreconciled debit and credit since last time the invoices & payments matching was performed.")
     last_time_entries_checked = fields.Datetime(string='Latest Invoices & Payments Matching Date', readonly=True, copy=False,
@@ -194,6 +203,8 @@ class AccountAccount(models.Model):
     @api.onchange('internal_type')
     def onchange_internal_type(self):
         self.reconcile = self.internal_type in ('receivable', 'payable')
+        if self.internal_type == 'liquidity':
+            self.reconcile = False
 
     @api.onchange('code')
     def onchange_code(self):
@@ -224,7 +235,18 @@ class AccountAccount(models.Model):
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
         default = dict(default or {})
-        default.setdefault('code', _("%s (copy)") % (self.code or ''))
+        if default.get('code', False):
+            return super(AccountAccount, self).copy(default)
+        try:
+            default['code'] = (str(int(self.code) + 10) or '')
+            default.setdefault('name', _("%s (copy)") % (self.name or ''))
+            while self.env['account.account'].search([('code', '=', default['code']),
+                                                      ('company_id', '=', default.get('company_id', False) or self.company_id.id)], limit=1):
+                default['code'] = (str(int(default['code']) + 10) or '')
+                default['name'] = _("%s (copy)") % (self.name or '')
+        except ValueError:
+            default['code'] = _("%s (copy)") % (self.code or '')
+            default['name'] = self.name
         return super(AccountAccount, self).copy(default)
 
     @api.model
@@ -291,6 +313,12 @@ class AccountAccount(models.Model):
                 self.filtered(lambda r: not r.reconcile)._toggle_reconcile_to_true()
             else:
                 self.filtered(lambda r: r.reconcile)._toggle_reconcile_to_false()
+
+        if vals.get('currency_id'):
+            for account in self:
+                if self.env['account.move.line'].search_count([('account_id', '=', account.id), ('currency_id', 'not in', (False, vals['currency_id']))]):
+                    raise UserError(_('You cannot set a currency on this account as it already has some journal entries having a different foreign currency.'))
+
         return super(AccountAccount, self).write(vals)
 
     @api.multi
@@ -327,6 +355,7 @@ class AccountAccount(models.Model):
 
 class AccountGroup(models.Model):
     _name = "account.group"
+    _description = 'Account Group'
     _parent_store = True
     _order = 'code_prefix'
 
@@ -438,13 +467,14 @@ class AccountJournal(models.Model):
     company_partner_id = fields.Many2one('res.partner', related='company_id.partner_id', string='Account Holder', readonly=True, store=False)
     bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", ondelete='restrict', copy=False, domain="[('partner_id','=', company_partner_id)]")
     bank_statements_source = fields.Selection(selection=_get_bank_statements_available_sources, string='Bank Feeds', default='undefined', help="Defines how the bank statements will be registered")
-    bank_acc_number = fields.Char(related='bank_account_id.acc_number')
-    bank_id = fields.Many2one('res.bank', related='bank_account_id.bank_id')
+    bank_acc_number = fields.Char(related='bank_account_id.acc_number', readonly=False)
+    bank_id = fields.Many2one('res.bank', related='bank_account_id.bank_id', readonly=False)
+    post_at_bank_rec = fields.Boolean(string="Post At Bank Reconciliation", help="Whether or not the payments made in this journal should be generated in draft state, so that the related journal entries are only posted when performing bank reconciliation.")
 
     # alias configuration for 'purchase' type journals
     alias_id = fields.Many2one('mail.alias', string='Alias')
     alias_domain = fields.Char('Alias domain', compute='_compute_alias_domain', default=lambda self: self.env["ir.config_parameter"].sudo().get_param("mail.catchall.domain"))
-    alias_name = fields.Char('Alias Name for Vendor Bills', related='alias_id.alias_name', help="It creates draft vendor bill by sending an email.")
+    alias_name = fields.Char('Alias Name for Vendor Bills', related='alias_id.alias_name', help="It creates draft vendor bill by sending an email.", readonly=False)
 
     _sql_constraints = [
         ('code_company_uniq', 'unique (code, name, company_id)', 'The code and name of the journal must be unique per company !'),
@@ -634,6 +664,12 @@ class AccountJournal(models.Model):
                     'refund_sequence_number_next': vals.get('refund_sequence_number_next', journal.refund_sequence_number_next),
                 }
                 journal.refund_sequence_id = self.sudo()._create_sequence(journal_vals, refund=True).id
+        # Changing the 'post_at_bank_rec' option will post the draft payment moves and change the related invoices' state.
+        if 'post_at_bank_rec' in vals and not vals['post_at_bank_rec']:
+            draft_moves = self.env['account.move'].search([('journal_id', '=', self.id), ('state', '=', 'draft')])
+            pending_payments = draft_moves.mapped('line_ids.payment_id')
+            pending_payments.mapped('move_line_ids.move_id').post()
+            pending_payments.mapped('reconciled_invoice_ids').filtered(lambda x: x.state == 'in_payment').write({'state': 'paid'})
         return result
 
     @api.model
@@ -647,8 +683,9 @@ class AccountJournal(models.Model):
     def _create_sequence(self, vals, refund=False):
         """ Create new no_gap entry sequence for every new Journal"""
         prefix = self._get_sequence_prefix(vals['code'], refund)
+        seq_name = refund and vals['code'] + _(': Refund') or vals['code']
         seq = {
-            'name': refund and vals['name'] + _(': Refund') or vals['name'],
+            'name': _('%s Sequence') % seq_name,
             'implementation': 'no_gap',
             'prefix': prefix,
             'padding': 4,
@@ -823,6 +860,7 @@ class ResPartnerBank(models.Model):
 
 class AccountTaxGroup(models.Model):
     _name = 'account.tax.group'
+    _description = 'Tax Group'
     _order = 'sequence asc'
 
     name = fields.Char(required=True, translate=True)
@@ -837,7 +875,7 @@ class AccountTax(models.Model):
     def _default_tax_group(self):
         return self.env['account.tax.group'].search([], limit=1)
 
-    name = fields.Char(string='Tax Name', required=True, translate=True)
+    name = fields.Char(string='Tax Name', required=True)
     type_tax_use = fields.Selection([('sale', 'Sales'), ('purchase', 'Purchases'), ('none', 'None'), ('adjustment', 'Adjustment')], string='Tax Scope', required=True, default="sale",
         help="Determines where the tax is selectable. Note : 'None' means a tax can't be used by itself, however it can still be used in a group. 'adjustment' is used to perform tax adjustment.")
     amount_type = fields.Selection(default='percent', string="Tax Computation", required=True, oldname='type',
@@ -852,7 +890,7 @@ class AccountTax(models.Model):
         help="Account that will be set on invoice tax lines for invoices. Leave empty to use the expense account.", oldname='account_collected_id')
     refund_account_id = fields.Many2one('account.account', domain=[('deprecated', '=', False)], string='Tax Account on Credit Notes', ondelete='restrict',
         help="Account that will be set on invoice tax lines for credit notes. Leave empty to use the expense account.", oldname='account_paid_id')
-    description = fields.Char(string='Label on Invoices', translate=True)
+    description = fields.Char(string='Label on Invoices')
     price_include = fields.Boolean(string='Included in Price', default=False,
         help="Check this if the price you use on the product and invoices includes this tax.")
     include_base_amount = fields.Boolean(string='Affect Base of Subsequent Taxes', default=False,
@@ -1100,6 +1138,7 @@ class AccountTax(models.Model):
                 'refund_account_id': tax.refund_account_id.id,
                 'analytic': tax.analytic,
                 'price_include': tax.price_include,
+                'tax_exigibility': tax.tax_exigibility,
             })
 
         return {
@@ -1125,63 +1164,3 @@ class AccountTax(models.Model):
             prod_taxes = prod_taxes.filtered(lambda tax: tax.company_id == company_id)
             line_taxes = line_taxes.filtered(lambda tax: tax.company_id == company_id)
         return self._fix_tax_included_price(price, prod_taxes, line_taxes)
-
-
-class AccountReconcileModel(models.Model):
-    _name = "account.reconcile.model"
-    _description = "Preset to create journal entries during a invoices and payments matching"
-
-    name = fields.Char(string='Button Label', required=True)
-    sequence = fields.Integer(required=True, default=10)
-    has_second_line = fields.Boolean(string='Add a second line', default=False)
-    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
-
-    account_id = fields.Many2one('account.account', string='Account', ondelete='cascade', domain=[('deprecated', '=', False)])
-    journal_id = fields.Many2one('account.journal', string='Journal', ondelete='cascade', help="This field is ignored in a bank statement reconciliation.")
-    label = fields.Char(string='Journal Item Label')
-    amount_type = fields.Selection([
-        ('fixed', 'Fixed'),
-        ('percentage', 'Percentage of balance')
-        ], required=True, default='percentage')
-    is_tax_price_included = fields.Boolean(string='Is Tax Included in Price', related='tax_id.price_include',
-        help='Technical field used inside the view to make the force_tax_included field readonly if the tax is already price included.')
-    tax_amount_type = fields.Selection(string='Tax Amount Type', related='tax_id.amount_type',
-        help='Technical field used inside the view to make the force_tax_included field invisible if the tax is a group.')
-    force_tax_included = fields.Boolean(string='Tax Included in Price',
-        help='Force the tax to be managed as a price included tax.')
-    amount = fields.Float(digits=0, required=True, default=100.0, help="Fixed amount will count as a debit if it is negative, as a credit if it is positive.")
-    tax_id = fields.Many2one('account.tax', string='Tax', ondelete='restrict')
-    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', ondelete='set null')
-    analytic_tag_ids = fields.Many2many('account.analytic.tag', string='Analytic Tags')
-
-    second_account_id = fields.Many2one('account.account', string='Second Account', ondelete='cascade', domain=[('deprecated', '=', False)])
-    second_journal_id = fields.Many2one('account.journal', string='Second Journal', ondelete='cascade', help="This field is ignored in a bank statement reconciliation.")
-    second_label = fields.Char(string='Second Journal Item Label')
-    second_amount_type = fields.Selection([
-        ('fixed', 'Fixed'),
-        ('percentage', 'Percentage of amount')
-        ], string="Second Amount type",required=True, default='percentage')
-    is_second_tax_price_included = fields.Boolean(string='Is Second Tax Included in Price', related='second_tax_id.price_include',
-        help='Technical field used inside the view to make the force_second_tax_included field readonly if the tax is already price included.')
-    second_tax_amount_type = fields.Selection(string='Second Tax Amount Type', related='second_tax_id.amount_type',
-        help='Technical field used inside the view to make the force_second_tax_included field invisible if the tax is a group.')
-    force_second_tax_included = fields.Boolean(string='Second Tax Included in Price',
-        help='Force the second tax to be managed as a price included tax.')
-    second_amount = fields.Float(string='Second Amount', digits=0, required=True, default=100.0, help="Fixed amount will count as a debit if it is negative, as a credit if it is positive.")
-    second_tax_id = fields.Many2one('account.tax', string='Second Tax', ondelete='restrict', domain=[('type_tax_use', '=', 'purchase')])
-    second_analytic_account_id = fields.Many2one('account.analytic.account', string='Second Analytic Account', ondelete='set null')
-    second_analytic_tag_ids = fields.Many2many('account.analytic.tag', string='Second Analytic Tags')
-
-    @api.onchange('name')
-    def onchange_name(self):
-        self.label = self.name
-
-    @api.onchange('tax_id')
-    def _onchange_tax_id(self):
-        if self.tax_id:
-            self.force_tax_included = self.tax_id.price_include
-
-    @api.onchange('second_tax_id')
-    def _onchange_second_tax_id(self):
-        if self.second_tax_id:
-            self.force_second_tax_included = self.second_tax_id.price_include

@@ -162,6 +162,7 @@ var MrpBomReport = stock_report_generic.extend({
         $(ev.currentTarget).toggleClass('o_mrp_bom_foldable o_mrp_bom_unfoldable fa-caret-right fa-caret-down');
     },
     _onClickAction: function (ev) {
+        ev.preventDefault();
         return this.do_action({
             type: 'ir.actions.act_window',
             res_model: $(ev.currentTarget).data('model'),
@@ -171,6 +172,7 @@ var MrpBomReport = stock_report_generic.extend({
         });
     },
     _onClickShowAttachment: function (ev) {
+        ev.preventDefault();
         var ids = $(ev.currentTarget).data('res-id');
         return this.do_action({
             name: _t('Attachments'),

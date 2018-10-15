@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from datetime import date
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
@@ -11,6 +10,7 @@ from odoo.exceptions import UserError, ValidationError
 class ServerActions(models.Model):
     """ Add email option in server actions. """
     _name = 'ir.actions.server'
+    _description = 'Server Action'
     _inherit = ['ir.actions.server']
 
     state = fields.Selection(selection_add=[
@@ -81,7 +81,11 @@ class ServerActions(models.Model):
         # TDE CLEANME: when going to new api with server action, remove action
         if not action.template_id or not self._context.get('active_id'):
             return False
-        action.template_id.send_mail(self._context.get('active_id'), force_send=False, raise_exception=False)
+        # Clean context from default_type to avoid making attachment
+        # with wrong values in subsequent operations
+        cleaned_ctx = dict(self.env.context)
+        cleaned_ctx.pop('default_type', None)
+        action.template_id.with_context(cleaned_ctx).send_mail(self._context.get('active_id'), force_send=False, raise_exception=False)
         return False
 
     @api.model
@@ -96,7 +100,7 @@ class ServerActions(models.Model):
             'activity_type_id': action.activity_type_id.id,
         }
         if action.activity_date_deadline_range > 0:
-            vals['date_deadline'] = date.today() + relativedelta(**{action.activity_date_deadline_range_type: action.activity_date_deadline_range})
+            vals['date_deadline'] = fields.Date.context_today(action) + relativedelta(**{action.activity_date_deadline_range_type: action.activity_date_deadline_range})
         for record in records:
             if action.activity_user_type == 'specific':
                 user = action.activity_user_id

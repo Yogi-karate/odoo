@@ -201,14 +201,15 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def write(self, values):
-        lines = False
+        lines = self.env['sale.order.line']
         if 'product_uom_qty' in values:
             precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
             lines = self.filtered(
                 lambda r: r.state == 'sale' and not r.is_expense and float_compare(r.product_uom_qty, values['product_uom_qty'], precision_digits=precision) == -1)
+        previous_product_uom_qty = {line.id: line.product_uom_qty for line in lines}
         res = super(SaleOrderLine, self).write(values)
         if lines:
-            lines._action_launch_stock_rule()
+            lines.with_context(previous_product_uom_qty=previous_product_uom_qty)._action_launch_stock_rule()
         return res
 
     @api.depends('order_id.state')
@@ -257,13 +258,16 @@ class SaleOrderLine(models.Model):
             return {}
         if self.product_id.type == 'product':
             precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-            product = self.product_id.with_context(warehouse=self.order_id.warehouse_id.id)
+            product = self.product_id.with_context(
+                warehouse=self.order_id.warehouse_id.id,
+                lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US'
+            )
             product_qty = self.product_uom._compute_quantity(self.product_uom_qty, self.product_id.uom_id)
             if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
                 is_available = self._check_routing()
                 if not is_available:
-                    message =  _('You plan to sell %s %s but you only have %s %s available in %s warehouse.') % \
-                            (self.product_uom_qty, self.product_uom.name, product.virtual_available, product.uom_id.name, self.order_id.warehouse_id.name)
+                    message =  _('You plan to sell %s %s of %s but you only have %s %s available in %s warehouse.') % \
+                            (self.product_uom_qty, self.product_uom.name, self.product_id.name, product.virtual_available, product.uom_id.name, self.order_id.warehouse_id.name)
                     # We check if some products are available in other warehouses.
                     if float_compare(product.virtual_available, self.product_id.virtual_available, precision_digits=precision) == -1:
                         message += _('\nThere are %s %s available across all warehouses.\n\n') % \
@@ -310,7 +314,7 @@ class SaleOrderLine(models.Model):
             'date_planned': date_planned,
             'route_ids': self.route_id,
             'warehouse_id': self.order_id.warehouse_id or False,
-            'partner_dest_id': self.order_id.partner_shipping_id
+            'partner_id': self.order_id.partner_shipping_id.id,
         })
         for line in self.filtered("order_id.commitment_date"):
             date_planned = fields.Datetime.from_string(line.order_id.commitment_date) - timedelta(days=line.order_id.company_id.security_lead)
@@ -318,6 +322,13 @@ class SaleOrderLine(models.Model):
                 'date_planned': fields.Datetime.to_string(date_planned),
             })
         return values
+
+    def _get_qty_procurement(self):
+        self.ensure_one()
+        qty = 0.0
+        for move in self.move_ids.filtered(lambda r: r.state != 'cancel'):
+            qty += move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method='HALF-UP')
+        return qty
 
     @api.multi
     def _action_launch_stock_rule(self):
@@ -331,9 +342,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             if line.state != 'sale' or not line.product_id.type in ('consu','product'):
                 continue
-            qty = 0.0
-            for move in line.move_ids.filtered(lambda r: r.state != 'cancel'):
-                qty += move.product_uom._compute_quantity(move.product_uom_qty, line.product_uom, rounding_method='HALF-UP')
+            qty = line._get_qty_procurement()
             if float_compare(qty, line.product_uom_qty, precision_digits=precision) >= 0:
                 continue
 
@@ -406,7 +415,7 @@ class SaleOrderLine(models.Model):
         else:
             mto_route = False
             try:
-                mto_route = self.env['stock.warehouse']._get_mto_route()
+                mto_route = self.env['stock.warehouse']._find_global_route('stock.route_warehouse0_mto', 'Make To Order')
             except UserError:
                 # if route MTO not found in ir_model_data, we treat the product as in MTS
                 pass

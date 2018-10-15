@@ -8,6 +8,7 @@ from operator import itemgetter
 
 class StockPackageLevel(models.Model):
     _name = 'stock.package_level'
+    _description = 'Stock Package Level'
 
     package_id = fields.Many2one('stock.quant.package', 'Package', required=True)
     picking_id = fields.Many2one('stock.picking', 'Picking')
@@ -26,7 +27,7 @@ class StockPackageLevel(models.Model):
     ],string='State', compute='_compute_state')
     is_fresh_package = fields.Boolean(compute='_compute_fresh_pack')
 
-    picking_source_location = fields.Many2one('stock.location', related='picking_id.location_id')
+    picking_source_location = fields.Many2one('stock.location', related='picking_id.location_id', readonly=False)
     show_lots_m2o = fields.Boolean(compute='_compute_show_lot')
     show_lots_text = fields.Boolean(compute='_compute_show_lot')
 
@@ -126,6 +127,7 @@ class StockPackageLevel(models.Model):
                         'package_level_id': package_level.id,
                     })
 
+    @api.model
     def create(self, vals):
         result = super(StockPackageLevel, self).create(vals)
         if vals.get('location_dest_id'):

@@ -1,17 +1,18 @@
 odoo.define('web.datepicker', function (require) {
 "use strict";
 
+var core = require('web.core');
 var field_utils = require('web.field_utils');
 var time = require('web.time');
 var Widget = require('web.Widget');
+
+var _t = core._t;
 
 var DateWidget = Widget.extend({
     template: "web.datepicker",
     type_of_date: "date",
     events: {
         'change.datetimepicker': 'changeDatetime',
-        'show.datetimepicker': '_onShow',
-        'click input.o_datepicker_input': '_onClick',
         'change .o_datepicker_input': 'changeDatetime',
         'input input': '_onInput',
     },
@@ -48,27 +49,26 @@ var DateWidget = Widget.extend({
             keyBinds: null,
             allowInputToggle: true,
         }, options || {});
+
+        this.__libInput = 0;
     },
     /**
      * @override
      */
     start: function () {
         this.$input = this.$('input.o_datepicker_input');
-        this.$input.focus(function (e) {
-            e.stopImmediatePropagation();
-        });
-        this.__libInput = true;
-        this.$input.datetimepicker(this.options);
-        this.__libInput = false;
+        this.__libInput++;
+        this.$el.datetimepicker(this.options);
+        this.__libInput--;
         this._setReadonly(false);
     },
     /**
      * @override
      */
     destroy: function () {
-        this.__libInput = true;
-        this.$input.datetimepicker('destroy');
-        this.__libInput = false;
+        this.__libInput++;
+        this.$el.datetimepicker('destroy');
+        this.__libInput--;
         this._super.apply(this, arguments);
     },
 
@@ -95,9 +95,22 @@ var DateWidget = Widget.extend({
             if (hasChanged) {
                 // The condition is strangely written; this is because the
                 // values can be false/undefined
+                if (this.options.warn_future) {
+                    this._warnFuture(newValue);
+                }
                 this.trigger("datetime_changed");
             }
         }
+    },
+    /**
+     * Focuses the datepicker input. This function must be called in order to
+     * prevent 'input' events triggered by the lib to bubble up, and to cause
+     * unwanted effects (like triggering 'field_changed' events)
+     */
+    focus: function () {
+        this.__libInput++;
+        this.$input.focus();
+        this.__libInput--;
     },
     /**
      * @returns {Moment|false}
@@ -123,20 +136,58 @@ var DateWidget = Widget.extend({
         }
     },
     /**
+     * @returns {Moment|false} value
+     */
+    maxDate: function (date) {
+        this.__libInput++;
+        this.$el.datetimepicker('maxDate', date || null);
+        this.__libInput--;
+    },
+    /**
+     * @returns {Moment|false} value
+     */
+    minDate: function (date) {
+        this.__libInput++;
+        this.$el.datetimepicker('minDate', date || null);
+        this.__libInput--;
+    },
+    /**
      * @param {Moment|false} value
      */
     setValue: function (value) {
         this.set({'value': value});
         var formatted_value = value ? this._formatClient(value) : null;
         this.$input.val(formatted_value);
-        this.__libInput = true;
-        this.$input.datetimepicker('date', value || null);
-        this.__libInput = false;
+        this.__libInput++;
+        this.$el.datetimepicker('date', value || null);
+        this.__libInput--;
     },
 
     //--------------------------------------------------------------------------
     // Private
     //--------------------------------------------------------------------------
+
+    /**
+     * add a warning to communicate that a date in the future has been set
+     *
+     * @private
+     * @param {Moment} currentDate
+     */
+    _warnFuture: function (currentDate) {
+        if (!this.$warning) {
+            this.$warning = $('<span>', {
+                class: 'fa fa-exclamation-triangle o_tz_warning o_datepicker_warning',
+            });
+            var title = _t("This date is on the future. Make sure it is what you expected.");
+            this.$warning.attr('title', title);
+            this.$input.after(this.$warning);
+        }
+        if (currentDate.isAfter(moment())) {
+            this.$warning.show();
+        } else {
+            this.$warning.hide();
+        }
+    },
 
     /**
      * @private
@@ -177,36 +228,16 @@ var DateWidget = Widget.extend({
     //--------------------------------------------------------------------------
 
     /**
-     * @private
-     */
-    _onClick: function () {
-        this.__libInput = true;
-        this.$input.datetimepicker('toggle');
-        this.__libInput = false;
-    },
-    /**
+     * Prevents 'input' events triggered by the library to bubble up, as they
+     * might have unwanted effects (like triggering 'field_changed' events in
+     * the context of field widgets)
+     *
      * @private
      * @param {Event} ev
      */
     _onInput: function (ev) {
-        if (this.__libInput) {
+        if (this.__libInput > 0) {
             ev.stopImmediatePropagation();
-        }
-    },
-    /**
-     * set the date of the picker by the current date or the today date
-     *
-     * @private
-     */
-    _onShow: function () {
-        //when opening datetimepicker the date and time by default should be the one from
-        //the input field if any or the current day otherwise
-        if (this.$input.val().length !== 0 && this.isValid()) {
-            var value = this._parseClient(this.$input.val());
-            this.__libInput = true;
-            this.$input.datetimepicker('date', value);
-            this.__libInput = false;
-            this.$input.select();
         }
     },
 });

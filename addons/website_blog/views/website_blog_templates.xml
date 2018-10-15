@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+<template id="_assets_primary_variables" inherit_id="web._assets_primary_variables">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website_blog/static/src/scss/primary_variables.scss"/>
+    </xpath>
+</template>
+
 <template id="assets_editor" inherit_id="website.assets_editor" name="Blog Editor">
     <xpath expr="." position="inside">
         <script type="text/javascript" src="/website_blog/static/src/js/website_blog.editor.js"></script>
+        <script type="text/javascript" src="/website_blog/static/src/js/s_latest_posts_editor.js"/>
         <script type="text/javascript" src="/website_blog/static/src/js/website.tour.blog.js"></script>
     </xpath>
 </template>
@@ -14,6 +21,7 @@
 
         <script type="text/javascript" src="/website_blog/static/src/js/contentshare.js"/>
         <script type="text/javascript" src="/website_blog/static/src/js/website_blog.js"/>
+        <script type="text/javascript" src="/website_blog/static/src/js/s_latest_posts_frontend.js"/>
     </xpath>
 </template>
 
@@ -21,7 +29,7 @@
 <template id="latest_blogs" name="Latest Blogs">
     <t t-call="website.layout">
         <div id="wrap">
-            <div class="oe_structure"/>
+            <div class="oe_structure" id="oe_structure_website_blog_latest_blogs_1"/>
             <section class="container">
                 <div class="alert alert-warning alert-dismissable mt16" groups="website.group_website_publisher" role="status">
                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
@@ -56,26 +64,28 @@
                             </span>
                         </h4>
                         <div class="text-muted">
-                            <span class="fa fa-calendar mr8" role="img" aria-label="Post date" title="Post date"> <span t-field="post.post_date"/></span>
-                            <span class="fa fa-folder-open"> In
-                                <a class="mr8" t-attf-href="#{blog_url(blog=post.blog_id)}">
-                                <span t-field="post.blog_id"/>
-                                </a>
-                            </span>
+                            <span class="fa fa-calendar mr8" role="img" aria-label="Post date" title="Post date" />
+                            <span t-field="post.post_date"/>
+                            <span class="fa fa-folder-open" /> In
+                            <a class="mr8" t-attf-href="#{blog_url(blog=post.blog_id)}">
+                            <span t-field="post.blog_id"/>
+                            </a>
                         </div>
-                        <div class="text-muted fa fa-tags">
-                            <span t-field="post.website_meta_keywords"/>
-                            <span t-if="editable and not post.website_meta_keywords" class="badge badge-danger">
-                                No keywords defined!
+                        <div class="text-muted">
+                            <span t-if="editable or post.tag_ids" class="fa fa-tags" role="img" aria-label="Tags" title="Tags"/>
+                            <t t-foreach="post.tag_ids" t-as="one_tag">
+                              <a class="badge badge-primary mr8" t-attf-href="#{blog_url('', ['blog', 'post'], blog=post.blog_id, tag=one_tag.id)}" t-esc="one_tag.name"/>
+                            </t>
+                            <span t-if="editable and not post.tag_ids" class="badge badge-danger">
+                                No tags defined!
                             </span>
                         </div>
                         <div class="text-muted" t-if="len(post.message_ids) &gt; 0">
-                            <span class="fa fa-comment-o">
-                                <a t-attf-href="#{blog_url('', ['blogpost'], blogpost=post)}#comments">
-                                    <t t-if="len(post.message_ids) &lt;= 1" ><t t-esc="len(post.message_ids)"/> comment</t>
-                                    <t t-if="len(post.message_ids) > 1"><t t-esc="len(post.message_ids)"/> comments</t>
-                                </a>
-                            </span>
+                            <span class="fa fa-comment-o"/>
+                            <a t-attf-href="#{blog_url('', ['blogpost'], blogpost=post)}#comments">
+                                <t t-if="len(post.message_ids) &lt;= 1" ><t t-esc="len(post.message_ids)"/> comment</t>
+                                <t t-if="len(post.message_ids) > 1"><t t-esc="len(post.message_ids)"/> comments</t>
+                            </a>
                         </div>
                         <div class="text-muted mb16" t-field="post.website_meta_description"/>
                       </div>
@@ -84,7 +94,7 @@
                     </t>
                 </div>
             </section>
-            <div class="oe_structure"/>
+            <div class="oe_structure" id="oe_structure_website_blog_latest_blogs_2"/>
         </div>
     </t>
 </template>
@@ -96,7 +106,7 @@
             <link t-att-href="'/blog/%s/feed' % (blog.id)" type="application/atom+xml" rel="alternate" title="Atom Feed"/>
             <meta t-if="len(active_tag_ids) > 0" name="robots" t-attf-content="#{len(active_tag_ids) > 1 and 'noindex,'} nofollow"/>
         </t>
-        <div class="oe_structure"/>
+        <div class="oe_structure" id="oe_structure_website_blog_post_short_1"/>
         <div class="container">
             <t t-call="website.pager" >
                 <t t-set="classname">float-right</t>
@@ -170,7 +180,7 @@
             </div>
         </div>
 
-        <div class="oe_structure"/>
+        <div class="oe_structure" id="oe_structure_website_blog_post_short_2"/>
     </t>
 </template>
 
@@ -206,7 +216,7 @@
         customize_show="True" active="False" inherit_id="website_blog.blog_post_short">
     <xpath expr="//span[@t-field='blog_post.author_id']" position="before">
         <t t-if="blog_post.author_avatar">
-            <div t-field="blog_post.author_avatar" class="o_not_editable" style="display:inline" t-field-options='{"widget": "image", "class": "rounded-circle o_author_avatar_little "}' />
+            <div t-field="blog_post.author_avatar" class="o_not_editable" style="display:inline" t-options='{"widget": "image", "class": "rounded-circle o_author_avatar_little "}' />
         </t>
     </xpath>
 </template>
@@ -254,20 +264,6 @@
             <a class="fa fa-linkedin-square o_linkedin_complete" id="o_linkedin_complete" aria-label="LinkedIn" title="LinkedIn"></a>
             <a class="fa fa-google-plus-square o_google_complete" id="o_google_complete" aria-label="Google Plus" title="Google Plus"></a>
         </div>
-        <t t-set='head'>
-            <t t-raw='head or ""'/>
-            <!-- Facebook and linkedin sharing data -->
-            <meta property="og:type" content="website" />
-            <meta property="og:url" t-att-content="request.httprequest.url" />
-            <meta property="og:image" t-attf-content="#{request.httprequest.url_root+blog_post_cover_properties.get('background-image', 'none')[5:-1]}"/>
-            <meta property="og:description" t-att-content="blog_post.subtitle" />
-            <!--  Twitter sharing data -->
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:site" t-attf-content="@#{res_company.name}" />
-            <meta name="twitter:title" t-att-content="blog_post.name" />
-            <meta name="twitter:description" t-att-content="blog_post.subtitle" />
-            <meta name="twitter:image" t-attf-content="#{request.httprequest.url_root+blog_post_cover_properties.get('background-image', 'none')[5:-1]}" />
-        </t>
     </t>
 </template>
 
@@ -317,9 +313,9 @@
                     <h2 t-field="next_post.subtitle" placeholder="Subtitle"/>
                     <div>
                         <t t-if="next_post.author_avatar">
-                            <span t-field="next_post.author_avatar" t-field-options='{"widget": "image", "class": "rounded-circle", "style":"width: 30px; margin-right: 10px; display:inline"}' />
+                            <span t-field="next_post.author_avatar" t-options='{"widget": "image", "class": "rounded-circle", "style":"width: 30px; margin-right: 10px; display:inline"}' />
                         </t>
-                        <span t-field="next_post.author_id" style="display: inline-block;" t-field-options='{
+                        <span t-field="next_post.author_id" style="display: inline-block;" t-options='{
                             "widget": "contact",
                             "fields": ["name"]
                         }'/>
@@ -337,9 +333,9 @@
     <xpath expr="//p[@name='blog_post_data']" position="after">
         <div>
             <t t-if="blog_post.author_avatar">
-                <span t-field="blog_post.author_avatar" class="o_not_editable" t-field-options='{"widget": "image", "class": "rounded-circle", "style":"width: 30px; margin-right: 10px; display:inline"}' />
+                <span t-field="blog_post.author_avatar" class="o_not_editable" t-options='{"widget": "image", "class": "rounded-circle", "style":"width: 30px; margin-right: 10px; display:inline"}' />
             </t>
-            <span t-field="blog_post.author_id" style="display: inline-block;" t-field-options='{
+            <span t-field="blog_post.author_id" style="display: inline-block;" t-options='{
                 "widget": "contact",
                 "fields": ["name"]
             }'/>
@@ -499,6 +495,7 @@
                 <a t-att-href="website.social_youtube" t-if="website.social_youtube" aria-label="Youtube" title="Youtube"><i class="fa fa-youtube-play"/></a>
                 <a t-att-href="website.social_googleplus" t-if="website.social_googleplus" aria-label="Google Plus" title="Google Plus"><i class="fa fa-google-plus-square"/></a>
                 <a t-att-href="website.social_github" t-if="website.social_github" aria-label="Github" title="Github"><i class="fa fa-github"/></a>
+                <a t-att-href="website.social_instagram" t-if="website.social_instagram" aria-label="Instagram" title="Instagram"><i class="fa fa-instagram"/></a>
                 <a t-att-href="'/blog/%s/feed' % (blog.id)" aria-label="RSS" title="RSS"><i class="fa fa-rss-square"/></a>
             </h2>
         </section>
@@ -550,9 +547,12 @@
 </template>
 
 <!-- User Navbar -->
-<template id="content_new_blogpost" inherit_id="website.user_navbar">
-    <xpath expr="//div[@id='o_new_content_menu_choices']//ul" position="inside">
-        <li groups="website.group_website_designer"><a href="#" data-action="new_blog_post"><i class="fa fa-rss"/><p>New Blog Post</p></a></li>
+<template id="user_navbar_inherit_website_blog" inherit_id="website.user_navbar">
+    <xpath expr="//div[@id='o_new_content_menu_choices']//div[@name='module_website_blog']" position="attributes">
+        <attribute name="name"/>
+        <attribute name="t-att-data-module-id"/>
+        <attribute name="t-att-data-module-shortdesc"/>
+        <attribute name="groups">website.group_website_designer</attribute>
     </xpath>
 </template>
 
@@ -583,6 +583,64 @@
             Access post
         </a>
     </p>
+</template>
+
+<template id="s_latest_posts" name="Latest Posts - List">
+    <section class="s_latest_posts">
+        <div class="container">
+            <h2 class="text-center">Latest Posts</h2>
+            <div class="row js_get_posts"
+                data-loading="true"
+                data-template="website_blog.s_latest_posts_list_template"/>
+        </div>
+    </section>
+</template>
+
+<template id="s_latest_posts_big_picture" name="Latest Posts - Big Images">
+    <section class="s_latest_posts_big_picture">
+        <div class="container-fluid">
+            <h2 class="text-center">Latest Posts</h2>
+            <div class="row js_get_posts"
+                data-loading="true"
+                data-template="website_blog.s_latest_posts_big_picture_template"/>
+        </div>
+    </section>
+</template>
+
+<template id="s_latest_posts_list_template">
+    <t t-foreach="posts" t-as="p">
+        <t t-set="properties" t-value="json.loads(p.cover_properties)"/>
+        <div class="col-12 media mt-3 s_latest_posts_post">
+            <a t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}">
+                <t t-call="website_blog.blog_cover">
+                    <t t-set="cover_properties" t-value="properties"/>
+                    <t t-set="additionnal_classes" t-value="'loading_container thumb'"/>
+                </t>
+            </a>
+            <div class="media-body ml-3">
+                <h4 t-field="p.name"/>
+                <p t-field="p.subtitle"/>
+                <a class="btn btn-sm btn-secondary" t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}">Read More</a>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="s_latest_posts_big_picture_template">
+    <t t-foreach="posts" t-as="p">
+        <t t-set="properties" t-value="json.loads(p.cover_properties)"/>
+        <div class="col-12 col-md-6 my-3 loading_container s_latest_posts_post">
+            <t t-call="website_blog.blog_cover">
+                <t t-set="cover_properties" t-value="properties"/>
+                <t t-set="additionnal_classes" t-value="'thumb'"/>
+            </t>
+            <div>
+                <h2 t-field="p.name"/>
+                <p t-field="p.subtitle"/>
+                <a t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}">Read More</a>
+            </div>
+        </div>
+    </t>
 </template>
 
 </odoo>

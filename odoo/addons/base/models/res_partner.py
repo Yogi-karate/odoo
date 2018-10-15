@@ -6,6 +6,7 @@ import datetime
 import hashlib
 import pytz
 import threading
+import re
 
 from email.utils import formataddr
 
@@ -34,14 +35,16 @@ ADDRESS_FIELDS = ('street', 'street2', 'zip', 'city', 'state_id', 'country_id')
 def _lang_get(self):
     return self.env['res.lang'].get_installed()
 
-@api.model
+
+# put POSIX 'Etc/*' entries at the end to avoid confusing users - see bug 1086728
+_tzs = [(tz, tz) for tz in sorted(pytz.all_timezones, key=lambda tz: tz if not tz.startswith('Etc/') else '_')]
 def _tz_get(self):
-    # put POSIX 'Etc/*' entries at the end to avoid confusing users - see bug 1086728
-    return [(tz, tz) for tz in sorted(pytz.all_timezones, key=lambda tz: tz if not tz.startswith('Etc/') else '_')]
+    return _tzs
 
 
 class FormatAddressMixin(models.AbstractModel):
     _name = "format.address.mixin"
+    _description = 'Fomat Address'
 
     def _fields_view_get_address(self, arch):
         # consider the country of the user, not the country of the partner we want to display
@@ -120,6 +123,7 @@ class PartnerCategory(models.Model):
 class PartnerTitle(models.Model):
     _name = 'res.partner.title'
     _order = 'name'
+    _description = 'Partner Title'
 
     name = fields.Char(string='Title', required=True, translate=True)
     shortcut = fields.Char(string='Abbreviation', translate=True)
@@ -149,8 +153,7 @@ class Partner(models.Model):
     child_ids = fields.One2many('res.partner', 'parent_id', string='Contacts', domain=[('active', '=', True)])  # force "active_test" domain to bypass _search() override
     ref = fields.Char(string='Internal Reference', index=True)
     lang = fields.Selection(_lang_get, string='Language', default=lambda self: self.env.lang,
-                            help="If the selected language is loaded in the system, all documents related to "
-                                 "this contact will be printed in this language. If not, it will be English.")
+                            help="All the emails and documents sent to this contact will be translated in this language.")
     tz = fields.Selection(_tz_get, string='Timezone', default=lambda self: self._context.get('tz'),
                           help="The partner's timezone, used to output proper date and time values "
                                "inside printed reports. It is important to set a value for this field. "
@@ -158,24 +161,21 @@ class Partner(models.Model):
                                "render date and time values: your computer's timezone.")
     tz_offset = fields.Char(compute='_compute_tz_offset', string='Timezone offset', invisible=True)
     user_id = fields.Many2one('res.users', string='Salesperson',
-      help='The internal user that is in charge of communicating with this contact if any.')
-    vat = fields.Char(string='Tax ID', help="Tax Identification Number. "
-                                         "Fill it if the company is subjected to taxes. "
-                                         "Used by the some of the legal statements.")
+      help='The internal user in charge of this contact.')
+    vat = fields.Char(string='Tax ID', help="The Tax Identification Number. Complete it if the contact is subjected to government taxes. Used in some legal statements.")
     bank_ids = fields.One2many('res.partner.bank', 'partner_id', string='Banks')
-    website = fields.Char(help="Website of Partner or Company")
+    website = fields.Char()
     comment = fields.Text(string='Notes')
 
     category_id = fields.Many2many('res.partner.category', column1='partner_id',
                                     column2='category_id', string='Tags', default=_default_category)
     credit_limit = fields.Float(string='Credit Limit')
-    barcode = fields.Char(oldname='ean13')
+    barcode = fields.Char(oldname='ean13', help="Use a barcode to identify this contact from the Point of Sale.")
     active = fields.Boolean(default=True)
     customer = fields.Boolean(string='Is a Customer', default=True,
-                               help="Check this box if this contact is a customer.")
+                               help="Check this box if this contact is a customer. It can be selected in sales orders.")
     supplier = fields.Boolean(string='Is a Vendor',
-                               help="Check this box if this contact is a vendor. "
-                               "If it's not checked, purchase people will not see it when encoding a purchase order.")
+                               help="Check this box if this contact is a vendor. It can be selected in purchase orders.")
     employee = fields.Boolean(help="Check this box if this contact is an Employee.")
     function = fields.Char(string='Job Position')
     type = fields.Selection(
@@ -186,7 +186,7 @@ class Partner(models.Model):
          ("private", "Private Address"),
         ], string='Address Type',
         default='contact',
-        help="Used to select automatically the right address according to the context in sales and purchases documents.")
+        help="Used by Sales and Purchase Apps to select the relevant address depending on the context.")
     street = fields.Char()
     street2 = fields.Char()
     zip = fields.Char(change_default=True)
@@ -208,7 +208,7 @@ class Partner(models.Model):
         compute='_compute_company_type', inverse='_write_company_type')
     company_id = fields.Many2one('res.company', 'Company', index=True, default=_default_company)
     color = fields.Integer(string='Color Index', default=0)
-    user_ids = fields.One2many('res.users', 'partner_id', string='Users', auto_join=True)
+    user_ids = fields.One2many('res.users', 'partner_id', string='Users', auto_join=True, context={'active_test': False})
     partner_share = fields.Boolean(
         'Share Partner', compute='_compute_partner_share', store=True,
         help="Either customer (not a user), either shared user. Indicated the current partner is a customer without "
@@ -240,12 +240,11 @@ class Partner(models.Model):
         ('check_name', "CHECK( (type='contact' AND name IS NOT NULL) or (type!='contact') )", 'Contacts require a name.'),
     ]
 
-    @api.multi
-    def toggle_active(self):
-        for partner in self:
-            if partner.active and partner.user_ids:
-                raise ValidationError(_('You cannot archive a contact linked to an internal user.'))
-        super(Partner, self).toggle_active()
+    @api.model_cr
+    def init(self):
+        self._cr.execute("""SELECT indexname FROM pg_indexes WHERE indexname = 'res_partner_vat_index'""")
+        if not self._cr.fetchone():
+            self._cr.execute("""CREATE INDEX res_partner_vat_index ON res_partner (regexp_replace(upper(vat), '[^A-Z0-9]+', '', 'g'))""")
 
     @api.depends('is_company', 'name', 'parent_id.name', 'type', 'company_name')
     def _compute_display_name(self):
@@ -457,7 +456,7 @@ class Partner(models.Model):
         """ Sync commercial fields and address fields from company and to children after create/update,
         just as if those were all modeled as fields.related to the parent """
         # 1. From UPSTREAM: sync from parent
-        if values.get('parent_id') or values.get('type', 'contact'):
+        if values.get('parent_id') or values.get('type') == 'contact':
             # 1a. Commercial fields: sync if parent changed
             if values.get('parent_id'):
                 self._commercial_sync_from_company()
@@ -506,7 +505,7 @@ class Partner(models.Model):
     def write(self, vals):
         if vals.get('active') is False:
             for partner in self:
-                if partner.active and partner.user_ids:
+                if partner.active and any(partner.user_ids.mapped('active')):
                     raise ValidationError(_('You cannot archive a contact linked to an internal user.'))
         # res.partner must only allow to set the company_id of a partner if it
         # is the same as the company of all users that inherit from this partner
@@ -596,29 +595,37 @@ class Partner(models.Model):
                 'target': 'new',
                 'flags': {'form': {'action_buttons': True}}}
 
+    def _get_name(self):
+        """ Utility method to allow name_get to be overrided without re-browse the partner """
+        partner = self
+        name = partner.name or ''
+
+        if partner.company_name or partner.parent_id:
+            if not name and partner.type in ['invoice', 'delivery', 'other']:
+                name = dict(self.fields_get(['type'])['type']['selection'])[partner.type]
+            if not partner.is_company:
+                name = "%s, %s" % (partner.commercial_company_name or partner.parent_id.name, name)
+        if self._context.get('show_address_only'):
+            name = partner._display_address(without_company=True)
+        if self._context.get('show_address'):
+            name = name + "\n" + partner._display_address(without_company=True)
+        name = name.replace('\n\n', '\n')
+        name = name.replace('\n\n', '\n')
+        if self._context.get('address_inline'):
+            name = name.replace('\n', ', ')
+        if self._context.get('show_email') and partner.email:
+            name = "%s <%s>" % (name, partner.email)
+        if self._context.get('html_format'):
+            name = name.replace('\n', '<br/>')
+        if self._context.get('show_vat') and partner.vat:
+            name = "%s - %s" % (name, partner.vat)
+        return name
+
     @api.multi
     def name_get(self):
         res = []
         for partner in self:
-            name = partner.name or ''
-
-            if partner.company_name or partner.parent_id:
-                if not name and partner.type in ['invoice', 'delivery', 'other']:
-                    name = dict(self.fields_get(['type'])['type']['selection'])[partner.type]
-                if not partner.is_company:
-                    name = "%s, %s" % (partner.commercial_company_name or partner.parent_id.name, name)
-            if self._context.get('show_address_only'):
-                name = partner._display_address(without_company=True)
-            if self._context.get('show_address'):
-                name = name + "\n" + partner._display_address(without_company=True)
-            name = name.replace('\n\n', '\n')
-            name = name.replace('\n\n', '\n')
-            if self._context.get('address_inline'):
-                name = name.replace('\n', ', ')
-            if self._context.get('show_email') and partner.email:
-                name = "%s <%s>" % (name, partner.email)
-            if self._context.get('html_format'):
-                name = name.replace('\n', '<br/>')
+            name = partner._get_name()
             res.append((partner.id, name))
         return res
 
@@ -699,7 +706,9 @@ class Partner(models.Model):
                                percent=unaccent('%s'),
                                vat=unaccent('vat'),)
 
-            where_clause_params += [search_name]*5
+            where_clause_params += [search_name]*3  # for email / display_name, reference
+            where_clause_params += [re.sub('[^a-zA-Z0-9]+', '', search_name)]  # for vat
+            where_clause_params += [search_name]  # for order by
             if limit:
                 query += ' limit %s'
                 where_clause_params.append(limit)
@@ -822,7 +831,7 @@ class Partner(models.Model):
             'state_code': self.state_id.code or '',
             'state_name': self.state_id.name or '',
             'country_code': self.country_id.code or '',
-            'country_name': self.country_id.name or '',
+            'country_name': self._get_country_name(),
             'company_name': self.commercial_company_name or '',
         }
         for field in self._address_fields():
@@ -846,6 +855,10 @@ class Partner(models.Model):
             'label': _('Import Template for Customers'),
             'template': '/base/static/xls/res_partner.xls'
         }]
+
+    @api.multi
+    def _get_country_name(self):
+        return self.country_id.name or ''
 
 
 class ResPartnerIndustry(models.Model):

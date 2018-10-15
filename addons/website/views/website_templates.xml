@@ -4,10 +4,7 @@
 <template id="_assets_primary_variables" inherit_id="web._assets_primary_variables">
     <xpath expr="//link[last()]" position="after">
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/primary_variables.scss"/>
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/colors/user_color_palette_body.scss"/>
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/colors/user_color_palette_footer.scss"/>
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/colors/user_color_palette_menu.scss"/>
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/colors/user_color_palette_typo.scss"/>
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/colors/user_color_palette.scss"/>
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/colors/user_theme_color_palette.scss"/>
     </xpath>
 </template>
@@ -46,6 +43,9 @@
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/website.ui.scss"/>
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/website.zoomodoo.scss"/>
     </xpath>
+    <xpath expr="//script[@src='/web/static/src/js/chrome/public_root_widget.js']" position="replace">
+        <script type="text/javascript" src="/website/static/src/js/content/website_root.js"/>
+    </xpath>
     <xpath expr="//script[last()]" position="after">
         <script type="text/javascript" src="/website/static/src/js/utils.js"/>
         <script type="text/javascript" src="/website/static/src/js/website.js"/>
@@ -54,7 +54,6 @@
         <script type="text/javascript" src="/website/static/src/js/content/lazy_template_call.js"/>
         <script type="text/javascript" src="/website/static/src/js/content/menu.js"/>
         <script type="text/javascript" src="/website/static/src/js/content/snippets.animation.js"/>
-        <script type="text/javascript" src="/website/static/src/js/content/website_root.js"/>
         <script type="text/javascript" src="/website/static/src/js/content/zoomodoo.js"/>
 
         <script type="text/javascript" src="/website/static/src/js/menu/navbar.js"/>
@@ -90,26 +89,28 @@
 
 <!-- Layout -->
 <template id="submenu" name="Submenu">
-    <li t-if="submenu.is_visible and not submenu.child_id.filtered(lambda menu: menu.is_visible)" class="nav-item">
+    <t t-set="has_visible_submenu" t-value="submenu.child_id.filtered(lambda menu: menu.is_visible)"/>
+    <li t-if="submenu.is_visible and not has_visible_submenu" t-attf-class="#{item_class or ''}">
         <a t-att-href="submenu.clean_url()"
-            t-attf-class="nav-link#{' active' if submenu.clean_url() and unslug_url(request.httprequest.path) == unslug_url(submenu.clean_url()) else ''}"
+            t-attf-class="#{link_class or ''} #{'active' if submenu.clean_url() and unslug_url(request.httprequest.path) == unslug_url(submenu.clean_url()) else ''}"
             role="menuitem"
             t-ignore="true"
             t-att-target="'_blank' if submenu.new_window else None">
             <span t-field="submenu.name"/>
         </a>
     </li>
-    <li t-if="submenu.child_id.filtered(lambda menu: menu.is_visible)" t-attf-class="#{('%s-item ' % submenu_type) if submenu_type else ''}dropdown #{
+    <li t-if="has_visible_submenu" t-attf-class="#{item_class or ''} dropdown #{
         (submenu.clean_url() and submenu.clean_url() != '/' and any([request.httprequest.path == child.url for child in submenu.child_id if child.url]) or
          (submenu.clean_url() and request.httprequest.path == submenu.clean_url())) and 'active'
         }">
-        <a t-attf-class="#{('%s-link ' % submenu_type) if submenu_type else ''}dropdown-toggle" data-toggle="dropdown" href="#">
+        <a t-attf-class="#{link_class or ''} dropdown-toggle" data-toggle="dropdown" href="#">
             <span t-field="submenu.name"/>
         </a>
         <ul class="dropdown-menu" role="menu">
             <t t-foreach="submenu.child_id" t-as="submenu">
                 <t t-call="website.submenu">
-                    <t t-set="submenu_type" t-value="'dropdown'"/>
+                    <t t-set="item_class" t-value="None"/>
+                    <t t-set="link_class" t-value="'dropdown-item'"/>
                 </t>
             </t>
         </ul>
@@ -130,13 +131,13 @@
             'data-oe-company-name': res_company.name
         }"/>
         <t t-if="not title">
-            <t t-if="not additional_title and main_object and 'name' in main_object">
-                <t t-set="additional_title" t-value="main_object.name"/>
-            </t>
             <t t-if="main_object and 'website_meta_title' in main_object and main_object.website_meta_title">
                 <t t-set="title" t-value="main_object.website_meta_title"/>
             </t>
             <t t-else="">
+                <t t-if="not additional_title and main_object and 'name' in main_object">
+                    <t t-set="additional_title" t-value="main_object.name"/>
+                </t>
                 <t t-set="title"><t t-if="additional_title"><t t-raw="additional_title"/> | </t><t t-raw="(website or res_company).name"/></t>
             </t>
         </t>
@@ -154,15 +155,22 @@
                 and main_object.website_meta_keywords or website_meta_keywords"/>
             <meta t-if="meta_description or editable" name="description" t-att-content="meta_description"/>
             <meta t-if="meta_keywords or editable" name="keywords" t-att-content="meta_keywords"/>
-
-            <!-- OpenGraph tags for Facebook sharing -->
-            <meta property="og:title" t-att-content="additional_title" />
-            <meta property="og:site_name" t-att-content="res_company.name" />
-            <t t-if="main_object and 'plain_content' in main_object and main_object.plain_content">
-                <t t-set="og_description" t-value="main_object.plain_content[0:500]"/>
-                <meta property="og:description" t-att-content="og_description" />
-                <meta property='og:image' t-att-content="request.httprequest.url_root+'logo.png'"/>
-                <meta property='og:url' t-att-content="request.httprequest.url_root+request.httprequest.path[1:end]"/>
+            <t t-if="main_object">
+                <t t-set="website_meta" t-value="main_object.get_website_meta()"/>
+                <!-- OpenGraph tags for Facebook sharing -->
+                <t t-set="opengraph_meta" t-value="website_meta.get('opengraph_meta')"/>
+                <t t-if="opengraph_meta">
+                    <t t-foreach="opengraph_meta" t-as="og_meta">
+                        <meta t-att-property="og_meta" t-att-content="opengraph_meta[og_meta]"/>
+                    </t>
+                </t>
+                <!-- Twitter tags for sharing -->
+                <t t-set="twitter_meta" t-value="website_meta.get('twitter_meta')"/>
+                <t t-if="opengraph_meta">
+                    <t t-foreach="twitter_meta" t-as="t_meta">
+                        <meta t-att-name="t_meta" t-att-content="twitter_meta[t_meta]"/>
+                    </t>
+                </t>
             </t>
 
             <t t-set="languages" t-value="website.get_languages() if website else None"/>
@@ -173,18 +181,19 @@
             </t>
 
             <script type="text/javascript">
-                <t groups="website.group_website_publisher">
-                    odoo.snippetsURL = '/website/snippets';
-                </t>
-
                 odoo.session_info = {
-                    is_superuser: <t t-esc="json.dumps(request.env.user._is_superuser())"/>,
+                    is_admin: <t t-esc="json.dumps(request.env.user._is_admin())"/>,
                     is_system: <t t-esc="json.dumps(request.env.user._is_system())"/>,
                     is_frontend: true,
                     translationURL: '/website/translations',
                     is_website_user: <t t-esc="json.dumps(request.env.user.id == request.website.user_id.id)" />,
                     user_id: <t t-esc="json.dumps(request.env.user.id)" />
                 };
+                <t groups="website.group_website_publisher">
+                    odoo.snippetsURL = '/website/snippets';
+                    odoo.session_info.website_id = <t t-esc="json.dumps(request.website.id)" />;
+                    odoo.session_info.website_company_id = <t t-esc="json.dumps(request.website.company_id.id)" />;
+                </t>
             </script>
 
             <t t-call-assets="web.assets_common" t-js="false"/>
@@ -203,6 +212,9 @@
     <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
         <a class="navbar-brand" href="/" t-if="website" t-field="website.name">My Website</a>
     </xpath>
+    <xpath expr="//header//ul[@id='top_menu']" position="attributes">
+        <attribute name="class" separator=" " add="o_menu_loading"/>
+    </xpath>
     <xpath expr="//header//ul[@id='top_menu']/li[hasclass('divider')]" position="attributes">
         <attribute name="t-if">website.user_id != user_id</attribute>
     </xpath>
@@ -212,7 +224,8 @@
     <xpath expr="//header//ul[@id='top_menu']/li[hasclass('divider')]" position="before">
         <t t-foreach="website.menu_id.child_id" t-as="submenu">
             <t t-call="website.submenu">
-                <t t-set="submenu_type" t-value="'nav'"/>
+                <t t-set="item_class" t-value="'nav-item'"/>
+                <t t-set="link_class" t-value="'nav-link'"/>
             </t>
         </t>
     </xpath>
@@ -227,18 +240,35 @@
             ga('send','pageview');
         </script>
     </xpath>
+
+    <!-- Page options -->
+    <xpath expr="//div[@id='wrapwrap']" position="before">
+        <t groups="website.group_website_publisher">
+            <t t-foreach="['header_overlay', 'header_color']" t-as="optionName">
+                <input t-if="optionName in main_object" type="hidden" class="o_page_option_data" t-att-name="optionName" t-att-value="main_object[optionName]"/>
+            </t>
+        </t>
+    </xpath>
+    <xpath expr="//div[@id='wrapwrap']" position="attributes">
+        <attribute name="t-attf-class" add="#{'o_header_overlay' if 'header_overlay' in main_object and main_object.header_overlay else ''}" separator=" "/>
+    </xpath>
+    <xpath expr="//header" position="attributes">
+        <attribute name="t-attf-class" add="#{main_object.header_color if 'header_color' in main_object else ''}" separator=" "/>
+    </xpath>
 </template>
 
 <template id="layout_footer_copyright" inherit_id="website.layout" name="Footer Copyright">
     <xpath expr="//footer" position="inside">
-        <div class="container o_footer_copyright">
-            <div class="row">
-                <div class="col-lg-6 text-muted text-center-xs">
-                    <span>Copyright &amp;copy;</span> <span t-field="res_company.name" itemprop="name">Company name</span>
-                    <t t-call="website.language_selector"/>
-                </div>
-                <div class="col-lg-6 text-right o_not_editable" t-if="not editable">
-                    <t t-call="website.brand_promotion"/>
+        <div class="o_footer_copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 text-muted text-center text-md-left">
+                        <span>Copyright &amp;copy;</span> <span t-field="res_company.name" itemprop="name">Company name</span>
+                        <t t-call="website.language_selector"/>
+                    </div>
+                    <div class="col-lg-6 text-right o_not_editable" t-if="not editable">
+                        <t t-call="website.brand_promotion"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -287,37 +317,38 @@
 
 <template id="footer_custom" inherit_id="website.layout" name="Footer">
     <xpath expr="//div[@id='footer']" position="replace">
-        <div id="footer" class="oe_structure" t-ignore="true" t-if="not no_footer">
+        <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
             <section class="s_text_block pt16 pb8">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-4">
-                            <h4>Our Products &amp; Services</h4>
+                            <h5>Our Products &amp; Services</h5>
                             <ul class="list-unstyled">
                                 <li><a href="/">Home</a></li>
                             </ul>
                         </div>
                         <div class="col-lg-4" id="connect">
-                            <h4>Connect with us</h4>
+                            <h5>Connect with us</h5>
                             <ul class="list-unstyled">
                                 <li><a href="/contactus">Contact us</a></li>
                                 <li><i class="fa fa-phone"/> <span t-field="res_company.phone"/></li>
                                 <li><i class="fa fa-envelope"/>  <span t-field="res_company.email"/></li>
                             </ul>
-                            <div class="btn-group">
+                            <p>
                                 <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link"><i class="fa fa-2x fa-facebook-square"/></a>
                                 <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link"><i class="fa fa-2x fa-twitter"/></a>
                                 <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link"><i class="fa fa-2x fa-linkedin"/></a>
                                 <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link"><i class="fa fa-2x fa-youtube-play"/></a>
                                 <a t-if="website.social_googleplus" t-att-href="website.social_googleplus" class="btn btn-sm btn-link" rel="publisher"><i class="fa fa-2x fa-google-plus-square"/></a>
                                 <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link"><i class="fa fa-2x fa-github"/></a>
-                            </div>
+                                <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link"><i class="fa fa-2x fa-instagram"/></a>
+                            </p>
                         </div>
                         <div class="col-lg-4">
-                            <h4>
+                            <h5>
                                 <span t-field="res_company.name"/>
                                 <small> - <a href="/aboutus">About us</a></small>
-                            </h4>
+                            </h5>
                             <p>
                                 We are a team of passionate people whose goal is to improve everyone's
                                 life through disruptive products. We build great products to solve your
@@ -339,7 +370,7 @@
     <ul class="js_language_selector mb0 list-inline" t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
         <li class="list-inline-item">
             <div class="dropup">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span t-esc="list(filter(lambda lg : lg[0] == lang, languages))[0][1].split('/').pop()"/>
                     <span class="caret ml4"/>
                 </button>
@@ -371,7 +402,7 @@
         <div t-attf-class="btn-group #{btn_class} js_publish_management #{object.website_published and 'css_published' or 'css_unpublished'}" t-att-data-id="object.id" t-att-data-object="object._name" t-att-data-controller="publish_controller">
             <button class="btn btn-danger js_publish_btn">Unpublished</button>
             <button class="btn btn-success js_publish_btn">Published</button>
-            <button type="button" t-attf-class="btn btn-secondary dropdown-toggle dropdown-toggle-split" t-att-id="'dopprod-%s' % object.id" data-toggle="dropdown"/>
+            <button type="button" t-attf-class="btn btn-default dropdown-toggle dropdown-toggle-split" t-att-id="'dopprod-%s' % object.id" data-toggle="dropdown"/>
             <div class="dropdown-menu" role="menu" t-att-aria-labelledby="'dopprod-%s' % object.id">
                 <t t-raw="0"/>
                 <a role="menuitem" t-attf-href="/web#return_label=Website&amp;view_type=form&amp;model=#{object._name}&amp;id=#{object.id}&amp;action=#{action}"
@@ -428,28 +459,19 @@
 <template id="theme_customize">
     <div>
         <!-- Color options -->
-        <content string="Colors" title="Choose the theme colors">
-            <opt data-xmlid="website.option_color_user_variables" data-color-palette="user" string="Choose your colors"/>
-            <opt data-xmlid="" data-color-palette="1" string="Default theme colors"/>
-
-            <list string="Menu text">
-                <opt string="Dark" data-xmlid="" data-reload="/"/>
-                <opt string="Light" data-xmlid="website.option_navbar_dark" data-reload="/"/>
-            </list>
+        <content id="theme_customize_content_colors" string="Colors" title="Choose the theme colors">
+            <opt data-xmlid="" data-color-palette="user" string="Choose your colors"/>
         </content>
 
         <!-- Layout Options -->
-        <content string="Layout" title="Choose your layout">
-            <list string="Menu">
-                <opt string="Top Bar" data-xmlid="" data-reload="/"/>
-                <opt string="Hamburger" data-xmlid="website.option_hamburger_menu, website.no_autohide_menu" data-reload="/"/>
-            </list>
+        <content id="theme_customize_content_layout" string="Layout" title="Choose your layout">
+            <!-- In a <more/> so that it is on a new line if themes add options before -->
             <more data-depends="">
                 <list string="Body">
-                    <opt string="Full" data-xmlid="website.option_layout_full" data-enable="option_no_background" data-icon="/website/static/src/img/options/layout-full.png"/>
-                    <opt id="option_layout_boxed" string="Boxed" data-xmlid="website.option_layout_boxed" data-icon="/website/static/src/img/options/layout-boxed.png"/>
+                    <opt string="Full" data-xmlid="" data-icon="/website/static/src/img/options/layout-full.png"/>
+                    <opt id="option_layout_boxed" string="Boxed" data-xmlid="website.option_layout_boxed_variables" data-icon="/website/static/src/img/options/layout-boxed.png"/>
                 </list>
-                <list string="Background" data-depends="option_layout_boxed">
+                <list string="Background">
                     <opt id="option_no_background" string="None" data-xmlid=""/>
                     <opt string="Choose an image" data-xmlid="website.option_custom_body_image"/>
                     <opt string="Choose a pattern" data-xmlid="website.option_custom_body_image, website.option_custom_body_pattern"/>
@@ -458,55 +480,47 @@
         </content>
 
         <!-- Font options -->
-        <content string="Fonts" title="Choose your fonts">
-            <list string="Title">
-                <opt id="option_font_title_01" data-xmlid="website.option_font_title_01_variables" data-font="1"/>
-                <opt id="option_font_title_02" data-xmlid="website.option_font_title_02_variables" data-font="2"/>
-                <opt id="option_font_title_03" data-xmlid="website.option_font_title_03_variables" data-font="3"/>
-                <opt id="option_font_title_04" data-xmlid="website.option_font_title_04_variables" data-font="4"/>
-                <opt id="option_font_title_05" data-xmlid="website.option_font_title_05_variables" data-font="5"/>
-                <opt id="option_font_title_06" data-xmlid="website.option_font_title_06_variables" data-font="6"/>
+        <content id="theme_customize_content_fonts" string="Fonts" title="Choose your fonts">
+            <list id="theme_customize_content_fonts_title" string="Title">
+                <opt data-xmlid="" data-font="1"/>
+                <opt data-xmlid="website.option_font_title_02_variables" data-font="2"/>
+                <opt data-xmlid="website.option_font_title_03_variables" data-font="3"/>
+                <opt data-xmlid="website.option_font_title_04_variables" data-font="4"/>
+                <opt data-xmlid="website.option_font_title_05_variables" data-font="5"/>
+                <opt data-xmlid="website.option_font_title_06_variables" data-font="6"/>
             </list>
-            <list string="Body">
-                <opt id="option_font_body_01" data-xmlid="website.option_font_body_01_variables" data-font="1"/>
-                <opt id="option_font_body_02" data-xmlid="website.option_font_body_02_variables" data-font="2"/>
-                <opt id="option_font_body_03" data-xmlid="website.option_font_body_03_variables" data-font="3"/>
-                <opt id="option_font_body_04" data-xmlid="website.option_font_body_04_variables" data-font="4"/>
-                <opt id="option_font_body_05" data-xmlid="website.option_font_body_05_variables" data-font="5"/>
-                <opt id="option_font_body_06" data-xmlid="website.option_font_body_06_variables" data-font="6"/>
+            <list id="theme_customize_content_fonts_body" string="Body">
+                <opt data-xmlid="" data-font="1"/>
+                <opt data-xmlid="website.option_font_body_02_variables" data-font="2"/>
+                <opt data-xmlid="website.option_font_body_03_variables" data-font="3"/>
+                <opt data-xmlid="website.option_font_body_04_variables" data-font="4"/>
+                <opt data-xmlid="website.option_font_body_05_variables" data-font="5"/>
+                <opt data-xmlid="website.option_font_body_06_variables" data-font="6"/>
+            </list>
+            <list id="theme_customize_content_fonts_button" string="Button">
+                <opt data-xmlid="" data-font="1"/>
+                <opt data-xmlid="website.option_font_button_02_variables" data-font="2"/>
+                <opt data-xmlid="website.option_font_button_03_variables" data-font="3"/>
+                <opt data-xmlid="website.option_font_button_04_variables" data-font="4"/>
+                <opt data-xmlid="website.option_font_button_05_variables" data-font="5"/>
+                <opt data-xmlid="website.option_font_button_06_variables" data-font="6"/>
+            </list>
+            <list id="theme_customize_content_fonts_navbar" string="Navbar">
+                <opt data-xmlid="" data-font="1"/>
+                <opt data-xmlid="website.option_font_navbar_02_variables" data-font="2"/>
+                <opt data-xmlid="website.option_font_navbar_03_variables" data-font="3"/>
+                <opt data-xmlid="website.option_font_navbar_04_variables" data-font="4"/>
+                <opt data-xmlid="website.option_font_navbar_05_variables" data-font="5"/>
+                <opt data-xmlid="website.option_font_navbar_06_variables" data-font="6"/>
             </list>
         </content>
     </div>
 </template>
 
-<!-- Color options -->
-<template id="option_color_user_variables" inherit_id="website._assets_secondary_variables" active="True">
-    <xpath expr="//link[last()]" position="after">
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/colors/option_color_user_variables.scss"/>
-    </xpath>
-</template>
-
-<!-- Menu color options -->
-<template id="option_navbar_dark" inherit_id="website.layout" active="False">
-    <xpath expr="//header/nav" position="attributes">
-        <attribute name="class" remove="navbar-light" add="navbar-dark" separator=" "/>
-    </xpath>
-</template>
-
-<!-- Menu options -->
-<template id="option_hamburger_menu" inherit_id="website.layout" active="False">
-    <xpath expr="//header/nav" position="attributes">
-        <attribute name="class" remove="navbar-expand-md" separator=" "/>
-    </xpath>
-</template>
-
 <!-- Layout options -->
-<template id="option_layout_full" inherit_id="website.assets_frontend" active="True">
-    <xpath expr="//link[last()]" position="after"/>
-</template>
-<template id="option_layout_boxed" inherit_id="website.assets_frontend" active="False">
+<template id="option_layout_boxed_variables" inherit_id="website._assets_primary_variables" active="False">
     <xpath expr="//link[last()]" position="after">
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/layout/option_layout_boxed.scss"/>
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/layout/option_layout_boxed_variables.scss"/>
     </xpath>
 </template>
 
@@ -527,11 +541,6 @@
 <!-- TODO use scss customization for fonts instead (like for user colors) -->
 
 <!-- Title font options -->
-<template id="option_font_title_01_variables" inherit_id="website._assets_primary_variables" active="True">
-    <xpath expr="//link[last()]" position="after">
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_title_01_variables.scss"/>
-    </xpath>
-</template>
 <template id="option_font_title_02_variables" inherit_id="website._assets_primary_variables" active="False">
     <xpath expr="//link[last()]" position="after">
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_title_02_variables.scss"/>
@@ -559,11 +568,6 @@
 </template>
 
 <!-- Body font options -->
-<template id="option_font_body_01_variables" inherit_id="website._assets_primary_variables" active="True">
-    <xpath expr="//link[last()]" position="after">
-        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_body_01_variables.scss"/>
-    </xpath>
-</template>
 <template id="option_font_body_02_variables" inherit_id="website._assets_primary_variables" active="False">
     <xpath expr="//link[last()]" position="after">
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_body_02_variables.scss"/>
@@ -587,6 +591,60 @@
 <template id="option_font_body_06_variables" inherit_id="website._assets_primary_variables" active="False">
     <xpath expr="//link[last()]" position="after">
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_body_06_variables.scss"/>
+    </xpath>
+</template>
+
+<!-- Button font options -->
+<template id="option_font_button_02_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_button_02_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_button_03_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_button_03_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_button_04_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_button_04_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_button_05_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_button_05_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_button_06_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_button_06_variables.scss"/>
+    </xpath>
+</template>
+
+<!-- Navbar font options -->
+<template id="option_font_navbar_02_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_navbar_02_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_navbar_03_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_navbar_03_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_navbar_04_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_navbar_04_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_navbar_05_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_navbar_05_variables.scss"/>
+    </xpath>
+</template>
+<template id="option_font_navbar_06_variables" inherit_id="website._assets_primary_variables" active="False">
+    <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/options/fonts/option_font_navbar_06_variables.scss"/>
     </xpath>
 </template>
 
@@ -1042,10 +1100,10 @@ Sitemap: <t t-esc="url_root"/>sitemap.xml
     </t>
 </template>
 
-<template id="edit_website_pages" name="Website Pages Management">
+<template id="list_website_pages" name="Website Pages Management">
   <t t-call="website.layout">
     <div id="wrap">
-      <div class="container" id="edit_website_pages">
+      <div class="container" id="list_website_pages">
           <form class="mt8 float-right" role="search" t-attf-action="/website/pages" method="get">
               <t t-call="website.website_search_box"/>
           </form>
@@ -1074,33 +1132,28 @@ Sitemap: <t t-esc="url_root"/>sitemap.xml
               </div>
           </t>
           <div t-if="pages" class="table-responsive">
-              <table class="table table-hover o_my_status_table">
+              <table class="table table-hover">
                   <thead>
-                    <tr class="active">
+                    <tr>
                       <th>Name</th>
                       <th>Url</th>
-                      <th class="col-lg-1 text-center"><i title="Is the page included in the main menu?" role="img" aria-label="Is the page included in the main menu?" class="fa fa-thumb-tack"></i></th>
-                      <th class="col-lg-1 text-center"><i title="Is the page published?" role="img" aria-label="Is the page published?" class="fa fa-eye"></i></th>
-                      <th class="col-lg-1 text-center"><i title="Is the page indexed by search engines?" role="img" aria-label="Is the page indexed by search engines?" class="fa fa-globe"></i></th>
-                      <th class="col-md-3 col-lg-2"></th>
+                      <th class="text-center"><i title="Is the page included in the main menu?" class="fa fa-thumb-tack"></i></th>
+                      <th class="text-center"><i title="Is the page published?" class="fa fa-eye"></i></th>
+                      <th class="text-center"><i title="Is the page indexed by search engines?" class="fa fa-globe"></i></th>
+                      <th class="text-center"><i title="Is the page SEO optimized?" class="fa fa-search"></i></th>
+                      <th></th>
                     </tr>
                   </thead>
-                  <t t-foreach="pages" t-as="page">
-                      <tr>
-                          <td><i t-if="page.is_homepage" class="fa fa-home" role="img" aria-label="Home" title="Home"></i> <span style="word-break: break-all;" t-esc="page.name"/></td>
-                          <td><a style="word-break: break-all;" t-attf-href="{{page.url}}"><t t-esc="page.url"/></a></td>
-                          <td class="text-center"><i t-att-class="'fa fa-check' if page.menu_ids else 'fa fa-times text-muted'" role="img" t-att-aria-label="'Checked' if page.menu_ids else 'Not checked'" t-att-title="'Checked' if page.menu_ids else 'Not checked'"></i></td>
-                          <t t-set='date_formatted'><t  t-options='{"widget": "date"}' t-esc="page.date_publish"/></t>
-                          <td class="text-center"><i t-att-title="not page.is_visible and page.website_published and 'This page will be visible on ' + date_formatted" role="img" t-att-aria-label="not page.is_visible and page.website_published and 'This page will be visible on ' + date_formatted" t-att-class="'fa fa-check' if page.is_visible and page.website_published else 'fa fa-eye-slash' if not page.is_visible and page.website_published else 'fa fa-times text-muted'"></i></td>
-                          <td class="text-center"><i t-att-class="'fa fa-check' if page.website_indexed else 'fa fa-times text-muted'" role="img" t-att-aria-label="'Checked' if page.website_indexed else 'Not checked'" t-att-title="'Checked' if page.website_indexed else 'Not checked'"></i></td>
-                          <td class="text-right">
-                              <a class="mr4 fa fa-cog js_page_properties" t-att-data-id="page.id" href="#" title="Manage this page" aria-label="Manage this page"></a>
-                              <a class="mr4 fa fa-pencil-square-o" t-attf-href="/web#id=#{page.view_id.id}&amp;view_type=form&amp;model=ir.ui.view" title="Edit code in backend" aria-label="Edit code in backend"></a>
-                              <a class="mr4 fa fa-clone js_clone_page" t-att-data-id="page.id" href="#" title="Clone this page" aria-label="Clone this page"></a>
-                              <a class="fa fa-trash js_delete_page" t-att-data-id="page.id" href="#" title="Delete this page" aria-label="Delete this page"></a>
-                          </td>
-                      </tr>
+                  <t t-set='prev_page' t-value='False' />
+                  <t t-set='page' t-value='pages[0]' />
+                  <t t-foreach="pages[1:]" t-as="next_page">
+                    <t t-call='website.one_page_line'/>
+                    <t t-set='prev_page' t-value='page' />
+                    <t t-set='page' t-value='next_page' />
                   </t>
+
+                  <t t-set='next_page' t-value='False'/>
+                  <t t-call='website.one_page_line' />
               </table>
           </div>
           <div t-if="pager" class="o_portal_pager text-center">
@@ -1109,6 +1162,48 @@ Sitemap: <t t-esc="url_root"/>sitemap.xml
       </div>
     </div>
   </t>
+</template>
+
+<template id="one_page_line">
+    <t t-set='specific_page' t-value="page.website_id"/>
+    <t t-set='final_page' t-value="(next_page and page.url != next_page.url) or not next_page or specific_page"/>
+    <tr t-att-style='not final_page and "color:#999"'>
+        <td>
+            <t groups="website.group_multi_website">
+                <i t-if='specific_page and prev_page and prev_page.url == page.url and not prev_page.website_id' class="fa fa-level-up fa-rotate-90 ml32 mr4"/>
+                <i t-else="1" class="fa fa-globe mr4" t-att-style="'visibility:hidden;' if specific_page else ''"/>
+            </t>
+            <i t-if="page.is_homepage" class="fa fa-home" title="Home"/> <span t-esc="page.name"/>
+        </td>
+        <td>
+            <a t-if='final_page' t-att-href="page.url"><t t-esc="page.url"/></a>
+        </td>
+        <td class="text-center">
+            <i t-if="page.menu_ids" class="fa fa-check" title="In main menu"/>
+            <i t-else="" class="fa fa-times text-muted" title="Not in main menu"/>
+        </td>
+        <td class="text-center">
+            <t t-set='date_formatted'><t t-options='{"widget": "date"}' t-esc="page.date_publish"/></t>
+            <i t-if="page.is_visible" class="fa fa-check" title="Visible"/>
+            <i t-elif="page.website_published" class="fa fa-eye-slash" t-attf-title="This page will be visible on {{ date_formatted }}"/>
+            <i t-else="" class="fa fa-times text-muted" title="Not visible"/>
+        </td>
+        <td class="text-center">
+            <i t-if="page.website_indexed" class="fa fa-check" title="Indexed"/>
+            <i t-else="" class="fa fa-times text-muted" title="Not indexed"/>
+        </td>
+        <td class="text-center">
+            <i t-if="page.is_seo_optimized" class="fa fa-check" title="SEO optimized"/>
+            <i t-else="" class="fa fa-times text-muted" title="Not SEO optimized"/>
+        </td>
+        <td class="text-right" style="white-space:nowrap;">
+            <a class="mr4 fa fa-cog js_page_properties" href="#" t-att-data-id="page.id" title="Manage this page"/>
+            <a class="mr4 fa fa-search" t-attf-href="{{ page.url}}?enable_seo" title="Optimize SEO of this page"/>
+            <a groups="base.group_no_one" class="mr4 fa fa-bug" t-attf-href="/web#id=#{page.view_id.id}&amp;view_type=form&amp;model=ir.ui.view" title="Edit code in backend"/>
+            <a class="mr4 fa fa-clone js_clone_page" t-att-data-id="page.id" href="#" title="Clone this page"/>
+            <a class="fa fa-trash js_delete_page" t-att-data-id="page.id" href="#" title="Delete this page"/>
+        </td>
+    </tr>
 </template>
 
 </odoo>

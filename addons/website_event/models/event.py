@@ -4,12 +4,9 @@ import logging
 import pytz
 import werkzeug
 
-from datetime import datetime
-
 from odoo import api, fields, models, _
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.exceptions import UserError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 _logger = logging.getLogger(__name__)
 
@@ -32,9 +29,9 @@ class EventType(models.Model):
 
 class Event(models.Model):
     _name = 'event.event'
-    _inherit = ['event.event', 'website.seo.metadata', 'website.published.mixin']
+    _inherit = ['event.event', 'website.seo.metadata', 'website.published.multi.mixin']
 
-    website_published = fields.Boolean(track_visibility='onchange')
+    is_published = fields.Boolean(track_visibility='onchange')
 
     is_participating = fields.Boolean("Is Participating", compute="_compute_is_participating")
 
@@ -45,7 +42,7 @@ class Event(models.Model):
 
     def _compute_is_participating(self):
         # we don't allow public user to see participating label
-        if self.env.user != self.env.ref('base.public_user'):
+        if self.env.user != self.env['website'].get_current_website().user_id:
             email = self.env.user.partner_id.email
             for event in self:
                 domain = ['&', '|', ('email', '=', email), ('partner_id', '=', self.env.user.partner_id.id), ('event_id', '=', event.id)]
@@ -84,7 +81,7 @@ class Event(models.Model):
                     event.menu_id.unlink()
                 elif event.website_menu:
                     if not event.menu_id:
-                        root_menu = self.env['website.menu'].create({'name': event.name})
+                        root_menu = self.env['website.menu'].create({'name': event.name, 'website_id': event.id})
                         event.menu_id = root_menu
                     for sequence, (name, url, xml_id) in enumerate(event._get_menu_entries()):
                         event._create_menu(sequence, name, url, xml_id)
@@ -99,6 +96,7 @@ class Event(models.Model):
             'url': url,
             'parent_id': self.menu_id.id,
             'sequence': sequence,
+            'website_id': self.id,
         })
         return menu
 
@@ -119,9 +117,9 @@ class Event(models.Model):
     @api.multi
     def _track_subtype(self, init_values):
         self.ensure_one()
-        if 'website_published' in init_values and self.website_published:
+        if 'is_published' in init_values and self.is_published:
             return 'website_event.mt_event_published'
-        elif 'website_published' in init_values and not self.website_published:
+        elif 'is_published' in init_values and not self.is_published:
             return 'website_event.mt_event_unpublished'
         return super(Event, self)._track_subtype(init_values)
 
@@ -161,8 +159,8 @@ class Event(models.Model):
         return result
 
     def _get_event_resource_urls(self, attendees):
-        url_date_start = datetime.strptime(self.date_begin, DEFAULT_SERVER_DATETIME_FORMAT).strftime('%Y%m%dT%H%M%SZ')
-        url_date_stop = datetime.strptime(self.date_end, DEFAULT_SERVER_DATETIME_FORMAT).strftime('%Y%m%dT%H%M%SZ')
+        url_date_start = self.date_begin.strftime('%Y%m%dT%H%M%SZ')
+        url_date_stop = self.date_end.strftime('%Y%m%dT%H%M%SZ')
         params = {
             'action': 'TEMPLATE',
             'text': self.name,
@@ -175,3 +173,10 @@ class Event(models.Model):
         google_url = GOOGLE_CALENDAR_URL + encoded_params
         iCal_url = '/event/%s/ics?%s' % (slug(self), encoded_params)
         return {'google_url': google_url, 'iCal_url': iCal_url}
+
+    def _default_website_meta(self):
+        res = super(Event, self)._default_website_meta()
+        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.date_begin
+        res['default_twitter']['twitter:card'] = 'summary'
+        return res

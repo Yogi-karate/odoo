@@ -53,7 +53,9 @@ var KanbanColumn = Widget.extend({
         this.grouped_by_m2o = options.grouped_by_m2o;
         this.editable = options.editable;
         this.deletable = options.deletable;
+        this.archivable = options.archivable;
         this.draggable = options.draggable;
+        this.KanbanRecord = options.KanbanRecord || KanbanRecord; // the KanbanRecord class to use
         this.records_editable = options.records_editable;
         this.records_deletable = options.records_deletable;
         this.relation = options.relation;
@@ -237,7 +239,7 @@ var KanbanColumn = Widget.extend({
      * @return {Deferred}
      */
     _addRecord: function (recordState, options) {
-        var record = new KanbanRecord(this, recordState, this.record_options);
+        var record = new this.KanbanRecord(this, recordState, this.record_options);
         this.records.push(record);
         if (options && options.position === 'before') {
             return record.insertAfter(this.quickCreateWidget ? this.quickCreateWidget.$el : this.$header);

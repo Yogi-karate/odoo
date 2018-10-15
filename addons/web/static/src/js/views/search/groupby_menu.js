@@ -6,6 +6,7 @@ var core = require('web.core');
 var DropdownMenu = require('web.DropdownMenu');
 
 var QWeb = core.qweb;
+var _t = core._t;
 
 var GROUPABLE_TYPES = ['many2one', 'char', 'boolean', 'selection', 'date', 'datetime'];
 
@@ -54,6 +55,7 @@ var GroupByMenu = DropdownMenu.extend({
             {description: 'Quarter', optionId: 'quarter', groupId: 1},
             {description: 'Year', optionId: 'year', groupId: 1},
         ];
+        this.defaultOptionId = DEFAULT_INTERVAL;
         this.groupableFields = [];
         _.each(fields, function (field, name) {
             if (field.sortable && _.contains(GROUPABLE_TYPES, field.type)) {
@@ -83,7 +85,7 @@ var GroupByMenu = DropdownMenu.extend({
         }
         var dropdownHeader = {
             category: 'groupByCategory',
-            title: 'Group By',
+            title: _t('Group By'),
             icon: 'fa fa-bars',
             symbol: this.isMobile ? 'fa fa-chevron-right float-right mt4' : false,
             style: style,
@@ -131,6 +133,7 @@ var GroupByMenu = DropdownMenu.extend({
         var eventData = _.clone(groupby);
         this._prepareItem(groupby);
         if (groupby.hasOptions) {
+            groupby.defaultOptionId = DEFAULT_INTERVAL;
             groupby.currentOptionId = DEFAULT_INTERVAL;
             groupby.isDate = true;
             eventData.optionId = groupby.currentOptionId;

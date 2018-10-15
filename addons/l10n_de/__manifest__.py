@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Deutschland - Accounting',
+    'name': 'Germany - Accounting',
     'author': 'openbig.org',
     'website': 'http://www.openbig.org',
     'category': 'Localization',
@@ -23,5 +23,6 @@ German accounting chart and localization.
         'data/menuitem_data.xml',
         'views/account_view.xml',
         'report/din5008_report.xml',
+        'data/report_layout.xml',
     ],
 }

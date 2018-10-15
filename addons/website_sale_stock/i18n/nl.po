@@ -3,19 +3,20 @@
 # * website_sale_stock
 # 
 # Translators:
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2017
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2017
-# Melroy van den Berg <webmaster1989@gmail.com>, 2017
-# Cas Vissers <casvissers@brahoo.nl>, 2017
-# Eric Geens <ericgeens@yahoo.com>, 2017
-# Martin Trigaux, 2017
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2018
+# Martin Trigaux, 2018
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2018
+# Eric Geens <ericgeens@yahoo.com>, 2018
+# Cas Vissers <casvissers@brahoo.nl>, 2018
+# Melroy van den Berg <webmaster1989@gmail.com>, 2018
+# Thomas Pot <thomas@open2bizz.nl>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.2\n"
+"Project-Id-Version: Odoo Server saas~11.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-22 14:11+0000\n"
-"PO-Revision-Date: 2018-03-22 14:11+0000\n"
-"Last-Translator: Martin Trigaux, 2017\n"
+"POT-Creation-Date: 2018-09-21 13:18+0000\n"
+"PO-Revision-Date: 2018-09-21 13:18+0000\n"
+"Last-Translator: Thomas Pot <thomas@open2bizz.nl>, 2018\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,8 +25,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: website_sale_stock
-#: model:ir.ui.view,arch_db:website_sale_stock.website_sale_stock_cart_lines
-#: model:ir.ui.view,arch_db:website_sale_stock.website_sale_stock_payment
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.website_sale_stock_cart_lines
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.website_sale_stock_payment
 msgid "<strong>Warning!</strong>"
 msgstr "<strong>Waarschuwing!</strong>"
 
@@ -35,6 +36,11 @@ msgstr "<strong>Waarschuwing!</strong>"
 msgid "Adds an inventory availability status on the web product page."
 msgstr ""
 "Voegt een voorraad beschikbaarheid status toe aan de website product pagina."
+
+#. module: website_sale_stock
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.product_template_form_view_inherit_website_sale_stock
+msgid "Availability"
+msgstr "Beschikbaarheid"
 
 #. module: website_sale_stock
 #: model:ir.model.fields,field_description:website_sale_stock.field_product_product__available_threshold
@@ -49,27 +55,30 @@ msgid "Cart Qty"
 msgstr "Winkelmand Hvh"
 
 #. module: website_sale_stock
+#: model:ir.model,name:website_sale_stock.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configuratie instellingen"
+
+#. module: website_sale_stock
 #: model:ir.model.fields,field_description:website_sale_stock.field_product_product__custom_message
 #: model:ir.model.fields,field_description:website_sale_stock.field_product_template__custom_message
 msgid "Custom Message"
 msgstr "Aangepast bericht"
 
 #. module: website_sale_stock
-#: model:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
-msgid "Default Availability Mode"
-msgstr "Standaard beschikbaarheidsmodus"
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
+msgid "Default Mode"
+msgstr "Standaard modus"
 
 #. module: website_sale_stock
-#: model:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
 msgid ""
-"Default availability mode set on newly created stockable products. This can "
+"Default availability mode set on newly created storable products. This can "
 "be changed at the product level."
 msgstr ""
-"Standaard beschikbaarheidsmode ingesteld op nieuw aangemaakte "
-"voorraadproducten. Dit kan worden gewijzigd op productniveau."
 
 #. module: website_sale_stock
-#: model:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
 msgid "Default threshold"
 msgstr "Standaard drempel"
 
@@ -78,11 +87,10 @@ msgstr "Standaard drempel"
 #: code:addons/website_sale_stock/static/src/xml/website_sale_stock_product_availability.xml:16
 #, python-format
 msgid "In stock"
-msgstr "Op stock"
+msgstr "Op voorraad"
 
 #. module: website_sale_stock
-#: model:ir.ui.view,arch_db:website_sale_stock.product_template_form_view_inherit_website_sale_stock
-#: model:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
 msgid "Inventory"
 msgstr "Voorraad"
 
@@ -94,7 +102,7 @@ msgid "Inventory Availability"
 msgstr "Voorraad beschikbaarheid"
 
 #. module: website_sale_stock
-#: model:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.res_config_settings_view_form
 msgid ""
 "Manage the inventory of your products and display their availability status "
 "on the website."
@@ -114,8 +122,8 @@ msgstr "Productsjabloon"
 
 #. module: website_sale_stock
 #: model:ir.model,name:website_sale_stock.model_sale_order
-msgid "Quotation"
-msgstr "Offerte"
+msgid "Sale Order"
+msgstr "Verkooporder"
 
 #. module: website_sale_stock
 #: model:ir.model,name:website_sale_stock.model_sale_order_line
@@ -168,15 +176,32 @@ msgid "Temporarily out of stock"
 msgstr "Tijdelijk geen voorraad"
 
 #. module: website_sale_stock
+#: model:ir.model,name:website_sale_stock.model_stock_picking
+msgid "Transfer"
+msgstr "Overplaatsing"
+
+#. module: website_sale_stock
+#. openerp-web
+#: code:addons/website_sale_stock/static/src/xml/website_sale_stock_product_availability.xml:13
+#: code:addons/website_sale_stock/static/src/xml/website_sale_stock_product_availability.xml:22
 #: model:ir.model.fields,field_description:website_sale_stock.field_sale_order__warning_stock
 #: model:ir.model.fields,field_description:website_sale_stock.field_sale_order_line__warning_stock
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.website_sale_stock_cart_lines
+#: model_terms:ir.ui.view,arch_db:website_sale_stock.website_sale_stock_payment
+#, python-format
 msgid "Warning"
 msgstr "Waarschuwing"
 
 #. module: website_sale_stock
 #: model:ir.model,name:website_sale_stock.model_website
+#: model:ir.model.fields,field_description:website_sale_stock.field_stock_picking__website_id
 msgid "Website"
 msgstr "Website"
+
+#. module: website_sale_stock
+#: model:ir.model.fields,help:website_sale_stock.field_stock_picking__website_id
+msgid "Website this picking belongs to."
+msgstr ""
 
 #. module: website_sale_stock
 #. openerp-web
@@ -212,8 +237,3 @@ msgstr "beschikbaar"
 #, python-format
 msgid "in your cart."
 msgstr "in uw mandje."
-
-#. module: website_sale_stock
-#: model:ir.model,name:website_sale_stock.model_res_config_settings
-msgid "res.config.settings"
-msgstr "res.config.settings"

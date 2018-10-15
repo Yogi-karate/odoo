@@ -14,11 +14,20 @@ class Website(models.Model):
     _inherit = 'website'
 
     pricelist_id = fields.Many2one('product.pricelist', compute='_compute_pricelist_id', string='Default Pricelist')
-    currency_id = fields.Many2one('res.currency', related='pricelist_id.currency_id', related_sudo=False, string='Default Currency')
+    currency_id = fields.Many2one('res.currency', related='pricelist_id.currency_id', related_sudo=False, string='Default Currency', readonly=False)
     salesperson_id = fields.Many2one('res.users', string='Salesperson')
     salesteam_id = fields.Many2one('crm.team', string='Sales Team')
     pricelist_ids = fields.One2many('product.pricelist', compute="_compute_pricelist_ids",
                                     string='Price list available for this Ecommerce/Website')
+
+    def _default_recovery_mail_template(self):
+        try:
+            return self.env.ref('website_sale.mail_template_sale_cart_recovery').id
+        except ValueError:
+            return False
+
+    cart_recovery_mail_template_id = fields.Many2one('mail.template', string='Cart Recovery Email', default=_default_recovery_mail_template, domain="[('model', '=', 'sale.order')]")
+    cart_abandoned_delay = fields.Float("Abandoned Delay", default=1.0)
 
     @api.one
     def _compute_pricelist_ids(self):
@@ -145,7 +154,7 @@ class Website(models.Model):
 
     @api.multi
     def sale_product_domain(self):
-        return [("sale_ok", "=", True)]
+        return [("sale_ok", "=", True)] + self.get_current_website().website_domain()
 
     @api.model
     def sale_get_payment_term(self, partner):
@@ -168,10 +177,11 @@ class Website(models.Model):
             'partner_id': partner.id,
             'pricelist_id': pricelist.id,
             'payment_term_id': self.sale_get_payment_term(partner),
-            'team_id': self.salesteam_id.id,
+            'team_id': self.salesteam_id.id or partner.parent_id.team_id.id or partner.team_id.id,
             'partner_invoice_id': partner.id,
             'partner_shipping_id': addr['delivery'],
             'user_id': salesperson_id or self.salesperson_id.id or default_user_id,
+            'website_id': self._context.get('website_id'),
         }
         company = self.company_id or pricelist.company_id
         if company:

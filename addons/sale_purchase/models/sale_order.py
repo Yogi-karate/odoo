@@ -58,7 +58,7 @@ class SaleOrder(models.Model):
             purchase_to_notify_map[purchase_line.order_id] |= purchase_line.sale_line_id
 
         for purchase_order, sale_order_lines in purchase_to_notify_map.items():
-            purchase_order.activity_schedule_with_view('mail.mail_activity_data_warning', fields.Datetime.now(),
+            purchase_order.activity_schedule_with_view('mail.mail_activity_data_warning',
                 user_id=purchase_order.user_id.id or self.env.uid,
                 views_or_xmlid='sale_purchase.exception_purchase_on_sale_cancellation',
                 render_context={
@@ -151,7 +151,7 @@ class SaleOrderLine(models.Model):
                 'sale_orders': sale_lines.mapped('order_id'),
                 'origin_values': origin_values,
             }
-            purchase_order.activity_schedule_with_view('mail.mail_activity_data_warning', fields.Datetime.now(),
+            purchase_order.activity_schedule_with_view('mail.mail_activity_data_warning',
                 user_id=purchase_order.user_id.id or self.env.uid,
                 views_or_xmlid='sale_purchase.exception_purchase_on_sale_quantity_decreased',
                 render_context=render_context)
@@ -220,7 +220,7 @@ class SaleOrderLine(models.Model):
         supplierinfo = self.product_id._select_seller(
             partner_id=purchase_order.partner_id,
             quantity=purchase_qty_uom,
-            date=purchase_order.date_order, # and purchase_order.date_order[:10],
+            date=purchase_order.date_order and purchase_order.date_order.date(), # and purchase_order.date_order[:10],
             uom_id=self.product_id.uom_po_id
         )
         fpos = purchase_order.fiscal_position_id

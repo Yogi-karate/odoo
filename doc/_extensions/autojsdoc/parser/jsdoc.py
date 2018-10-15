@@ -62,6 +62,11 @@ class CommentDoc(pyjsdoc.CommentDoc):
         d['name'] = self.name
         return d
 
+    # don't resolve already resolved docs (e.g. a literal dict being
+    # include-ed in two different classes because I don't even care anymore
+    def become(self, modules):
+        return self
+
 class PropertyDoc(CommentDoc):
     @classmethod
     def from_param(cls, s, sourcemodule=None):
@@ -258,7 +263,8 @@ class ClassDoc(NSDoc):
         # FIXME: should ideally be a proxy namespace
         if method_name == 'prototype':
             return self
-        return super(ClassDoc, self).get_property(method_name)
+        return super(ClassDoc, self).get_property(method_name)\
+            or (self.superclass and self.superclass.get_property(method_name))
 
     @property
     def mixins(self):

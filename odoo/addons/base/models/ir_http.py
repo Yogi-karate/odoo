@@ -23,6 +23,7 @@ from odoo.exceptions import AccessDenied, AccessError
 from odoo.http import request, STATIC_CACHE, content_disposition
 from odoo.tools import pycompat, consteq
 from odoo.tools.mimetypes import guess_mimetype
+from ast import literal_eval
 from odoo.modules.module import get_resource_path, get_module_path
 
 _logger = logging.getLogger(__name__)
@@ -73,7 +74,7 @@ class SignedIntConverter(werkzeug.routing.NumberConverter):
 
 class IrHttp(models.AbstractModel):
     _name = 'ir.http'
-    _description = "HTTP routing"
+    _description = "HTTP Routing"
 
     @classmethod
     def _get_converters(cls):
@@ -125,9 +126,7 @@ class IrHttp(models.AbstractModel):
     @classmethod
     def _serve_attachment(cls):
         env = api.Environment(request.cr, SUPERUSER_ID, request.context)
-        domain = [('type', '=', 'binary'), ('url', '=', request.httprequest.path)]
-        fields = ['__last_update', 'datas', 'name', 'mimetype', 'checksum']
-        attach = env['ir.attachment'].search_read(domain, fields)
+        attach = env['ir.attachment'].get_serve_attachment(request.httprequest.path, extra_fields=['name', 'checksum'])
         if attach:
             wdate = attach[0]['__last_update']
             datas = attach[0]['datas'] or b''
@@ -170,9 +169,10 @@ class IrHttp(models.AbstractModel):
             if serve:
                 return serve
 
-        # Don't handle exception but use werkeug debugger if server in --dev mode
-        if 'werkzeug' in tools.config['dev_mode']:
-            raise
+        # Don't handle exception but use werkzeug debugger if server in --dev mode
+        if 'werkzeug' in tools.config['dev_mode'] and not isinstance(exception, werkzeug.exceptions.NotFound):
+            raise exception
+
         try:
             return request._handle_exception(exception)
         except AccessDenied:
@@ -243,10 +243,29 @@ class IrHttp(models.AbstractModel):
         return content_disposition(filename)
 
     @classmethod
+    def _xmlid_to_obj(cls, env, xmlid):
+        return env.ref(xmlid, False)
+
+    @classmethod
+    def _check_access_mode(cls, env, id, access_mode, model, access_token=None, related_id=None):
+        """
+        Implemented by each module to define an additional way to check access.
+
+        :param env: the env of binary_content
+        :param id: id of the record from which to fetch the binary
+        :param access_mode: typically a string that describes the behaviour of the custom check
+        :param model: the model of the object for which binary_content was called
+        :param related_id: optional id to check security.
+        :return: True if the test passes, else False.
+        """
+        return False
+
+
+    @classmethod
     def binary_content(cls, xmlid=None, model='ir.attachment', id=None, field='datas',
                        unique=False, filename=None, filename_field='datas_fname', download=False,
                        mimetype=None, default_mimetype='application/octet-stream',
-                       access_token=None, env=None):
+                       access_token=None, related_id=None, access_mode=None, env=None):
         """ Get file, attachment or downloadable content
 
         If the ``xmlid`` and ``id`` parameter is omitted, fetches the default value for the
@@ -262,6 +281,8 @@ class IrHttp(models.AbstractModel):
         :param str filename_field: if not create an filename with model-id-field
         :param bool download: apply headers to download the file
         :param str mimetype: mintype of the field (for headers)
+        :param related_id: the id of another record used for custom_check
+        :param  access_mode: if truthy, will call custom_check to fetch the object that contains the binary.
         :param str default_mimetype: default mintype if no mintype found
         :param str access_token: optional token for unauthenticated access
                                  only available  for ir.attachment
@@ -272,17 +293,22 @@ class IrHttp(models.AbstractModel):
         # get object and content
         obj = None
         if xmlid:
-            obj = env.ref(xmlid, False)
-        elif id and model == 'ir.attachment' and access_token:
-            obj = env[model].sudo().browse(int(id))
-            if not consteq(obj.access_token, access_token):
-                return (403, [], None)
+            obj = cls._xmlid_to_obj(env, xmlid)
         elif id and model in env.registry:
             obj = env[model].browse(int(id))
-
         # obj exists
         if not obj or not obj.exists() or field not in obj:
             return (404, [], None)
+
+        # access token grant access
+        if model == 'ir.attachment' and access_token:
+            obj = obj.sudo()
+            if access_mode:
+                if not cls._check_access_mode(env, id, access_mode, model, access_token=access_token,
+                                             related_id=related_id):
+                    return (403, [], None)
+            elif not consteq(obj.access_token or '', access_token):
+                return (403, [], None)
 
         # check read access
         try:

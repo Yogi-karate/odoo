@@ -25,7 +25,7 @@ class KarmaError(Forbidden):
 class Forum(models.Model):
     _name = 'forum.forum'
     _description = 'Forum'
-    _inherit = ['mail.thread', 'website.seo.metadata']
+    _inherit = ['mail.thread', 'website.seo.metadata', 'website.multi.mixin']
 
     @api.model_cr
     def init(self):
@@ -53,6 +53,7 @@ class Forum(models.Model):
                             'build your professional profile and become a better marketer together.'))
     welcome_message = fields.Html(
         'Welcome Message',
+        translate=True,
         default = """<section class="bg-info" style="height: 168px;"><div class="container">
                         <div class="row">
                             <div class="col-lg-12">
@@ -208,6 +209,7 @@ class Post(models.Model):
         ('discussion', 'Discussion')],
         string='Type', default='question', required=True)
     website_message_ids = fields.One2many(domain=lambda self: [('model', '=', self._name), ('message_type', 'in', ['email', 'comment'])])
+    website_id = fields.Many2one(related='forum_id.website_id', readonly=True)
 
     # history
     create_date = fields.Datetime('Asked on', index=True, readonly=True)
@@ -421,6 +423,14 @@ class Post(models.Model):
             if content_match:
                 raise KarmaError('User karma not sufficient to post an image or link.')
         return content
+
+    def _default_website_meta(self):
+        res = super(Post, self)._default_website_meta()
+        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.plain_content
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = "/forum/user/%s/avatar" % (self.create_uid.id)
+        res['default_twitter']['twitter:card'] = 'summary'
+        return res
 
     @api.constrains('parent_id')
     def _check_parent_id(self):
@@ -809,7 +819,7 @@ class Post(models.Model):
         return groups
 
     @api.multi
-    @api.returns('self', lambda value: value.id)
+    @api.returns('mail.message', lambda value: value.id)
     def message_post(self, message_type='notification', **kwargs):
         question_followers = self.env['res.partner']
         if self.ids and message_type == 'comment':  # user comments have a restriction on karma
@@ -854,14 +864,14 @@ class PostReason(models.Model):
 
 class Vote(models.Model):
     _name = 'forum.post.vote'
-    _description = 'Vote'
+    _description = 'Post Vote'
 
     post_id = fields.Many2one('forum.post', string='Post', ondelete='cascade', required=True)
     user_id = fields.Many2one('res.users', string='User', required=True, default=lambda self: self._uid)
     vote = fields.Selection([('1', '1'), ('-1', '-1'), ('0', '0')], string='Vote', required=True, default='1')
     create_date = fields.Datetime('Create Date', index=True, readonly=True)
-    forum_id = fields.Many2one('forum.forum', string='Forum', related="post_id.forum_id", store=True)
-    recipient_id = fields.Many2one('res.users', string='To', related="post_id.create_uid", store=True)
+    forum_id = fields.Many2one('forum.forum', string='Forum', related="post_id.forum_id", store=True, readonly=False)
+    recipient_id = fields.Many2one('res.users', string='To', related="post_id.create_uid", store=True, readonly=False)
 
     def _get_karma_value(self, old_vote, new_vote, up_karma, down_karma):
         _karma_upd = {
@@ -920,7 +930,6 @@ class Tags(models.Model):
     _inherit = ['mail.thread', 'website.seo.metadata']
 
     name = fields.Char('Name', required=True)
-    create_uid = fields.Many2one('res.users', string='Created by', readonly=True)
     forum_id = fields.Many2one('forum.forum', string='Forum', required=True)
     post_ids = fields.Many2many(
         'forum.post', 'forum_tag_rel', 'forum_tag_id', 'forum_id',

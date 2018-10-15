@@ -7,10 +7,10 @@
 # Onii Onii <onii0223@yahoo.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.4\n"
+"Project-Id-Version: Odoo Server saas~11.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-02 09:56+0000\n"
-"PO-Revision-Date: 2018-08-02 09:56+0000\n"
+"POT-Creation-Date: 2018-09-18 09:49+0000\n"
+"PO-Revision-Date: 2018-09-18 09:49+0000\n"
 "Last-Translator: Onii Onii <onii0223@yahoo.com>, 2018\n"
 "Language-Team: Mongolian (https://www.transifex.com/odoo/teams/41243/mn/)\n"
 "MIME-Version: 1.0\n"
@@ -25,12 +25,12 @@ msgid "Active"
 msgstr "Идэвхитэй"
 
 #. module: uom
-#: model:ir.actions.act_window,help:uom.product_uom_form_action
+#: model_terms:ir.actions.act_window,help:uom.product_uom_form_action
 msgid "Add a new unit of measure"
 msgstr ""
 
 #. module: uom
-#: model:ir.actions.act_window,help:uom.product_uom_categ_form_action
+#: model_terms:ir.actions.act_window,help:uom.product_uom_categ_form_action
 msgid "Add a new unit of measure category"
 msgstr ""
 
@@ -57,16 +57,6 @@ msgid ""
 msgstr ""
 "Хэмжих нэгжийг хооронд нь хөрвүүлэх явдал нь зөвхөн нэг ангилалд хамаарч "
 "байвал л хийгдэнэ. Хөрвүүлэлт нь харьцаан дээр суурилж явагдана."
-
-#. module: uom
-#: code:addons/uom/models/uom_uom.py:138
-#, python-format
-msgid ""
-"Conversion from Product UoM %s to Default UoM %s is not possible as they "
-"both belong to different Category!."
-msgstr ""
-"Барааны %s хэмжих нэгжээс анхны %s хэмжих нэгж рүү хөрвүүлэх боломжгүй. Учир"
-" нь эдгээр нь өөр хэмжих нэгжийн ангилалд байна."
 
 #. module: uom
 #: model:ir.model.fields,field_description:uom.field_uom_category__create_uid
@@ -159,15 +149,9 @@ msgid "Liter(s)"
 msgstr "Литр(үүд)"
 
 #. module: uom
-#: model:ir.model.fields,field_description:uom.field_res_users__has_group_uom
 #: model:res.groups,name:uom.group_uom
 msgid "Manage Multiple Units of Measure"
 msgstr "Олон Хэмжих нэгжийг Менежмент хийх"
-
-#. module: uom
-#: model:ir.model.fields,field_description:uom.field_uom_category__name
-msgid "Name"
-msgstr "Нэр"
 
 #. module: uom
 #: model:ir.model,name:uom.model_uom_uom
@@ -215,8 +199,23 @@ msgstr "Хэмжих нэгжийн хөрвүүлэлтийн коэффице�
 
 #. module: uom
 #: sql_constraint:uom.uom:0
-msgid "The rounding precision must be greater than 0!"
-msgstr "Бүхэлчлэх нарийвчлал нь 0-с их байх ёстой!"
+msgid "The reference unit must have a conversion factor equal to 1."
+msgstr ""
+
+#. module: uom
+#: sql_constraint:uom.uom:0
+msgid "The rounding precision must be strictly positive."
+msgstr ""
+
+#. module: uom
+#: code:addons/uom/models/uom_uom.py:152
+#, python-format
+msgid ""
+"The unit of measure %s defined on the order line doesn't belong to the same "
+"category than the unit of measure %s defined on the product. Please correct "
+"the unit of measure defined on the order line or on the product, they should"
+" belong to the same category."
+msgstr ""
 
 #. module: uom
 #: selection:uom.category,measure_type:0
@@ -262,6 +261,11 @@ msgid "Unit of Measure Categories"
 msgstr "Хэмжих нэгжийн Ангилалууд"
 
 #. module: uom
+#: model:ir.model.fields,field_description:uom.field_uom_category__name
+msgid "Unit of Measure Category"
+msgstr ""
+
+#. module: uom
 #: model:uom.uom,name:uom.product_uom_unit
 msgid "Unit(s)"
 msgstr "Ширхэг(үүд)"
@@ -273,18 +277,18 @@ msgstr ""
 
 #. module: uom
 #: model:ir.actions.act_window,name:uom.product_uom_form_action
-#: model:ir.ui.view,arch_db:uom.product_uom_form_view
-#: model:ir.ui.view,arch_db:uom.product_uom_tree_view
+#: model_terms:ir.ui.view,arch_db:uom.product_uom_form_view
+#: model_terms:ir.ui.view,arch_db:uom.product_uom_tree_view
 msgid "Units of Measure"
 msgstr "Хэмжих нэгж"
 
 #. module: uom
-#: model:ir.ui.view,arch_db:uom.product_uom_categ_form_view
+#: model_terms:ir.ui.view,arch_db:uom.product_uom_categ_form_view
 msgid "Units of Measure categories"
 msgstr "Хэмжих нэгжийн ангилал"
 
 #. module: uom
-#: model:ir.actions.act_window,help:uom.product_uom_categ_form_action
+#: model_terms:ir.actions.act_window,help:uom.product_uom_categ_form_action
 msgid ""
 "Units of measure belonging to the same category can be\n"
 "            converted between each others. For example, in the category\n"
@@ -297,7 +301,7 @@ msgstr ""
 "            Цаг, Хоног."
 
 #. module: uom
-#: code:addons/uom/models/uom_uom.py:86
+#: code:addons/uom/models/uom_uom.py:93
 #, python-format
 msgid ""
 "UoM category %s should have a reference unit of measure. If you just created"
@@ -305,15 +309,10 @@ msgid ""
 msgstr ""
 
 #. module: uom
-#: code:addons/uom/models/uom_uom.py:88
+#: code:addons/uom/models/uom_uom.py:95
 #, python-format
 msgid "UoM category %s should only have one reference unit of measure."
 msgstr ""
-
-#. module: uom
-#: model:ir.model,name:uom.model_res_users
-msgid "Users"
-msgstr "Хэрэглэгчид"
 
 #. module: uom
 #: selection:uom.category,measure_type:0
@@ -338,7 +337,21 @@ msgid "You can have only one category per measurement type."
 msgstr ""
 
 #. module: uom
-#: model:ir.actions.act_window,help:uom.product_uom_form_action
+#: code:addons/uom/models/uom_uom.py:28
+#, python-format
+msgid "You cannot delete this UoM Category as it is used by the system."
+msgstr ""
+
+#. module: uom
+#: code:addons/uom/models/uom_uom.py:115
+#, python-format
+msgid ""
+"You cannot delete this UoM as it is used by the system. You should rather "
+"archive it."
+msgstr ""
+
+#. module: uom
+#: model_terms:ir.actions.act_window,help:uom.product_uom_form_action
 msgid ""
 "You must define a conversion rate between several Units of\n"
 "            Measure within the same category."
@@ -352,12 +365,12 @@ msgid "cm"
 msgstr "см"
 
 #. module: uom
-#: model:ir.ui.view,arch_db:uom.product_uom_form_view
+#: model_terms:ir.ui.view,arch_db:uom.product_uom_form_view
 msgid "e.g: 1 * (reference unit) = ratio * (this unit)"
 msgstr "ө.х: 1 * (сурвалж нэгж) = харьцаа * (энэ нэгж)"
 
 #. module: uom
-#: model:ir.ui.view,arch_db:uom.product_uom_form_view
+#: model_terms:ir.ui.view,arch_db:uom.product_uom_form_view
 msgid "e.g: 1 * (this unit) = ratio * (reference unit)"
 msgstr "ө.х: 1 * (энэ нэгж) = харьцаа * (сурвалж нэгж)"
 

@@ -6,7 +6,7 @@
         </record>
 
         <record id="menu_website_forums" model="website.menu">
-            <field name="name">Forums</field>
+            <field name="name">Forum</field>
             <field name="url">/forum</field>
             <field name="parent_id" ref="website.main_menu"/>
             <field name="sequence" type="int">35</field>
@@ -24,6 +24,9 @@
 
         <!-- Set Admin karma -->
         <record id="base.user_root" model="res.users">
+            <field name="karma">2500</field>
+        </record>
+        <record id="base.user_admin" model="res.users">
             <field name="karma">2500</field>
         </record>
 

@@ -23,7 +23,7 @@ class MrpUnbuild(models.Model):
         'product.product', 'Product',
         required=True, states={'done': [('readonly', True)]})
     product_qty = fields.Float(
-        'Quantity',
+        'Quantity', default=1.0,
         required=True, states={'done': [('readonly', True)]})
     product_uom_id = fields.Many2one(
         'uom.uom', 'Unit of Measure',
@@ -85,8 +85,7 @@ class MrpUnbuild(models.Model):
     @api.multi
     def unlink(self):
         if 'done' in self.mapped('state'):
-            raise UserError(_('You cannot delete an unbuild order if the state'
-            'is "Done"'))
+            raise UserError(_("You cannot delete an unbuild order if the state is 'Done'."))
         return super(MrpUnbuild, self).unlink()
 
     @api.multi

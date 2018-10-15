@@ -22,7 +22,7 @@
 
         <!-- Case Teams Action -->
         <record id="crm_team_salesteams_act" model="ir.actions.act_window">
-            <field name="name">Sales Dashboard</field>
+            <field name="name">Team Pipelines</field>
             <field name="res_model">crm.team</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,form</field>
@@ -81,9 +81,6 @@
                                                         <div class="o_kanban_record_headings ml8">
                                                             <strong class="o_kanban_record_title"><field name="name"/></strong>
                                                         </div>
-                                                        <a t-if="! read_only_mode" type="delete" class="text-danger" aria-label="Delete" title="Delete">
-                                                            <i class="fa fa-times"></i>
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </t>

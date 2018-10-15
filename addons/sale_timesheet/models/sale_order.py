@@ -74,7 +74,7 @@ class SaleOrder(models.Model):
             action = self.env.ref('project.action_view_task').read()[0]
             action['context'] = {}  # erase default context to avoid default filter
             if len(self.tasks_ids) > 1:  # cross project kanban task
-                action['views'] = [[False, 'kanban'], [list_view_id, 'tree'], [form_view_id, 'form'], [False, 'graph'], [False, 'calendar'], [False, 'pivot'], [False, 'graph']]
+                action['views'] = [[False, 'kanban'], [list_view_id, 'tree'], [form_view_id, 'form'], [False, 'graph'], [False, 'calendar'], [False, 'pivot']]
             elif len(self.tasks_ids) == 1:  # single task -> form view
                 action['views'] = [(form_view_id, 'form')]
                 action['res_id'] = self.tasks_ids.id
@@ -222,6 +222,8 @@ class SaleOrderLine(models.Model):
             'analytic_account_id': account.id,
             'partner_id': self.order_id.partner_id.id,
             'sale_line_id': self.id,
+            'sale_order_id': self.order_id.id,
+            'active': True,
         }
         if self.product_id.project_template_id:
             values['name'] = "%s - %s" % (values['name'], self.product_id.project_template_id.name)
@@ -324,4 +326,5 @@ class SaleOrderLine(models.Model):
                         project = map_so_project_templates[(so_line.order_id.id, so_line.product_id.project_template_id.id)]
                     else:
                         project = map_so_project[so_line.order_id.id]
-                so_line._timesheet_create_task(project=project)
+                if not so_line.task_id:
+                    so_line._timesheet_create_task(project=project)
