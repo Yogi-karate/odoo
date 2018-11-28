@@ -637,7 +637,7 @@
             </field>
         </record>
         <record id="action_partner_vendor_form_view1" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
+            <field eval="1" name="sequence"/
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="res_partner_kanban_view"/>
             <field name="act_window_id" ref="action_partner_supplier_form"/>
