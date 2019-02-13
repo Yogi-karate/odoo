@@ -39,8 +39,20 @@ PUBLISH_DIRS = {
     'tarball': 'src',
     'windows': 'exe',
 }
-ADDONS_NOT_TO_PUBLISH = [
-]
+ADDONS_NOT_TO_PUBLISH = ['l10n_nl','l10n_hu','l10n_hr','l10n_hn','l10n_de',
+                         'l10n_mx','l10n_at','l10n_fr_fec','l10n_br','l10n_bo','l10n_generic_coa','l10n_au',
+                         'l10n_ar','l10n_pt','l10n_uk',
+                         'l10n_sg','l10n_uy','l10n_fr_pos_cert','l10n_si','l10n_multilang','l10n_pa',
+                         'l10n_ve','l10n_be_hr_payroll','l10n_sa','l10n_fr_hr_payroll','l10n_tr',
+                         'l10n_be_hr_payroll_fleet','l10n_de_skr04','l10n_de_skr03',
+                         'l10n_th','l10n_eu_service','l10n_cl','l10n_fr_certification','l10n_lu',
+                         'l10n_fr','l10n_jp','l10n_et','l10n_es','l10n_be_hr_payroll_account','l10n_do','l10n_nz',
+                         'l10n_gr','l10n_no','l10n_syscohada','l10n_cn_standard','l10n_ae',
+                         'l10n_hk','l10n_ma','l10n_be','l10n_gt','l10n_pl','l10n_us','l10n_pe','l10n_vn',
+                         'l10n_in_schedule6','l10n_cn_city','l10n_ro','l10n_co',
+                         'l10n_ch','l10n_ca','l10n_it','l10n_cn_small_business','l10n_ec','l10n_be_invoice_bba',
+                         'l10n_fr_sale_closing','l10n_cn','l10n_cr','hw_blackbox_be','hw_posbox_upgrade','hw_drivers','hw_proxy',
+                         'hw_screen','hw_scale','hw_escpos','hw_scanner','hw_posbox_homepage']
 
 
 def move_glob(source, wildcards, destination):
