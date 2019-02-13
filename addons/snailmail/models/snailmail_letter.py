@@ -165,12 +165,12 @@ class SnailmailLetter(models.Model):
             else:
                 # adding the web logo from the company for future possible customization
                 document.update({
-                    'company_logo': letter.company_id.logo_web,
+                    'company_logo': letter.company_id.logo_web.decode('utf-8'),
                 })
                 attachment = letter._fetch_attachment()
                 if attachment:
                     document.update({
-                        'pdf_bin': route == 'print' and attachment.datas,
+                        'pdf_bin': route == 'print' and attachment.datas.decode('utf-8'),
                         'pages': route == 'estimate' and self._count_pages_pdf(base64.b64decode(attachment.datas)),
                     })
                 else:
@@ -209,7 +209,9 @@ class SnailmailLetter(models.Model):
             return _('The country of the partner is not covered by Snailmail.')
         if error == 'MISSING_REQUIRED_FIELDS':
             return _('One or more required fields are empty.')
-        if error == 'SOMETHING_IS_WRONG':
+        if error == 'FORMAT_ERROR':
+            return _('The attachment of the letter could not be sent. Please check its content and contact the support if the problem persists.')
+        else:
             return _('An unknown error happened. Please contact the support.')
         return error
 
@@ -256,20 +258,22 @@ class SnailmailLetter(models.Model):
                 activity = MailActivity.search(domain, limit=1)
 
                 activity_data = {
-                    'res_id': letter.res_id,
-                    'res_model_id': self.env['ir.model']._get(letter.model).id,
                     'activity_type_id': self.env.ref('mail.mail_activity_data_warning').id,
                     'summary': '[SNAILMAIL] ' + _('Post letter: an error occured.'),
                     'note': note,
-                    'user_id': letter.user_id.id,
                     'date_deadline': fields.Date.today()
                 }
                 if activity:
                     activity.update(activity_data)
                 else:
+                    activity_data.update({
+                        'user_id': letter.user_id.id,
+                        'res_id': letter.res_id,
+                        'res_model_id': self.env['ir.model']._get(letter.model).id,
+                    })
                     MailActivity.create(activity_data)
 
-                letter.write({'info_msg': note})
+                letter.write({'info_msg': note, 'state': 'error'})
 
         self.env.cr.commit()
 
@@ -317,7 +321,7 @@ class SnailmailLetter(models.Model):
 
     @api.model
     def _snailmail_cron(self):
-        letters_send = self.search([('state', 'in', ['pending', 'error'])])
+        letters_send = self.search([('state', '=', 'pending')])
         if letters_send:
             letters_send._snailmail_print()
         limit_date = datetime.datetime.utcnow() - datetime.timedelta(days=1)

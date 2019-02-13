@@ -3,24 +3,25 @@
 # * stock
 # 
 # Translators:
-# thanh nguyen <thanhnguyen.icsc@gmail.com>, 2018
-# Duy BQ <duybq86@gmail.com>, 2018
-# fanha99 <fanha99@hotmail.com>, 2018
-# Martin Trigaux, 2018
-# son dang <son.dang@doda100.com>, 2018
 # Thang Duong Bao <nothingctrl@gmail.com>, 2018
 # Su Pham Nghiep Vu <nghiepvusupham58@gmail.com>, 2018
 # Thong Dong <thongdong7@gmail.com>, 2018
+# son dang <son.dang@doda100.com>, 2018
+# Martin Trigaux, 2018
+# fanha99 <fanha99@hotmail.com>, 2018
 # Tri Bui <tribd@trobz.com>, 2018
 # Minh Nguyen <ndminh210994@gmail.com>, 2018
 # khoibv Mr <kendev2009@gmail.com>, 2018
+# Duy BQ <duybq86@gmail.com>, 2018
+# thanh nguyen <thanhnguyen.icsc@gmail.com>, 2019
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 06:48+0000\n"
-"PO-Revision-Date: 2018-10-08 06:48+0000\n"
-"Last-Translator: khoibv Mr <kendev2009@gmail.com>, 2018\n"
+"POT-Creation-Date: 2019-01-09 10:31+0000\n"
+"PO-Revision-Date: 2018-08-24 09:25+0000\n"
+"Last-Translator: thanh nguyen <thanhnguyen.icsc@gmail.com>, 2019\n"
 "Language-Team: Vietnamese (https://www.transifex.com/odoo/teams/41243/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -157,11 +158,36 @@ msgstr ""
 "                    <strong>Tồn kho hiện tại của bạn: </strong>"
 
 #. module: stock
-#: code:addons/stock/models/stock_rule.py:111
+#: code:addons/stock/models/stock_rule.py:112
 #, python-format
 msgid ""
 "<br>A need is created in <b>%s</b> and a rule will be triggered to fulfill "
 "it."
+msgstr ""
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.stock_move_view_kanban
+#: model_terms:ir.ui.view,arch_db:stock.view_stock_inventory_kanban
+msgid "<i class=\"fa fa-clock-o\" role=\"img\" aria-label=\"Date\" title=\"Date\"/>"
+msgstr ""
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.stock_scrap_view_kanban
+msgid ""
+"<i class=\"fa fa-clock-o\" role=\"img\" aria-label=\"Expected date\" "
+"title=\"Expected date\"/>"
+msgstr ""
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.stock_picking_type_kanban
+msgid "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Manage\" title=\"Manage\"/>"
+msgstr ""
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.report_mrp_line
+msgid ""
+"<i class=\"fa fa-fw fa-caret-right\" role=\"img\" aria-label=\"Unfold\" "
+"title=\"Unfold\"/>"
 msgstr ""
 
 #. module: stock
@@ -197,6 +223,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:stock.product_form_view_procurement_button
 #: model_terms:ir.ui.view,arch_db:stock.product_template_form_view_procurement_button
 msgid "<span class=\"o_stat_text\">On Hand</span>"
+msgstr ""
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.report_mrp_line
+msgid ""
+"<span role=\"img\" class=\"o_stock_reports_stream\" title=\"Traceability "
+"Report\" aria-label=\"Traceability Report\"><i class=\"fa fa-fw fa-level-up "
+"fa-rotate-270\"/></span>"
 msgstr ""
 
 #. module: stock
@@ -431,6 +465,12 @@ msgstr ""
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_routes_form
 msgid "Add a new route"
+msgstr ""
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid ""
+"Add an internal note that will be printed on the Picking Operations sheet"
 msgstr ""
 
 #. module: stock
@@ -1071,6 +1111,7 @@ msgstr "Nội dung"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_product_replenish__product_uom_category_id
+#: model:ir.model.fields,help:stock.field_stock_inventory_line__product_uom_category_id
 msgid ""
 "Conversion between Units of Measure can only occur if they belong to the "
 "same category. The conversion will be made based on the ratios."
@@ -2111,7 +2152,7 @@ msgstr "Có dịch chuyển phế liệu"
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking__has_tracking
 msgid "Has Tracking"
-msgstr ""
+msgstr "Đã theo dõi"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_replenish__product_has_variants
@@ -2256,6 +2297,8 @@ msgid ""
 "If the picking is unlocked you can edit initial demand (for a draft picking)"
 " or done quantities (for a done picking)."
 msgstr ""
+"Nếu việc lấy hàng được mở khóa, bạn có thể chỉnh sửa nhu cầu ban đầu (đối "
+"với việc chọn bản nháp) hoặc số lượng thực hiện (đối với việc chọn xong)."
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_picking_type__show_reserved
@@ -2274,6 +2317,9 @@ msgid ""
 " operations. If not, the picking lines will represent an aggregate of "
 "detailed stock operations."
 msgstr ""
+"Nếu hộp kiểm này được đánh dấu, các dòng chọn sẽ đại diện cho các hoạt động "
+"chứng khoán chi tiết. Nếu không, các dòng chọn sẽ đại diện cho tổng hợp các "
+"hoạt động chứng khoán chi tiết."
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_move_line__picking_type_use_create_lots
@@ -2293,6 +2339,10 @@ msgid ""
 "can also decide to not put lots in this operation type.  This means it will "
 "create stock with no lot or not put a restriction on the lot taken. "
 msgstr ""
+"Nếu đánh dấu chỗ này, bạn sẽ có thể chọn số lô/Seria. Bạn cũng có thể quyết "
+"định không cho lô hàng vào loại thao tác này. Điều này có nghĩa là nó sẽ tạo"
+" ra tồn kho mà không có lô hàng hoặc không đặt một hạn chế trên lô hàng được"
+" thực hiện."
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_move__backorder_id
@@ -3056,7 +3106,10 @@ msgid "Main Attachment"
 msgstr "Đính kèm chính"
 
 #. module: stock
+#: code:addons/stock/models/stock_warehouse.py:288
+#: code:addons/stock/models/stock_warehouse.py:629
 #: model:stock.location.route,name:stock.route_warehouse0_mto
+#, python-format
 msgid "Make To Order"
 msgstr "Cung ứng theo đơn hàng (MTO)"
 
@@ -3149,7 +3202,7 @@ msgstr "Số lượng tối đa"
 #: model:ir.model.fields,field_description:stock.field_stock_picking__message_has_error
 #: model:ir.model.fields,field_description:stock.field_stock_production_lot__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Thông báo gửi đi gặp lỗi"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_partner__picking_warn_msg
@@ -3436,6 +3489,11 @@ msgid "Not urgent"
 msgstr "Không gấp"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid "Note"
+msgstr "Ghi chú"
+
+#. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__note
 #: model:ir.model.fields,field_description:stock.field_stock_picking__note
 #: model_terms:ir.ui.view,arch_db:stock.view_inventory_form
@@ -3479,7 +3537,7 @@ msgstr "Số thông điệp cần có hành động"
 #: model:ir.model.fields,help:stock.field_stock_picking__message_has_error_counter
 #: model:ir.model.fields,help:stock.field_stock_production_lot__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Số tin gửi đi bị lỗi"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_picking__message_unread_counter
@@ -4197,7 +4255,7 @@ msgstr "Truy vết"
 #. module: stock
 #: model:ir.model,name:stock.model_stock_move_line
 msgid "Product Moves (Stock Move Line)"
-msgstr ""
+msgstr "Chuyển sản phẩm (Chi tiết phiếu kho)"
 
 #. module: stock
 #: model:ir.ui.menu,name:stock.menu_product_packagings
@@ -6019,7 +6077,7 @@ msgstr "Cần làm"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_picking_type_kanban
 msgid "To Process"
-msgstr ""
+msgstr "Để xử lý"
 
 #. module: stock
 #: selection:stock.picking,activity_state:0
@@ -6050,12 +6108,15 @@ msgid "Traceability"
 msgstr "Truy vết"
 
 #. module: stock
+#. openerp-web
+#: code:addons/stock/static/src/js/stock_traceability_report_widgets.js:55
 #: model:ir.actions.client,name:stock.action_stock_report
 #: model:ir.model,name:stock.model_stock_traceability_report
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_body_print
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_inventory
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 #: model_terms:ir.ui.view,arch_db:stock.view_production_lot_form
+#, python-format
 msgid "Traceability Report"
 msgstr "Báo cáo Truy vết"
 
@@ -6304,6 +6365,11 @@ msgstr "Đơn vị"
 #: model:ir.ui.menu,name:stock.menu_stock_uom_categ_form_action
 msgid "UoM Categories"
 msgstr "Nhóm đơn vị"
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_inventory_line__product_uom_category_id
+msgid "Uom category"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_change_product_quantity
@@ -6670,6 +6736,9 @@ msgid ""
 "if some stock moves have already been created with that number. This would "
 "lead to inconsistencies in your stock."
 msgstr ""
+"Bạn không được phép thay đổi sản phẩm được liên kết với số sê-ri hoặc số lô "
+"nếu một số di chuyển chứng khoán đã được tạo với số đó. Điều này sẽ dẫn đến "
+"sự không nhất quán trong cổ phiếu của bạn."
 
 #. module: stock
 #: code:addons/stock/models/stock_production_lot.py:36
@@ -6772,6 +6841,9 @@ msgid ""
 "You cannot change the location type or its use as a scrap location as there "
 "are products reserved in this location. Please unreserve the products first."
 msgstr ""
+"Bạn không thể thay đổi loại vị trí hoặc sử dụng làm vị trí phế liệu vì có "
+"những sản phẩm được dành riêng ở vị trí này. Xin vui lòng bỏ qua các sản "
+"phẩm đầu tiên."
 
 #. module: stock
 #: code:addons/stock/models/product.py:647
@@ -6780,6 +6852,8 @@ msgid ""
 "You cannot change the ratio of this unit of mesure as some products with "
 "this UoM have already been moved or are currently reserved."
 msgstr ""
+"Bạn không thể thay đổi tỷ lệ của đơn vị đo này vì một số sản phẩm có đơn vị "
+"này đã được di chuyển hoặc hiện đang được xí trước."
 
 #. module: stock
 #: code:addons/stock/models/product.py:536
@@ -6801,7 +6875,7 @@ msgstr ""
 #: code:addons/stock/models/stock_inventory.py:105
 #, python-format
 msgid "You cannot delete a validated inventory adjustement."
-msgstr ""
+msgstr "Bạn không thể xóa một điều chỉnh hàng tồn kho được xác nhận."
 
 #. module: stock
 #: code:addons/stock/models/stock_inventory.py:415
@@ -7050,7 +7124,7 @@ msgstr "không khả dụng về số lượng yêu cầu"
 #: model:product.template,uom_name:stock.product_cable_management_box_product_template
 #: model:product.template,weight_uom_name:stock.product_cable_management_box_product_template
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_warehouse_orderpoint_form

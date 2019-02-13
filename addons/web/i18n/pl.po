@@ -3,35 +3,37 @@
 # * web
 # 
 # Translators:
-# zbik2607 <darek@krokus.com.pl>, 2018
-# Tomasz Leppich <t.leppich@gmail.com>, 2018
-# Mariusz, 2018
 # Zdzisław Krajewski <zdzichucb@gmail.com>, 2018
 # Maja Stawicka <mjstwck@wp.pl>, 2018
 # Monika Motyczyńska <m.monia@op.pl>, 2018
-# Martin Trigaux, 2018
-# Grzegorz Grzelak <grzegorz.grzelak@openglobe.pl>, 2018
+# Slawomir Adamus <melthalion@gmail.com>, 2018
+# Bartłomiej Maliński <bartlomiej.malinski@gmail.com>, 2018
 # Grażyna Grzelak <grazyna.grzelak@openglobe.pl>, 2018
+# 8cells Team <admin@8cells.com>, 2018
+# Jaroslaw Kaczmarski, 2018
+# Monika Grzelak <m.e.grzelak@gmail.com>, 2018
+# Andrzej Donczew <a.donczew@hadron.eu.com>, 2018
+# Wiktor Kaźmierczak <wik92tor@wp.pl>, 2018
+# zbik2607 <darek@krokus.com.pl>, 2018
+# Grzegorz Grzelak <grzegorz.grzelak@openglobe.pl>, 2018
 # Judyta Kaźmierczak <judyta.kazmierczak@openglobe.pl>, 2018
 # Tadeusz Karpiński <tadeuszkarpinski@gmail.com>, 2018
-# Jaroslaw Kaczmarski, 2018
-# Piotr Szlązak <szlazakpiotr@gmail.com>, 2018
-# Slawomir Adamus <melthalion@gmail.com>, 2018
+# Mariusz, 2018
 # Marcin Młynarczyk <mlynarczyk@gmail.com>, 2018
 # Paweł Michoń <michon.pawel@wp.pl>, 2018
-# Bartłomiej Maliński <bartlomiej.malinski@gmail.com>, 2018
-# Andrzej Donczew <a.donczew@hadron.eu.com>, 2018
+# Piotr Szlązak <szlazakpiotr@gmail.com>, 2018
+# Tomasz Leppich <t.leppich@gmail.com>, 2018
 # Paweł Wodyński <pw@myodoo.pl>, 2018
-# 8cells Team <admin@8cells.com>, 2018
-# Monika Grzelak <m.e.grzelak@gmail.com>, 2018
-# Wiktor Kaźmierczak <wik92tor@wp.pl>, 2018
+# Martin Trigaux, 2019
+# Piotr Cierkosz <piotr.w.cierkosz@gmail.com>, 2019
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 06:49+0000\n"
-"PO-Revision-Date: 2018-10-08 06:49+0000\n"
-"Last-Translator: Wiktor Kaźmierczak <wik92tor@wp.pl>, 2018\n"
+"POT-Creation-Date: 2019-01-09 10:32+0000\n"
+"PO-Revision-Date: 2018-08-24 09:33+0000\n"
+"Last-Translator: Piotr Cierkosz <piotr.w.cierkosz@gmail.com>, 2019\n"
 "Language-Team: Polish (https://www.transifex.com/odoo/teams/41243/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,13 +197,6 @@ msgstr "'%s' nie jest konwertowalne do daty lub czasu"
 
 #. module: web
 #. openerp-web
-#: code:addons/web/static/src/xml/menu.xml:101
-#, python-format
-msgid "(Enterprise Edition)"
-msgstr "(Edycja przedsiębiorstwa)"
-
-#. module: web
-#. openerp-web
 #: code:addons/web/static/src/xml/base.xml:298
 #, python-format
 msgid "(change)"
@@ -237,8 +232,28 @@ msgid "1 record"
 msgstr "1 rekord"
 
 #. module: web
+#: model_terms:ir.ui.view,arch_db:web.external_layout_background
+msgid "<i class=\"fa fa-at\" role=\"img\" aria-label=\"Email\" title=\"Email\"/>"
+msgstr ""
+
+#. module: web
+#: model_terms:ir.ui.view,arch_db:web.external_layout_background
+msgid "<i class=\"fa fa-building-o\" role=\"img\" aria-label=\"Fiscal number\"/>"
+msgstr ""
+
+#. module: web
+#: model_terms:ir.ui.view,arch_db:web.external_layout_background
+msgid "<i class=\"fa fa-globe\" role=\"img\" aria-label=\"Website\" title=\"Website\"/>"
+msgstr ""
+
+#. module: web
+#: model_terms:ir.ui.view,arch_db:web.external_layout_background
+msgid "<i class=\"fa fa-phone\" role=\"img\" aria-label=\"Phone\" title=\"Phone\"/>"
+msgstr ""
+
+#. module: web
 #. openerp-web
-#: code:addons/web/static/src/js/chrome/action_manager.js:577
+#: code:addons/web/static/src/js/chrome/action_manager.js:574
 #, python-format
 msgid ""
 "A popup window has been blocked. You may need to change your browser "
@@ -334,7 +349,7 @@ msgstr "Aktywne"
 #: code:addons/web/static/src/xml/kanban.xml:73
 #, python-format
 msgid "Add"
-msgstr "Montaż"
+msgstr "dodaj"
 
 #. module: web
 #. openerp-web
@@ -355,7 +370,7 @@ msgstr "Dodaj własny filtr"
 #: code:addons/web/static/src/xml/base.xml:1111
 #, python-format
 msgid "Add Custom Group"
-msgstr ""
+msgstr "Dodaj własną grupę"
 
 #. module: web
 #. openerp-web
@@ -376,7 +391,7 @@ msgstr "Dodaj warunek"
 #: code:addons/web/static/src/js/views/list/list_editable_renderer.js:78
 #, python-format
 msgid "Add a line"
-msgstr ""
+msgstr "Dodaj pozycję"
 
 #. module: web
 #. openerp-web
@@ -1088,13 +1103,7 @@ msgstr "Baza danych"
 
 #. module: web
 #. openerp-web
-#: code:addons/web/static/src/xml/menu.xml:107
-#, python-format
-msgid "Database expiration:"
-msgstr "Data wygaśnięcia bazy danych:"
-
-#. module: web
-#. openerp-web
+#: code:addons/web/static/src/js/views/search/groupby_menu.js:52
 #: code:addons/web/static/src/xml/base.xml:558
 #: code:addons/web/static/src/xml/web_calendar.xml:80
 #, python-format
@@ -1256,7 +1265,7 @@ msgstr "Pobierz xls"
 #: code:addons/web/static/src/xml/base.xml:1556
 #, python-format
 msgid "Dropdown menu"
-msgstr ""
+msgstr "Manu typu dropdown"
 
 #. module: web
 #. openerp-web
@@ -1646,6 +1655,13 @@ msgstr "Grupuj wg"
 #, python-format
 msgid "Group by: %s"
 msgstr "Grupuj wg: %s"
+
+#. module: web
+#. openerp-web
+#: code:addons/web/static/src/js/views/graph/graph_renderer.js:214
+#, python-format
+msgid "Grouped"
+msgstr "Zgrupowane"
 
 #. module: web
 #: model:ir.model,name:web.model_ir_http
@@ -2122,6 +2138,7 @@ msgstr "Modyfikatorzy:"
 
 #. module: web
 #. openerp-web
+#: code:addons/web/static/src/js/views/search/groupby_menu.js:54
 #: code:addons/web/static/src/xml/base.xml:560
 #: code:addons/web/static/src/xml/web_calendar.xml:82
 #, python-format
@@ -2292,7 +2309,6 @@ msgstr "Obiekt:"
 #. module: web
 #. openerp-web
 #: code:addons/web/static/src/js/core/dialog.js:59
-#: code:addons/web/static/src/xml/menu.xml:100
 #, python-format
 msgid "Odoo"
 msgstr "Odoo"
@@ -2668,6 +2684,7 @@ msgstr "Purpurowy"
 
 #. module: web
 #. openerp-web
+#: code:addons/web/static/src/js/views/search/groupby_menu.js:55
 #: code:addons/web/static/src/xml/base.xml:561
 #, python-format
 msgid "Quarter"
@@ -3070,6 +3087,13 @@ msgstr "Stało się coś strasznego"
 #, python-format
 msgid "Special:"
 msgstr "Specjalne:"
+
+#. module: web
+#. openerp-web
+#: code:addons/web/static/src/js/views/graph/graph_renderer.js:215
+#, python-format
+msgid "Stacked"
+msgstr ""
 
 #. module: web
 #. openerp-web
@@ -3624,6 +3648,7 @@ msgstr "Sieć:"
 
 #. module: web
 #. openerp-web
+#: code:addons/web/static/src/js/views/search/groupby_menu.js:53
 #: code:addons/web/static/src/xml/base.xml:559
 #: code:addons/web/static/src/xml/web_calendar.xml:81
 #, python-format
@@ -3680,6 +3705,7 @@ msgstr "XML ID:"
 
 #. module: web
 #. openerp-web
+#: code:addons/web/static/src/js/views/search/groupby_menu.js:56
 #: code:addons/web/static/src/xml/base.xml:562
 #, python-format
 msgid "Year"

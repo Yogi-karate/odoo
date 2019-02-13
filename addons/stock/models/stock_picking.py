@@ -4,9 +4,11 @@
 from collections import namedtuple
 import json
 import time
+from datetime import date
 
 from itertools import groupby
 from odoo import api, fields, models, _
+from odoo.osv import expression
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from odoo.exceptions import UserError
@@ -120,7 +122,7 @@ class PickingType(models.Model):
         domain = []
         if name:
             domain = ['|', ('name', operator, name), ('warehouse_id.name', operator, name)]
-        picking_ids = self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
+        picking_ids = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(picking_ids).name_get()
 
     @api.onchange('code')
@@ -532,6 +534,10 @@ class Picking(models.Model):
     def action_assign_owner(self):
         self.move_line_ids.write({'owner_id': self.owner_id.id})
 
+    def action_assign_partner(self):
+        for picking in self:
+            picking.move_lines.write({'partner_id': picking.partner_id.id})
+
     @api.multi
     def do_print_picking(self):
         self.write({'printed': True})
@@ -682,6 +688,7 @@ class Picking(models.Model):
     def do_unreserve(self):
         for picking in self:
             picking.move_lines._do_unreserve()
+            picking.package_level_ids.filtered(lambda p: not p.move_ids).unlink()
 
     @api.multi
     def button_validate(self):
@@ -886,6 +893,8 @@ class Picking(models.Model):
 
         documents = {}
         for (parent, responsible), moves in grouped_moves:
+            if not parent:
+                continue
             moves = list(moves)
             moves = self.env[moves[0]._name].concat(*moves)
             # Get the note
@@ -918,14 +927,12 @@ class Picking(models.Model):
         """
         for (parent, responsible), rendering_context in documents.items():
             note = render_method(rendering_context)
-
-            self.env['mail.activity'].create({
-                'activity_type_id': self.env.ref('mail.mail_activity_data_warning').id,
-                'note': note,
-                'user_id': responsible.id,
-                'res_id': parent.id,
-                'res_model_id': self.env['ir.model'].search([('model', '=', parent._name)], limit=1).id,
-            })
+            parent.activity_schedule(
+                'mail.mail_activity_data_warning',
+                date.today(),
+                note=note,
+                user_id=responsible.id
+            )
 
     def _log_less_quantities_than_expected(self, moves):
         """ Log an activity on picking that follow moves. The note
@@ -962,7 +969,11 @@ class Picking(models.Model):
             return self.env.ref('stock.exception_on_picking').render(values=values)
 
         documents = self._log_activity_get_documents(moves, 'move_dest_ids', 'DOWN', _keys_in_sorted, _keys_in_groupby)
+        documents = self._less_quantities_than_expected_add_documents(moves, documents)
         self._log_activity(_render_note_exception_quantity, documents)
+
+    def _less_quantities_than_expected_add_documents(self, moves, documents):
+        return documents
 
     def _get_impacted_pickings(self, moves):
         """ This function is used in _log_less_quantities_than_expected

@@ -43,6 +43,7 @@ var StatementRenderer = Widget.extend(FieldManagerMixin, {
         var defs = [this._super.apply(this, arguments)];
         this.time = Date.now();
         this.$progress = this.$('.progress');
+        this.clickStatementName = this._initialState.bank_statement_id ? true : false;
 
         if (this._initialState.bank_statement_id) {
             var def = this.model.makeRecord("account.bank.statement", [{
@@ -396,8 +397,8 @@ var LineRenderer = Widget.extend(FieldManagerMixin, {
 
         _.each(props, function (line) {
             line.display_triangle = (line.already_paid === false &&
-                ((state.balance.amount_currency < 0 || line.partial_reconcile) && partialDebitProp && partialDebitProp === line) ||
-                ((state.balance.amount_currency > 0 || line.partial_reconcile) && partialCreditProp && partialCreditProp === line));
+                (((state.balance.amount_currency < 0 || line.partial_reconcile) && partialDebitProp && partialDebitProp === line) ||
+                ((state.balance.amount_currency > 0 || line.partial_reconcile) && partialCreditProp && partialCreditProp === line)));
             var $line = $(qweb.render("reconciliation.line.mv_line", {'line': line, 'state': state}));
             if (!isNaN(line.id)) {
                 $('<span class="line_info_button fa fa-info-circle"/>')
@@ -507,7 +508,7 @@ var LineRenderer = Widget.extend(FieldManagerMixin, {
         }
         return this.model.makeRecord('account.bank.statement.line', [field], {
             partner_id: {
-                domain: [["parent_id", "=", false], "|", ["customer", "=", true], ["supplier", "=", true]],
+                domain: ["|", ["is_company", "=", true], ["parent_id", "=", false], "|", ["customer", "=", true], ["supplier", "=", true]],
                 options: {
                     no_open: true
                 }
@@ -555,10 +556,13 @@ var LineRenderer = Widget.extend(FieldManagerMixin, {
         }, {
             type: 'float',
             name: 'amount',
+        }, {
+            type: 'char', //TODO is it a bug or a feature when type date exists ?
+            name: 'date',
         }], {
             account_id: {string: _t("Account")},
             label: {string: _t("Label")},
-            amount: {string: _t("Account")}
+            amount: {string: _t("Account")},
         }).then(function (recordID) {
             self.handleCreateRecord = recordID;
             var record = self.model.get(self.handleCreateRecord);
@@ -586,6 +590,9 @@ var LineRenderer = Widget.extend(FieldManagerMixin, {
 
             self.fields.amount = new basic_fields.FieldFloat(self,
                 'amount', record, {mode: 'edit'});
+            
+            self.fields.date = new basic_fields.FieldDate(self,
+                'date', record, {mode: 'edit'});
 
             var $create = $(qweb.render("reconciliation.line.create", {'state': state}));
             self.fields.account_id.appendTo($create.find('.create_account_id .o_td_field'))
@@ -599,6 +606,7 @@ var LineRenderer = Widget.extend(FieldManagerMixin, {
                 .then(addRequiredStyle.bind(self, self.fields.label));
             self.fields.amount.appendTo($create.find('.create_amount .o_td_field'))
                 .then(addRequiredStyle.bind(self, self.fields.amount));
+            self.fields.date.appendTo($create.find('.create_date .o_td_field'))
             self.$('.create').append($create);
 
             function addRequiredStyle(widget) {
@@ -887,6 +895,7 @@ var ManualLineRenderer = LineRenderer.extend({
     _renderCreate: function (state) {
         this._super(state);
         this.$('.create .create_journal_id').show();
+        this.$('.create .create_date').removeClass('d-none')
         this.$('.create .create_journal_id .o_input').addClass('o_required_modifier');
     },
 

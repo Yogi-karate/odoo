@@ -3,34 +3,36 @@
 # * website
 # 
 # Translators:
-# e2f <projects@e2f.com>, 2018
-# Martin Trigaux, 2018
-# Wolfgang Taferner, 2018
-# Thorsten Vocks <thorsten.vocks@openbig.org>, 2018
-# Ermin Trevisan <trevi@twanda.com>, 2018
-# Gab_Odoo <gab@odoo.com>, 2018
-# Anja Funk <anja.funk@afimage.de>, 2018
 # Martin K <martinkuenz@gmail.com>, 2018
-# darenkster <inactive+darenkster@transifex.com>, 2018
-# Andi, 2018
 # Christian Oechsner <carinachristian@gmail.com>, 2018
-# Katharina Moritz <kmo@e2f.com>, 2018
-# Bülent Tiknas <btiknas@googlemail.com>, 2018
-# Ralf Hilgenstock <rh@dialoge.info>, 2018
-# Mathias Neef <mn@copado.de>, 2018
-# Rudolf Schnapka <rs@techno-flex.de>, 2018
+# Thorsten Vocks <thorsten.vocks@openbig.org>, 2018
 # Torsten Wichmann <t.wichmann@intero-technologies.de>, 2018
+# Bülent Tiknas <btiknas@googlemail.com>, 2018
+# Mathias Neef <mn@copado.de>, 2018
 # Henry Mineehen <info@mineehen.de>, 2018
 # Jan Meyer, 2018
+# Wolfgang Taferner, 2018
+# Gab_Odoo <gab@odoo.com>, 2018
+# Rudolf Schnapka <rs@techno-flex.de>, 2018
+# Andi, 2018
+# Katharina Moritz <kmo@e2f.com>, 2018
+# e2f <projects@e2f.com>, 2018
+# Ralf Hilgenstock <rh@dialoge.info>, 2018
+# Ermin Trevisan <trevi@twanda.com>, 2018
+# Anja Funk <anja.funk@afimage.de>, 2018
+# darenkster <inactive+darenkster@transifex.com>, 2018
 # Johannes Croe <jcr@odoo.com>, 2018
 # Luc Muller <lmuller@ityou.de>, 2018
+# Marco Tarsia <marco.y.tarsia@gmail.com>, 2018
+# Martin Trigaux, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 06:48+0000\n"
-"PO-Revision-Date: 2018-10-08 06:48+0000\n"
-"Last-Translator: Luc Muller <lmuller@ityou.de>, 2018\n"
+"POT-Creation-Date: 2019-01-09 10:31+0000\n"
+"PO-Revision-Date: 2018-08-24 09:33+0000\n"
+"Last-Translator: Martin Trigaux, 2018\n"
 "Language-Team: German (https://www.transifex.com/odoo/teams/41243/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -506,6 +508,11 @@ msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
+msgid "<i class=\"fa fa-minus\"/>Remove Tab"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "<i class=\"fa fa-minus\"/>Thickness"
 msgstr "<i class=\"fa fa-minus\"/>Dicke"
 
@@ -523,6 +530,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "<i class=\"fa fa-picture-o\"/>Background Image"
 msgstr "<i class=\"fa fa-picture-o\"/>Hintergrundbild"
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.snippet_options
+msgid "<i class=\"fa fa-plus\"/>Add Tab"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.language_selector
@@ -589,6 +601,28 @@ msgid "<i class=\"fa fa-trash-o\"/>Remove Slide"
 msgstr "<i class=\"fa fa-trash-o\"/>Folie entfernen"
 
 #. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<i title=\"Is the page SEO optimized?\" class=\"fa fa-search\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid ""
+"<i title=\"Is the page included in the main menu?\" class=\"fa fa-thumb-"
+"tack\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<i title=\"Is the page indexed by search engines?\" class=\"fa fa-globe\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<i title=\"Is the page published?\" class=\"fa fa-eye\"/>"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid "<i>Instant setup, satisfied or reimbursed.</i>"
 msgstr "<i>Sofortiges Einrichten, mit Zufriedenheitsgarantie.</i>"
@@ -637,6 +671,20 @@ msgid ""
 msgstr ""
 
 #. module: website
+#: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-globe\" title=\"Values set here are website-"
+"specific.\" groups=\"website.group_multi_website\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.company_description
+msgid ""
+"<span class=\"fa fa-map-marker fa-fw mt16\" role=\"img\" aria-"
+"label=\"Address\" title=\"Address\"/>"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
 msgid "<span class=\"fa fa-pencil\"/>Edit"
 msgstr "Bearbeiten"
@@ -645,6 +693,11 @@ msgstr "Bearbeiten"
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
 msgid "<span class=\"fa fa-plus\"/>New"
 msgstr "Neu"
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<span class=\"fa fa-sort fa-lg\" role=\"img\" aria-label=\"Sort\" title=\"Sort\"/>"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_facebook_page
@@ -690,6 +743,13 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
 msgid "<span class=\"sr-only\">Toggle Dropdown</span>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.user_navbar
+msgid ""
+"<span title=\"Mobile preview\" role=\"img\" aria-label=\"Mobile preview\" "
+"class=\"fa fa-mobile\"/>"
 msgstr ""
 
 #. module: website
@@ -2151,7 +2211,7 @@ msgstr "HTML-/CSS-Editor"
 #. module: website
 #: model:ir.model,name:website.model_ir_http
 msgid "HTTP Routing"
-msgstr ""
+msgstr "HTTP Routing"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_page_ir_ui_view
@@ -2588,7 +2648,7 @@ msgstr "Letztes Jahr"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.theme_customize
 msgid "Layout"
-msgstr ""
+msgstr "Layout"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_text_image
@@ -2895,6 +2955,11 @@ msgstr "Name und Favicon Ihrer Website"
 #: model_terms:website.page,arch_db:website.bs_debug_page
 msgid "Navbar"
 msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
+msgid "New"
+msgstr "Neu"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
@@ -3341,13 +3406,6 @@ msgstr "Öffentlicher Benutzer"
 #, python-format
 msgid "Publish"
 msgstr "Veröffentlichen"
-
-#. module: website
-#. openerp-web
-#: code:addons/website/static/src/xml/website.pageProperties.xml:137
-#, python-format
-msgid "Publish date"
-msgstr ""
 
 #. module: website
 #. openerp-web
@@ -3927,6 +3985,13 @@ msgstr ""
 #: code:addons/website/static/src/js/menu/new_content.js:27
 #, python-format
 msgid "The installation of an App is already in progress."
+msgstr ""
+
+#. module: website
+#. openerp-web
+#: code:addons/website/static/src/xml/website.seo.xml:93
+#, python-format
+msgid "The language of the keyword and related keywords."
 msgstr ""
 
 #. module: website

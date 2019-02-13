@@ -5,6 +5,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo.osv import expression
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.float_utils import float_compare
 from odoo.exceptions import UserError, AccessError
@@ -136,7 +137,7 @@ class PurchaseOrder(models.Model):
         domain = []
         if name:
             domain = ['|', ('name', operator, name), ('partner_ref', operator, name)]
-        purchase_order_ids = self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
+        purchase_order_ids = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         return self.browse(purchase_order_ids).name_get()
 
     @api.multi
@@ -264,6 +265,22 @@ class PurchaseOrder(models.Model):
             'force_email': True,
             'mark_rfq_as_sent': True,
         })
+
+        # In the case of a RFQ or a PO, we want the "View..." button in line with the state of the
+        # object. Therefore, we pass the model description in the context, in the language in which
+        # the template is rendered.
+        lang = self.env.context.get('lang')
+        if {'default_template_id', 'default_model', 'default_res_id'} <= ctx.keys():
+            template = self.env['mail.template'].browse(ctx['default_template_id'])
+            if template and template.lang:
+                lang = template._render_template(template.lang, ctx['default_model'], ctx['default_res_id'])
+
+        self = self.with_context(lang=lang)
+        if self.state in ['draft', 'sent']:
+            ctx['model_description'] = _('Request for Quotation')
+        else:
+            ctx['model_description'] = _('Purchase Order')
+
         return {
             'name': _('Compose Email'),
             'type': 'ir.actions.act_window',
@@ -352,6 +369,16 @@ class PurchaseOrder(models.Model):
                     'currency_id': currency.id,
                     'delay': 0,
                 }
+                # In case the order partner is a contact address, a new supplierinfo is created on
+                # the parent company. In this case, we keep the product name and code.
+                seller = line.product_id._select_seller(
+                    partner_id=line.partner_id,
+                    quantity=line.product_qty,
+                    date=line.order_id.date_order and line.order_id.date_order.date(),
+                    uom_id=line.product_uom)
+                if seller:
+                    supplierinfo['product_name'] = seller.product_name
+                    supplierinfo['product_code'] = seller.product_code
                 vals = {
                     'seller_ids': [(0, 0, supplierinfo)],
                 }

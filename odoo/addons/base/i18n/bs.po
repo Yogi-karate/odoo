@@ -3,18 +3,19 @@
 # * base
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Boško Stojaković <bluesoft83@gmail.com>, 2018
 # Malik K, 2018
 # Bole <bole@dajmi5.com>, 2018
 # Nemanja Dragovic <nemanjadragovic94@gmail.com>, 2018
+# Martin Trigaux, 2018
+# Boško Stojaković <bluesoft83@gmail.com>, 2019
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 07:02+0000\n"
-"PO-Revision-Date: 2018-10-08 07:02+0000\n"
-"Last-Translator: Nemanja Dragovic <nemanjadragovic94@gmail.com>, 2018\n"
+"POT-Creation-Date: 2019-01-09 10:38+0000\n"
+"PO-Revision-Date: 2018-08-24 09:14+0000\n"
+"Last-Translator: Boško Stojaković <bluesoft83@gmail.com>, 2019\n"
 "Language-Team: Bosnian (https://www.transifex.com/odoo/teams/41243/bs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,17 +43,18 @@ msgid ""
 "\n"
 "\n"
 "Add Structured Communication to customer invoices.\n"
-"---------------------------------------------------------------------------------------------------------------------\n"
+"--------------------------------------------------\n"
 "\n"
-"Using BBA structured communication simplifies the reconciliation between invoices and payments.        \n"
+"Using BBA structured communication simplifies the reconciliation between invoices and payments.\n"
 "You can select the structured communication as payment communication in Invoicing/Accounting settings.\n"
 "Three algorithms are suggested:\n"
+"\n"
 "    1) Random : +++RRR/RRRR/RRRDD+++\n"
 "        **R..R =** Random Digits, **DD =** Check Digits\n"
 "    2) Date : +++DOY/YEAR/SSSDD+++\n"
 "        **DOY =** Day of the Year, **SSS =** Sequence Number, **DD =** Check Digits\n"
 "    3) Customer Reference +++RRR/RRRR/SSSDDD+++\n"
-"        **R..R =** Customer Reference without non-numeric characters, **SSS =** Sequence Number, **DD =** Check Digits  \n"
+"        **R..R =** Customer Reference without non-numeric characters, **SSS =** Sequence Number, **DD =** Check Digits\n"
 "    "
 msgstr ""
 
@@ -433,6 +435,14 @@ msgid ""
 msgstr ""
 
 #. module: base
+#: model:ir.module.module,description:base.module_sale_intrastat
+msgid ""
+"\n"
+"        Bridge module between sale and intrastat.\n"
+"    "
+msgstr ""
+
+#. module: base
 #: model:ir.module.module,description:base.module_account_taxcloud
 msgid ""
 "\n"
@@ -777,6 +787,15 @@ msgid ""
 "    PayuMoney Payment Acquirer for India.\n"
 "\n"
 "    PayUmoney payment gateway supports only INR currency.\n"
+"    "
+msgstr ""
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_mx_tax_cash_basis
+msgid ""
+"\n"
+"    Properly create the Journal Entries on Tax Cash basis when using foreign\n"
+"    currencies the Tax must be set at date of payment\n"
 "    "
 msgstr ""
 
@@ -1175,6 +1194,14 @@ msgid ""
 msgstr ""
 
 #. module: base
+#: model:ir.module.module,description:base.module_l10n_be_intrastat_2019
+msgid ""
+"\n"
+"Adds the possibility to specify the origin country of goods and the partner VAT in the Intrastat XML report.\n"
+"    "
+msgstr ""
+
+#. module: base
 #: model:ir.module.module,description:base.module_website_calendar
 msgid ""
 "\n"
@@ -1540,7 +1567,8 @@ msgid ""
 "Legal\n"
 "-----\n"
 "**The use of pos_blackbox_be sources is only certified on odoo.com SaaS platform\n"
-"for version 9.0.**\n"
+"for version 11.0.** Contact Odoo SA before installing pos_blackbox_be module.\n"
+"\n"
 "An obfuscated and certified version of the pos_blackbox_be may be provided on\n"
 "requests for on-premise installations.\n"
 "No modified version is certified and supported by Odoo SA.\n"
@@ -1918,6 +1946,16 @@ msgid ""
 "Allow the user to generate the EDI document for Mexican invoicing.\n"
 "\n"
 "This module allows the creation of the EDI documents and the communication with the Mexican certification providers (PACs) to sign/cancel them.\n"
+"    "
+msgstr ""
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_mx_edi_payment_bank
+msgid ""
+"\n"
+"EDI Mexican Localization\n"
+"========================\n"
+"Allow the user to select the bank account that was used the customer to paid the invoices.\n"
 "    "
 msgstr ""
 
@@ -3316,6 +3354,15 @@ msgid ""
 msgstr ""
 
 #. module: base
+#: model:ir.module.module,description:base.module_delivery_hs_code
+msgid ""
+"\n"
+"Set back field hs_code on pruduct template.\n"
+"==============================================================\n"
+"\n"
+msgstr ""
+
+#. module: base
 #: model:ir.module.module,description:base.module_account_analytic_default
 msgid ""
 "\n"
@@ -4105,8 +4152,12 @@ msgid ""
 "-----------------\n"
 "This module supports the three most common check formats and will work out of the box with the linked checks from checkdepot.net.\n"
 "\n"
-"- Check on top: Quicken / QuickBooks standard (https://www.checkdepot.net/checks/checkorder/59209.htm)\n"
-"- Check on middle: Peachtree standard (https://www.checkdepot.net/checks/checkorder/513791.htm)\n"
+"View all checks at: https://www.checkdepot.net/checks/laser/Odoo.htm\n"
+"\n"
+"You can choose between:\n"
+"\n"
+"- Check on top: Quicken / QuickBooks standard (https://www.checkdepot.net/checks/checkorder/laser_topcheck.htm)\n"
+"- Check on middle: Peachtree standard (https://www.checkdepot.net/checks/checkorder/laser_middlecheck.htm)\n"
 "- Check on bottom: ADP standard (https://www.checkdepot.net/checks/checkorder/laser_bottomcheck.htm)\n"
 "    "
 msgstr ""
@@ -4701,7 +4752,7 @@ msgstr ""
 #: code:addons/base/models/ir_ui_view.py:1091
 #, python-format
 msgid " - %r in %s=%r"
-msgstr ""
+msgstr " - %r u %s=%r"
 
 #. module: base
 #: model:ir.module.module,description:base.module_inter_company_rules
@@ -4956,7 +5007,7 @@ msgstr "9. %w              ==&gt; 5 ( Petak je 6ti dan )"
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
 #: model_terms:ir.ui.view,arch_db:base.view_partner_short_form
 msgid "<b>Company Address:</b>"
-msgstr ""
+msgstr "<b>Adresa kompanije:</b>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_server_action_form
@@ -5048,6 +5099,40 @@ msgstr ""
 "<code>timezone</code>: korisne Python bibilioteke"
 
 #. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_company_kanban
+msgid ""
+"<i class=\"fa fa-building\" role=\"img\" aria-label=\"Enterprise\" "
+"title=\"Enterprise\"/>"
+msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
+msgid "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Invalid\" title=\"Invalid\"/>"
+msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
+msgid "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Ok\" title=\"Ok\"/>"
+msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
+msgid "<i class=\"fa fa-envelope\" role=\"img\" aria-label=\"Login\"/>"
+msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_rule_form
+msgid ""
+"<i class=\"fa fa-info fa-3x text-info float-left\" role=\"img\" aria-"
+"label=\"Info\" title=\"Info\"/>"
+msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.onboarding_container
+msgid "<i class=\"fa fa-times\" title=\"Close the onboarding panel\"/>"
+msgstr ""
+
+#. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_container
 msgid "<span aria-label=\"Close\">&amp;times;</span>"
 msgstr ""
@@ -5059,6 +5144,8 @@ msgid ""
 "<span class=\"fa fa-plus-square\"/>\n"
 "                                       Create company"
 msgstr ""
+"<span class=\"fa fa-plus-square\"/>\n"
+"                                       Kreiraj kompaniju"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_update
@@ -5066,6 +5153,8 @@ msgid ""
 "<span class=\"o_form_label\">Click on Update below to start the "
 "process...</span>"
 msgstr ""
+"<span class=\"o_form_label\">Kliknite na ažuriraj ispod kako bi ste započeli"
+" proces...</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_language_install
@@ -5073,6 +5162,8 @@ msgid ""
 "<span class=\"o_form_label\">The selected language has been successfully installed.\n"
 "You must change the preferences of the user to view the changes.</span>"
 msgstr ""
+"<span class=\"o_form_label\">Odabrani jezik je uspješno instaliran.\n"
+"Morate promjeniti postavke korisnika da bi ste vidjeli promjene.</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_upgrade_install
@@ -5080,12 +5171,26 @@ msgid ""
 "<span class=\"o_form_label\">The selected modules have been updated / "
 "installed !</span>"
 msgstr ""
+"<span class=\"o_form_label\">Odabrani moduli su bili ažurirani / instalirani"
+" !</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_upgrade_install
 msgid ""
 "<span class=\"o_form_label\">We suggest to reload the menu tab to see the "
 "new menus (Ctrl+T then Ctrl+R).\"</span>"
+msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.res_config_settings_view_form
+msgid ""
+"<span class=\"searchIcon\"><i class=\"fa fa-search\" role=\"img\" aria-"
+"label=\"Search\" title=\"Search\"/></span>"
+msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
+msgid "<span class=\"text-white text-uppercase\">Danger Zone</span>"
 msgstr ""
 
 #. module: base
@@ -5117,32 +5222,32 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodulereference
 msgid "<span>Directory</span>"
-msgstr ""
+msgstr "<span>Direktorijum</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodulereference
 msgid "<span>Module</span>"
-msgstr ""
+msgstr "<span>Modul</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodulereference
 msgid "<span>Name</span>"
-msgstr ""
+msgstr "<span>Naziv</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodulereference
 msgid "<span>Object:</span>"
-msgstr ""
+msgstr "<span>Objekat:</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodulereference
 msgid "<span>Version</span>"
-msgstr ""
+msgstr "<span>Verzija</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodulereference
 msgid "<span>Web</span>"
-msgstr ""
+msgstr "<span>Web</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_currency_kanban
@@ -5228,6 +5333,7 @@ msgstr "<strong>Seq</strong>"
 #: model_terms:ir.ui.view,arch_db:base.view_users_form
 msgid "<strong>The contact linked to this user is still active</strong>"
 msgstr ""
+"<strong>Kontakt povezan sa ovim korisnikom je još uvijek aktivan</strong>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_upgrade
@@ -5636,7 +5742,7 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,field_description:base.field_base_partner_merge_automatic_wizard__exclude_contact
 msgid "A user associated to the contact"
-msgstr ""
+msgstr "Korisnik povezan sa kontaktom"
 
 #. module: base
 #: selection:report.paperformat,format:0
@@ -5964,17 +6070,17 @@ msgstr "Svrha akcije"
 #. module: base
 #: model:ir.model,name:base.model_ir_actions_act_window
 msgid "Action Window"
-msgstr ""
+msgstr "Prozor akcije"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_actions_act_window_close
 msgid "Action Window Close"
-msgstr ""
+msgstr "Zatvori prozor akcije"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_actions_act_window_view
 msgid "Action Window View"
-msgstr ""
+msgstr "Pogled prozra akcije"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.ir_sequence_actions
@@ -6012,12 +6118,12 @@ msgstr "Aktivan"
 #: model:ir.model.fields,field_description:base.field_ir_sequence__number_next_actual
 #: model:ir.model.fields,field_description:base.field_ir_sequence_date_range__number_next_actual
 msgid "Actual Next Number"
-msgstr ""
+msgstr "Stvarni sljedeći broj"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_mail_bot
 msgid "Add OdooBot in discussions"
-msgstr ""
+msgstr "Dodaj OdooBot u diskusije"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_transifex
@@ -6052,7 +6158,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_base_address_extended
 msgid "Add extra fields on addresses"
-msgstr ""
+msgstr "Dodaj dodatna polja na adrese"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.act_report_xml_view
@@ -6100,7 +6206,7 @@ msgstr "Format adrese ..."
 #: code:addons/base/models/ir_qweb_fields.py:630
 #, python-format
 msgid "Address separator"
-msgstr ""
+msgstr "Seperator adrese"
 
 #. module: base
 #: model:ir.module.module,description:base.module_auth_ldap
@@ -6217,7 +6323,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:base.view_model_fields_form
 #: model_terms:ir.ui.view,arch_db:base.view_model_form
 msgid "Advanced Properties"
-msgstr ""
+msgstr "Napredna svojstva"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_crm_enterprise
@@ -6301,7 +6407,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_step
 msgid "All done!"
-msgstr ""
+msgstr "Sve je urađeno!"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_partner__lang
@@ -6596,11 +6702,6 @@ msgstr ""
 "Dali ste sigurni da izvršite listu automatskih spajanja vaših kontakata?"
 
 #. module: base
-#: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
-msgid "Are you sure you want to load demo data?"
-msgstr ""
-
-#. module: base
 #: model:res.country,name:base.ar
 msgid "Argentina"
 msgstr "Argentina"
@@ -6814,7 +6915,7 @@ msgstr "Dostupno korisniku"
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
 #: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar"
 
 #. module: base
 #: model:res.country,name:base.az
@@ -6936,6 +7037,16 @@ msgid "Bank account"
 msgstr "Žiro račun"
 
 #. module: base
+#: model:ir.module.module,summary:base.module_l10n_mx_edi_payment_bank
+msgid "Bank account in the payments"
+msgstr ""
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_mx_edi_payment_bank
+msgid "Bank account payment to Mexico"
+msgstr ""
+
+#. module: base
 #: model:ir.model.fields,help:base.field_res_partner_bank__acc_type
 msgid ""
 "Bank account type: Normal or IBAN. Inferred from the bank account number."
@@ -6986,7 +7097,7 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:603
 #, python-format
 msgid "Barcode type"
-msgstr ""
+msgstr "Tip barkoda"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:603
@@ -7033,7 +7144,7 @@ msgstr "Osnovna svojstva"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_ui_view__arch_base
 msgid "Base View Architecture"
-msgstr ""
+msgstr "Arhitektura osnovnog pogleda"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_base_import
@@ -7112,6 +7223,11 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_be_intrastat
 msgid "Belgian Intrastat Declaration"
+msgstr ""
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_be_intrastat_2019
+msgid "Belgian Intrastat Declaration - Complement for 2019"
 msgstr ""
 
 #. module: base
@@ -7338,7 +7454,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_board
 msgid "Build your own dashboards"
-msgstr ""
+msgstr "Kreirajte svoje vlastite kontrolne ploče"
 
 #. module: base
 #: model:res.country,name:base.bg
@@ -7880,7 +7996,7 @@ msgstr ""
 #: selection:ir.actions.act_window.view,view_mode:0
 #: selection:ir.ui.view,type:0
 msgid "Cohort"
-msgstr ""
+msgstr "Cohort"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_web_cohort
@@ -8061,7 +8177,7 @@ msgstr "Kompanijska svojstva"
 #. module: base
 #: model:ir.model,name:base.model_ir_property
 msgid "Company Property"
-msgstr ""
+msgstr "Svojstvo kompanije"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__company_registry
@@ -8155,7 +8271,7 @@ msgstr ""
 #. module: base
 #: model:ir.model,name:base.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Postavke konfiguracije"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.config_wizard_step_view_form
@@ -8166,7 +8282,7 @@ msgstr "Koraci konfiguracijskog čarobnjaka"
 #. module: base
 #: model:ir.actions.server,name:base.action_run_ir_action_todo
 msgid "Config: Run Remaining Action Todo"
-msgstr ""
+msgstr "Konfiguracija: Pokreni preostale akcije za uraditi"
 
 #. module: base
 #: model:ir.ui.menu,name:base.menu_reporting_config
@@ -8225,12 +8341,14 @@ msgid ""
 "Connection Test Failed! Here is what we got instead:\n"
 " %s"
 msgstr ""
+"Test konekcije neuspješan! Evo šta smo dobili umjesto toga:\n"
+" %s"
 
 #. module: base
 #: code:addons/base/models/ir_mail_server.py:196
 #, python-format
 msgid "Connection Test Succeeded! Everything seems properly set up!"
-msgstr ""
+msgstr "Test konekcije uspješan! Izgleda da je sve podešeno kako treba!"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model_constraint__name
@@ -8492,7 +8610,7 @@ msgstr "Kreiraj izbornik"
 #. module: base
 #: model:ir.model,name:base.model_wizard_ir_model_menu_create
 msgid "Create Menu Wizard"
-msgstr ""
+msgstr "Kreirajte meni čarobnjaka"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_crm_project
@@ -8512,12 +8630,12 @@ msgstr "Kreiraj meni"
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_res_partner_bank_account_form
 msgid "Create a bank account"
-msgstr ""
+msgstr "Kreirajte bankovni račun"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_ui_view_custom
 msgid "Create a customized view"
-msgstr ""
+msgstr "Kreirajte prilagođeni pogled"
 
 #. module: base
 #: selection:ir.actions.server,state:0
@@ -8527,23 +8645,23 @@ msgstr "Kreiraj novi zapis"
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_res_bank_form
 msgid "Create a new bank"
-msgstr ""
+msgstr "Kreirajte novu banku"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_res_company_form
 msgid "Create a new company"
-msgstr ""
+msgstr "Kreirajte novu kompaniju"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_partner_category_form
 msgid "Create a new contact tag"
-msgstr ""
+msgstr "Kreirajte novu oznaku kontakta"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_partner_customer_form
 #: model_terms:ir.actions.act_window,help:base.action_partner_form
 msgid "Create a new customer in your address book"
-msgstr ""
+msgstr "Kreirajte novog kupca u vašem adresaru"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_attachment
@@ -8553,17 +8671,17 @@ msgstr ""
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.res_partner_industry_action
 msgid "Create a new industry"
-msgstr ""
+msgstr "Kreirajte novu industriju"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_partner_supplier_form
 msgid "Create a new vendor in your address book"
-msgstr ""
+msgstr "Kreirajte novog dobavljača u vašem adresaru"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_web_studio
 msgid "Create and customize your Odoo apps"
-msgstr ""
+msgstr "Kreirajte i kostumizirajte vaše Odoo aplikacije"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_res_company_form
@@ -8927,7 +9045,7 @@ msgstr "Prilagođene prečice"
 #. module: base
 #: model:ir.model,name:base.model_ir_ui_view_custom
 msgid "Custom View"
-msgstr ""
+msgstr "Prilagođeni pogled"
 
 #. module: base
 #: code:addons/base/models/ir_model.py:406
@@ -9003,7 +9121,7 @@ msgstr ""
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_delivery_dhl
-msgid "DHL Shipping"
+msgid "DHL Express Shipping"
 msgstr ""
 
 #. module: base
@@ -9092,7 +9210,7 @@ msgstr "Format datuma"
 #: code:addons/base/models/ir_qweb_fields.py:206
 #, python-format
 msgid "Date format"
-msgstr ""
+msgstr "Format datuma"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:567
@@ -9104,13 +9222,13 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:511
 #, python-format
 msgid "Date unit"
-msgstr ""
+msgstr "Jedinica datuma"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:511
 #, python-format
 msgid "Date unit used for comparison and formatting"
-msgstr ""
+msgstr "Jedinica datuma koja se koristi za poređenje i formatiranje"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:512
@@ -9201,7 +9319,7 @@ msgstr "Zadani format papira?"
 #. module: base
 #: model:ir.module.module,description:base.module_theme_default
 msgid "Default website theme"
-msgstr ""
+msgstr "Zadana websajt tema"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_deferred_revenue
@@ -9255,6 +9373,11 @@ msgid "Delivery Costs"
 msgstr "Troškovi Dostave"
 
 #. module: base
+#: model:ir.module.module,shortdesc:base.module_delivery_hs_code
+msgid "Delivery HS Code"
+msgstr ""
+
+#. module: base
 #: model:ir.model,name:base.model_ir_demo
 msgid "Demo"
 msgstr ""
@@ -9277,8 +9400,8 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
 msgid ""
-"Demo data should only be used on test databases. Once they are loaded, they "
-"cannot be removed."
+"Demo data should only be used on test databases!\n"
+"                             Once they are loaded, they cannot be removed!"
 msgstr ""
 
 #. module: base
@@ -9401,7 +9524,7 @@ msgstr "Digitalni proizvod"
 #: code:addons/base/models/ir_qweb_fields.py:510
 #, python-format
 msgid "Digital formating"
-msgstr ""
+msgstr "Digitalno formatiranje"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_lang__direction
@@ -9419,7 +9542,6 @@ msgstr ""
 "%s"
 
 #. module: base
-#: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
 #: model_terms:ir.ui.view,arch_db:base.onboarding_container
 #: model_terms:ir.ui.view,arch_db:base.res_config_settings_view_form
 msgid "Discard"
@@ -9584,7 +9706,7 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:394
 #, python-format
 msgid "Display currency"
-msgstr ""
+msgstr "Prikaži valutu"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_country__address_format
@@ -9609,7 +9731,7 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:225
 #, python-format
 msgid "Display only the time"
-msgstr ""
+msgstr "Prikaži samo jednom"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:634
@@ -9621,7 +9743,7 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:633
 #, python-format
 msgid "Display the phone icons even if no_marker is True"
-msgstr ""
+msgstr "Prikaži samo jednom"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:634
@@ -9633,7 +9755,7 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:629
 #, python-format
 msgid "Displayed fields"
-msgstr ""
+msgstr "Prikazana polja"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:633
@@ -9654,7 +9776,7 @@ msgstr "Djibouti"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_container
 msgid "Do you want to remove this configuration panel?"
-msgstr ""
+msgstr "Da li želite da uklonite ovaj konfiguracijski panel?"
 
 #. module: base
 #: model:res.partner.title,name:base.res_partner_title_doctor
@@ -9674,7 +9796,7 @@ msgstr "Upravljanje dokumentima"
 #. module: base
 #: model:ir.module.category,name:base.module_category_sign
 msgid "Document Signatures"
-msgstr ""
+msgstr "Da li želite da uklonite ovaj konfiguracijski panel?"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__external_report_layout_id
@@ -9777,7 +9899,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.module_view_kanban
 msgid "Dropdown menu"
-msgstr ""
+msgstr "Padajući meni"
 
 #. module: base
 #: code:addons/base/models/res_company.py:18
@@ -9785,6 +9907,8 @@ msgstr ""
 msgid ""
 "Duplicating a company is not allowed. Please create a new company instead."
 msgstr ""
+"Dupliciranje kompanije nije dozvoljeno. Molimo da umjesto toga kreirate novu"
+" kompoaniju."
 
 #. module: base
 #: model:res.partner.industry,full_name:base.res_partner_industry_E
@@ -9833,7 +9957,7 @@ msgstr ""
 #: code:addons/base/models/ir_attachment.py:584
 #, python-format
 msgid "ERROR: the file must be a PDF"
-msgstr ""
+msgstr "Greška: Datoteka mora biti PDF"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hw_escpos
@@ -10003,7 +10127,7 @@ msgid "Employees"
 msgstr "Zaposleni"
 
 #. module: base
-#: code:addons/base/models/ir_model.py:462
+#: code:addons/base/models/ir_model.py:466
 #, python-format
 msgid "Empty dependency in %r"
 msgstr "Prazna ovisnost u %r"
@@ -10198,7 +10322,7 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_module_category__exclusive
 msgid "Exclusive"
-msgstr ""
+msgstr "Ekskluzivno"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_cron_view_form
@@ -10294,12 +10418,12 @@ msgstr ""
 #. module: base
 #: model:ir.model,name:base.model_ir_exports
 msgid "Exports"
-msgstr ""
+msgstr "Izvozi"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_exports_line
 msgid "Exports Line"
-msgstr ""
+msgstr "Izvozi stavke"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_server_object_lines__value
@@ -10392,10 +10516,6 @@ msgid ""
 "    changed here if is one exception. If this field is actived, then will be\n"
 "    showed the next fields:\n"
 "\n"
-"  - **Incoterm**: It is used for the attribute *incoterm* in the External Trade\n"
-"    node, is required, and must contain a value from the SAT catalog_ to\n"
-"    incoterms.\n"
-"\n"
 "  - **Certificate Source**: If the document to be generated is a\n"
 "    Certificate of Origin, must be registered the certificate of\n"
 "    origin folio or the fiscal folio in CFDI with which the issuance of the\n"
@@ -10468,12 +10588,8 @@ msgid ""
 "\n"
 "- In the partner:\n"
 "\n"
-"  - **CURP**: It is used to store the unique Key of the Register of\n"
-"    Population (CURP) of the issuer of the CFDI. When it is a natural\n"
-"    person, it must contain 18 characters.\n"
-"\n"
 "  - **Need external trade?**: Field used to indicate if the customer needs\n"
-"    their invoices with external complement. If the field is equal to True,\n"
+"    his/her invoices with external complement. If the field is equal to True,\n"
 "    then the add-on is added to the CFDIs for this client.\n"
 "\n"
 "\n"
@@ -10511,7 +10627,6 @@ msgid ""
 "in this version, since it needs fields that depend on the stock module.\n"
 "They will be added in a later version.\n"
 "\n"
-".. _catalog: http://www.sat.gob.mx/informacion_fiscal/factura_electronica/Documents/c_INCOTERM.xls\n"
 ".. _c_FraccionArancelaria: http://www.sat.gob.mx/informacion_fiscal/factura_electronica/Documents/c_FraccionArancelaria.xls \n"
 ".. _Link: http://www.sat.gob.mx/informacion_fiscal/factura_electronica/Documents/c_UnidadMedidaAduana.xls\n"
 ".. _c_colonia: http://www.sat.gob.mx/informacion_fiscal/factura_electronica/Documents/c_Colonia.xls\n"
@@ -10566,7 +10681,7 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_demo_failure_wizard__failures_count
 msgid "Failures Count"
-msgstr ""
+msgstr "Broj grešaka"
 
 #. module: base
 #: model:res.country,name:base.fk
@@ -10800,7 +10915,7 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_attachment__datas_fname
 msgid "Filename"
-msgstr ""
+msgstr "Naziv datoteke"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_act_window__filter
@@ -10870,7 +10985,7 @@ msgstr "Finska"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_lang__week_start
 msgid "First Day of Week"
-msgstr ""
+msgstr "Prvi dan u sedmici"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_fleet
@@ -11435,7 +11550,7 @@ msgstr "Google Drive™ integracija"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_google_map
 msgid "Google Maps"
-msgstr ""
+msgstr "Google Mape"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_google_spreadsheet
@@ -11487,7 +11602,7 @@ msgstr "Meža"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_web_grid
 msgid "Grid View"
-msgstr ""
+msgstr "Grid Pogled"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model_access__group_id
@@ -11629,12 +11744,12 @@ msgstr ""
 #. module: base
 #: selection:ir.actions.report,report_type:0
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_http
 msgid "HTTP Routing"
-msgstr ""
+msgstr "HTTP Rutiranje"
 
 #. module: base
 #: model:res.country,name:base.ht
@@ -11680,12 +11795,12 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_partner_bank__qr_code_valid
 msgid "Has all required arguments"
-msgstr ""
+msgstr "Ima sve zahtjevane argumente"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_report_paperformat__header_spacing
 msgid "Header spacing"
-msgstr ""
+msgstr "Razmak zaglavlja"
 
 #. module: base
 #: model:res.partner.industry,name:base.res_partner_industry_Q
@@ -11877,13 +11992,13 @@ msgstr "Ovde je izvezena datoteka prevoda:"
 #: code:addons/base/models/ir_qweb_fields.py:631
 #, python-format
 msgid "Hide badges"
-msgstr ""
+msgstr "Sakrij bedževe"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:226
 #, python-format
 msgid "Hide seconds"
-msgstr ""
+msgstr "Sakrij sekunde"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_attachment_form
@@ -11903,7 +12018,7 @@ msgstr "Početna akcija"
 #. module: base
 #: model:ir.actions.act_url,name:base.action_open_website
 msgid "Home Menu"
-msgstr ""
+msgstr "Početni meni"
 
 #. module: base
 #: model:res.country,name:base.hn
@@ -12305,6 +12420,9 @@ msgid ""
 "groups. If this field is empty, Odoo will compute visibility based on the "
 "related object's read access."
 msgstr ""
+"Ako imate grupe, vidljivost ovog menija će biti bazirano na ovim grupama. "
+"Ako je ovo polje prazno, Odoo će izračunati vidljivost na osnovu pristupa "
+"čitanja povezanog objekta."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_access__active
@@ -12313,6 +12431,8 @@ msgid ""
 " (if you delete a native ACL, it will be re-created when you reload the "
 "module)."
 msgstr ""
+"Ako otkačite aktivno polje, onemogućićete ACL bez da ga brišete (ako "
+"obrišete nativni ACL, može ponovno biti kreiran kada ponovno učitate modul)."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_rule__active
@@ -12321,11 +12441,14 @@ msgid ""
 "deleting it (if you delete a native record rule, it may be re-created when "
 "you reload the module)."
 msgstr ""
+"Ako otkačite aktivno polje, onemogućićete pravilo zapisa bez da ga brišete "
+"(ako obrišete nativno pravilo zapisa, može ponovno biti kreirano kada "
+"ponovno učitate modul)."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_upgrade
 msgid "If you wish to cancel the process, press the cancel button below"
-msgstr ""
+msgstr "Ako želite da otkažete proces, pritisnite dugme otkaži ispod"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_country__image
@@ -12337,17 +12460,17 @@ msgstr "Slika"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_upgrade
 msgid "Impacted Apps"
-msgstr ""
+msgstr "Pogođene aplikacije"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_base_module_uninstall__model_ids
 msgid "Impacted data models"
-msgstr ""
+msgstr "Pogođeni modeli podataka"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_base_module_uninstall__module_ids
 msgid "Impacted modules"
-msgstr ""
+msgstr "Pogođeni moduli"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_sequence__implementation
@@ -12400,7 +12523,7 @@ msgstr ""
 #: code:addons/base/models/res_partner.py:855
 #, python-format
 msgid "Import Template for Customers"
-msgstr ""
+msgstr "Uvezi predložak za kupce"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.action_view_base_import_language
@@ -12412,12 +12535,12 @@ msgstr "Uvezi prevod"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_facturx
 msgid "Import Vendor Bills From XML"
-msgstr ""
+msgstr "Uvezi račune dobavljača iz XML-a"
 
 #. module: base
 #: model:ir.module.module,description:base.module_currency_rate_live
 msgid "Import exchange rates from the Internet.\n"
-msgstr ""
+msgstr "Uvezi kursne liste sa interneta.\n"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model__modules
@@ -12428,7 +12551,7 @@ msgstr "U aplikacijama"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_iap
 msgid "In-App Purchases"
-msgstr ""
+msgstr "Kupovine unutar aplikacije"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_currency_search
@@ -12600,7 +12723,7 @@ msgstr "Instalacija jezika"
 #. module: base
 #: model:ir.actions.server,name:base.action_server_module_immediate_install
 msgid "Install Modules"
-msgstr ""
+msgstr "Instaliraj module"
 
 #. module: base
 #: selection:ir.module.module,state:0
@@ -12694,7 +12817,7 @@ msgstr "Interni izvor"
 #. module: base
 #: model:res.groups,name:base.group_user
 msgid "Internal User"
-msgstr ""
+msgstr "Interni korisnik"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_search
@@ -12739,18 +12862,21 @@ msgid ""
 "separated list of valid field names (optionally followed by asc/desc for the"
 " direction)"
 msgstr ""
+"Nepravilno specifiran \"order\". Pravilna specifikacija \"order\" je zarezom"
+" razdvojena lista validnih naziva polja (opcionalno praćena sa asc/desc za "
+"smjer)"
 
 #. module: base
 #: code:addons/base/models/res_users.py:411
 #, python-format
 msgid "Invalid 'group by' parameter"
-msgstr ""
+msgstr "Nepravilan parametar 'grupiši po'"
 
 #. module: base
 #: code:addons/models.py:2120
 #, python-format
 msgid "Invalid aggregation function %r."
-msgstr ""
+msgstr "Nepravilna agregatna funkcija %r."
 
 #. module: base
 #: code:addons/base/models/ir_fields.py:330
@@ -12778,7 +12904,7 @@ msgstr "Nepravilno polje %s.%s"
 #: code:addons/models.py:2110
 #, python-format
 msgid "Invalid field specification %r."
-msgstr ""
+msgstr "Nepravilna specifikacija polja %r."
 
 #. module: base
 #: sql_constraint:ir.ui.view:0
@@ -12792,7 +12918,7 @@ msgstr ""
 #. module: base
 #: sql_constraint:ir.ui.view:0
 msgid "Invalid key: QWeb view should have a key"
-msgstr ""
+msgstr "Nepravilan ključ: QWeb pogled bi trebao da ima ključ"
 
 #. module: base
 #: code:addons/base/models/ir_actions.py:140
@@ -12823,7 +12949,7 @@ msgstr "Nepravilan kriterijum pretrage"
 #: code:addons/base/models/ir_ui_view.py:612
 #, python-format
 msgid "Invalid specification for moved nodes: '%s'"
-msgstr ""
+msgstr "Nepravilna specifikacija za pomjerene čvorove: '%s'"
 
 #. module: base
 #: code:addons/base/models/ir_property.py:68
@@ -12841,7 +12967,7 @@ msgstr "Nepravilna vrijednost za %s.%s: %s"
 #: code:addons/base/models/ir_ui_view.py:353
 #, python-format
 msgid "Invalid view %s definition in %s"
-msgstr ""
+msgstr "Nepravilna definicija pogleda %s u %s"
 
 #. module: base
 #: code:addons/base/models/ir_ui_view.py:355
@@ -12850,6 +12976,8 @@ msgid ""
 "Invalid view %s definition in %s \n"
 "%s"
 msgstr ""
+"Nepravilna definicija pogleda %s u %s \n"
+"%s"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_warehouse_management
@@ -13035,7 +13163,7 @@ msgstr "Baš na vrijeme Planiranje"
 #. module: base
 #: selection:res.company,base_onboarding_company_state:0
 msgid "Just done"
-msgstr ""
+msgstr "Samo što je urađeno"
 
 #. module: base
 #: model:res.partner.industry,full_name:base.res_partner_industry_K
@@ -13064,6 +13192,7 @@ msgstr "Kazahstan"
 msgid ""
 "Keep empty if you don't want the user to be able to connect on the system."
 msgstr ""
+"Ostavite prazno ako ne želite da korisnik ima mogućnost prijave na sistem."
 
 #. module: base
 #: model:res.country,name:base.ke
@@ -13146,7 +13275,7 @@ msgstr "Jezik"
 #. module: base
 #: model:ir.model,name:base.model_base_language_export
 msgid "Language Export"
-msgstr ""
+msgstr "Izvoz jezika"
 
 #. module: base
 #: model:ir.model,name:base.model_base_language_import
@@ -13497,7 +13626,7 @@ msgstr "Prilike u zadatke"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.module_view_kanban
 msgid "Learn More"
-msgstr ""
+msgstr "Saznajte više"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_hr_holidays
@@ -13560,12 +13689,12 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_step
 msgid "Let's do it"
-msgstr ""
+msgstr "Hajde da odradimo to"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_company_step
 msgid "Let's start!"
-msgstr ""
+msgstr "Započnimo!"
 
 #. module: base
 #: selection:report.paperformat,format:0
@@ -13711,9 +13840,8 @@ msgstr "Učitaj prevod"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.demo_force_install_action
-#: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
 msgid "Load demo data"
-msgstr ""
+msgstr "Učitaj demo podatke"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_lang__code
@@ -13753,13 +13881,13 @@ msgstr "Logo"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__logo_web
 msgid "Logo Web"
-msgstr ""
+msgstr "Web Logo"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_logging_search_view
 #: model_terms:ir.ui.view,arch_db:base.ir_logging_tree_view
 msgid "Logs"
-msgstr ""
+msgstr "Logovi"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_pos_loyalty
@@ -13846,12 +13974,12 @@ msgstr ""
 #. module: base
 #: model:ir.model,name:base.model_ir_mail_server
 msgid "Mail Server"
-msgstr ""
+msgstr "Mail Server"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_test_mail
 msgid "Mail Tests"
-msgstr ""
+msgstr "Mail testovi"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_test_mail
@@ -13877,7 +14005,7 @@ msgstr "Glavna Sekvenca"
 #: selection:ir.actions.act_window,target:0
 #: selection:ir.actions.client,target:0
 msgid "Main action of Current Window"
-msgstr ""
+msgstr "Glavna akcija trenutnog prozora"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_module_module__maintainer
@@ -14248,7 +14376,7 @@ msgstr "Meniji"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_form
 msgid "Menus Customization"
-msgstr ""
+msgstr "Prilagođavanje menija"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_pos_mercury
@@ -14274,12 +14402,12 @@ msgstr "Spoji kontakte"
 #. module: base
 #: model:ir.model,name:base.model_base_partner_merge_line
 msgid "Merge Partner Line"
-msgstr ""
+msgstr "Spoje stavke partnera"
 
 #. module: base
 #: model:ir.model,name:base.model_base_partner_merge_automatic_wizard
 msgid "Merge Partner Wizard"
-msgstr ""
+msgstr "Čarobnjak spajanja partnera"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.base_partner_merge_automatic_wizard_form
@@ -14440,7 +14568,7 @@ msgstr "Model"
 #: code:addons/base/models/ir_model.py:504
 #, python-format
 msgid "Model %s does not exist"
-msgstr ""
+msgstr "Model %s ne postoji"
 
 #. module: base
 #: code:addons/base/models/ir_model.py:668
@@ -14452,17 +14580,17 @@ msgstr "Ne postoji Model %s!"
 #: code:addons/base/models/ir_model.py:194
 #, python-format
 msgid "Model '%s' contains module data and cannot be removed."
-msgstr ""
+msgstr "Model '%s' sadrži podatke modula koji ne mogu biti uklonjeni."
 
 #. module: base
 #: model:ir.model,name:base.model_ir_model_access
 msgid "Model Access"
-msgstr ""
+msgstr "Pristup modela"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_model_constraint
 msgid "Model Constraint"
-msgstr ""
+msgstr "Ograničenje modela"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.action_model_constraint
@@ -14491,7 +14619,7 @@ msgstr "Opis modela"
 #. module: base
 #: selection:ir.translation,type:0
 msgid "Model Field"
-msgstr ""
+msgstr "Polje modela"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_server__model_name
@@ -14512,6 +14640,8 @@ msgid ""
 "Model for record creation / update. Set this field only to specify a "
 "different model than the base model."
 msgstr ""
+"Model za kreiranje/ažuriranje zapisa. Postavite ovo polje samo ukoliko "
+"specifirate drugačiji model od baznog modela."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_actions_act_window__res_model
@@ -14565,7 +14695,7 @@ msgstr "Kategorija modula"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.module_view_kanban
 msgid "Module Info"
-msgstr ""
+msgstr "Info modula"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_module_module__shortdesc
@@ -14581,7 +14711,7 @@ msgstr ""
 #. module: base
 #: model:ir.model,name:base.model_base_module_uninstall
 msgid "Module Uninstall"
-msgstr ""
+msgstr "Deinstalacija modula"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.action_view_base_module_update
@@ -14606,7 +14736,7 @@ msgstr "Ovisnost modula"
 #. module: base
 #: model:ir.model,name:base.model_ir_module_module_exclusion
 msgid "Module exclusion"
-msgstr ""
+msgstr "Izostavljanje modula"
 
 #. module: base
 #: code:addons/convert.py:833
@@ -14708,7 +14838,7 @@ msgstr "Višejezični kontni planovi"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_res_partner_filter
 msgid "My Contacts"
-msgstr ""
+msgstr "Moji kontakti"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_attachment_search
@@ -14888,7 +15018,7 @@ msgstr "Nikaragva"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_container
 msgid "Nice work! Your configuration is done."
-msgstr ""
+msgstr "Dobar posao! Vaša konfiguracija je urađena."
 
 #. module: base
 #: model:res.country,name:base.ne
@@ -14951,16 +15081,19 @@ msgid ""
 "'%%(field)s' and the following error was encountered when we attempted to "
 "create one: %(error_message)s"
 msgstr ""
+"Nije pronađen odgovarajući zapis za %(field_type)s '%(value)s' iu polju "
+"'%%(field)s' i sljedeća greška se dogodila prilikom pokušaja da kreiramo: "
+"%(error_message)s"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_act_window__view_ids
 msgid "No of Views"
-msgstr ""
+msgstr "Broj pogleda"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.open_module_tree
 msgid "No website module found!"
-msgstr ""
+msgstr "Nije pronađen websajt modul!"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model_data__noupdate
@@ -15041,13 +15174,13 @@ msgstr "Nije instaliran"
 #. module: base
 #: selection:res.company,base_onboarding_company_state:0
 msgid "Not done"
-msgstr ""
+msgstr "Nije urađeno"
 
 #. module: base
 #: code:addons/base/models/ir_model.py:1407
 #, python-format
 msgid "Not enough access rights on the external ID:"
-msgstr ""
+msgstr "Nema dovoljno pristupnih prava za eksterni ID:"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_partner__comment
@@ -15873,7 +16006,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_web_settings_dashboard
 msgid "Odoo Settings Dashboard"
-msgstr ""
+msgstr "Odoo Ploča Postavki"
 
 #. module: base
 #: model:ir.module.module,description:base.module_purchase
@@ -16301,6 +16434,8 @@ msgid ""
 "One of the documents you are trying to access has been deleted, please try "
 "again after refreshing."
 msgstr ""
+"Jedan od dokumenata kojem pokušavate da pristupite je bio obrisan, molimo "
+"pokušajte ponovno nakon osvježavanja."
 
 #. module: base
 #: code:addons/models.py:3363
@@ -16309,6 +16444,8 @@ msgid ""
 "One of the records you are trying to modify has already been deleted "
 "(Document type: %s)."
 msgstr ""
+"Jedan od zapisa koji pokušavate da uredite je već obrisan (Tip "
+"dokumenta:%s)."
 
 #. module: base
 #: code:addons/base/models/res_partner.py:407
@@ -16352,13 +16489,13 @@ msgstr ""
 #: code:addons/base/models/res_config.py:611
 #, python-format
 msgid "Only administrators can change the settings"
-msgstr ""
+msgstr "Samo administratori mogu izmjeniti postavke"
 
 #. module: base
 #: code:addons/base/models/ir_attachment.py:69
 #, python-format
 msgid "Only administrators can execute this action."
-msgstr ""
+msgstr "Samo administratori mogu izvršiti ovu akciju."
 
 #. module: base
 #: code:addons/fields.py:1764
@@ -16404,9 +16541,14 @@ msgstr ""
 "učine"
 
 #. module: base
+#: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
+msgid "Oops, no!"
+msgstr "Ups, ne!"
+
+#. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_update
 msgid "Open Apps"
-msgstr ""
+msgstr "Otvori Applikacije"
 
 #. module: base
 #: model:ir.actions.client,name:base.action_client_base_menu
@@ -16830,12 +16972,12 @@ msgstr "Format papira"
 #. module: base
 #: model:ir.model,name:base.model_report_paperformat
 msgid "Paper Format Config"
-msgstr ""
+msgstr "Konfiguracija formata papira"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.paper_format_action
 msgid "Paper Format General Configuration"
-msgstr ""
+msgstr "Opšte postavke formata papira"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__paperformat_id
@@ -16907,7 +17049,7 @@ msgstr "Nadređeni meni"
 #: model:ir.model.fields,field_description:base.field_ir_ui_menu__parent_path
 #: model:ir.model.fields,field_description:base.field_res_partner_category__parent_path
 msgid "Parent Path"
-msgstr ""
+msgstr "Nadređena putanja"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_partner__parent_name
@@ -16939,13 +17081,18 @@ msgstr "Oznake partnera"
 #. module: base
 #: model:ir.model,name:base.model_res_partner_title
 msgid "Partner Title"
-msgstr ""
+msgstr "Naslov partnera"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_partner_title_form
 #: model_terms:ir.ui.view,arch_db:base.view_partner_title_tree
 msgid "Partner Titles"
 msgstr "Titule partnera"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_users__active_partner
+msgid "Partner is Active"
+msgstr ""
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_partner
@@ -17151,6 +17298,13 @@ msgid ""
 msgstr ""
 
 #. module: base
+#: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
+msgid ""
+"Please confirm that you want to <b>irreversibly</b> make this database a "
+"demo database."
+msgstr ""
+
+#. module: base
 #: code:addons/base/models/ir_model.py:1231
 #, python-format
 msgid ""
@@ -17316,12 +17470,12 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,field_description:base.field_report_paperformat__print_page_height
 msgid "Print page height (mm)"
-msgstr ""
+msgstr "Visina štampane stranice (mm)"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_report_paperformat__print_page_width
 msgid "Print page width (mm)"
-msgstr ""
+msgstr "Širina štampane stranice (mm)"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_report__print_report_name
@@ -17773,7 +17927,7 @@ msgstr ""
 #. module: base
 #: model:ir.model,name:base.model_ir_qweb_field_image
 msgid "Qweb Field Image"
-msgstr ""
+msgstr "Qweb polje slike"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_qweb_field_integer
@@ -17908,12 +18062,15 @@ msgid ""
 "Record cannot be modified right now: This cron task is currently being "
 "executed and may not be modified Please try again in a few minutes"
 msgstr ""
+"Zapis trenutno ne može biti izmjenjen: Ovaj kron zadatak se trenutno "
+"izvršava i ne može biti izmjenjen. Molimo da pokušate ponovno za nekoliko "
+"minuta."
 
 #. module: base
 #: code:addons/base/models/ir_actions.py:250 code:addons/models.py:4251
 #, python-format
 msgid "Record does not exist or has been deleted."
-msgstr ""
+msgstr "Zapis ili ne postoji ili je bio obrisan."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_rule_form
@@ -17936,7 +18093,7 @@ msgstr "Rekurzivna greška u ovisnostima modula !"
 #: code:addons/base/models/ir_actions.py:413
 #, python-format
 msgid "Recursion found in child server actions"
-msgstr ""
+msgstr "Pronađena je rekurzija u podređenim serverskim akcijama"
 
 #. module: base
 #: code:addons/models.py:3703
@@ -17954,7 +18111,7 @@ msgstr "Referenca"
 #: code:addons/base/models/ir_qweb_fields.py:567
 #, python-format
 msgid "Reference date"
-msgstr ""
+msgstr "Datum reference"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_partner__parent_id
@@ -17980,7 +18137,7 @@ msgstr "Povezana serverska akcija"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model_fields__related_field_id
 msgid "Related field"
-msgstr ""
+msgstr "Povezano polje"
 
 #. module: base
 #: code:addons/base/models/ir_model.py:440
@@ -18002,7 +18159,7 @@ msgstr "Relaciono Polje"
 #. module: base
 #: model:ir.model,name:base.model_ir_model_relation
 msgid "Relation Model"
-msgstr ""
+msgstr "Relacioni model"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model_relation__name
@@ -18090,7 +18247,7 @@ msgstr "Izvještaj"
 #. module: base
 #: model:ir.model,name:base.model_ir_actions_report
 msgid "Report Action"
-msgstr ""
+msgstr "Akcija Izvještaja"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_report__report_file
@@ -18240,13 +18397,13 @@ msgstr "Preciznost zaokruživanja"
 #: code:addons/base/models/ir_qweb_fields.py:161
 #, python-format
 msgid "Rounding precision"
-msgstr ""
+msgstr "Preciznost zaokruživanja"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:512
 #, python-format
 msgid "Rounding unit"
-msgstr ""
+msgstr "Jedninica zaokruživanja"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_rule_form
@@ -18288,7 +18445,7 @@ msgstr "Ručno pokreni"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_server_action_form
 msgid "Run this action manually."
-msgstr ""
+msgstr "Izvršite ovu akciju ručno."
 
 #. module: base
 #: model:res.country,name:base.ru
@@ -18411,6 +18568,11 @@ msgid "Sale Coupon Delivery"
 msgstr ""
 
 #. module: base
+#: model:ir.module.module,shortdesc:base.module_sale_intrastat
+msgid "Sale Intrastat"
+msgstr ""
+
+#. module: base
 #: model:ir.module.module,shortdesc:base.module_sale_purchase
 msgid "Sale Purchase"
 msgstr ""
@@ -18528,7 +18690,7 @@ msgstr "Sačuvaj"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_company_report_form_with_print
 msgid "Save and Print"
-msgstr ""
+msgstr "Sačuvaj i Štampaj"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_report__attachment
@@ -18605,7 +18767,7 @@ msgstr "Pretraži partnere"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_act_window__search_view
 msgid "Search View"
-msgstr ""
+msgstr "Pogled pretrage"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_act_window__search_view_id
@@ -18649,17 +18811,17 @@ msgstr "Vidi sve moguće vrijednosti"
 #: code:addons/common.py:46
 #, python-format
 msgid "See http://openerp.com"
-msgstr ""
+msgstr "Pogledajte http://odoo.com"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_report_paperformat__format
 msgid "Select Proper Paper size"
-msgstr ""
+msgstr "Odaberite odgovarajuću veličinu papira"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_theme_install
 msgid "Select a theme for your website"
-msgstr ""
+msgstr "Odaberite temu za vaš websajt"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.base_partner_merge_automatic_wizard_form
@@ -18899,12 +19061,12 @@ msgstr "Postavi kao Za uraditi"
 #. module: base
 #: model:ir.actions.act_window,name:base.action_open_base_onboarding_company
 msgid "Set your company data"
-msgstr ""
+msgstr "Podesite podatke vaše kompanije"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_company_step
 msgid "Set your company's data for documents header/footer."
-msgstr ""
+msgstr "Postavite podatke o vašoj kompaniji na zaglavlje/podnožje dokumenata."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_actions_act_url__binding_model_id
@@ -18995,7 +19157,7 @@ msgstr "Prikaži tehničke module"
 #. module: base
 #: model:ir.module.module,summary:base.module_website_google_map
 msgid "Show your company address on Google Maps"
-msgstr ""
+msgstr "Prikažite adresu vaše kompanije na google mapama."
 
 #. module: base
 #: model:res.country,name:base.sl
@@ -19055,7 +19217,7 @@ msgstr "Veličina"
 #. module: base
 #: sql_constraint:ir.model.fields:0
 msgid "Size of the field cannot be negative."
-msgstr ""
+msgstr "Veličina polja ne može biti negativna."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_config_installer
@@ -19352,6 +19514,11 @@ msgid "Sticky memos, Collaborative"
 msgstr "Ljepljivi podsjetnici, Kolaborativni"
 
 #. module: base
+#: model:ir.module.category,name:base.module_category_stock
+msgid "Stock"
+msgstr "Zaliha"
+
+#. module: base
 #: model:ir.module.module,shortdesc:base.module_stock_barcode_mobile
 msgid "Stock Barcode in Mobile"
 msgstr ""
@@ -19432,12 +19599,12 @@ msgstr ""
 #. module: base
 #: selection:ir.translation,type:0
 msgid "Structured Model Field"
-msgstr ""
+msgstr "Strukturno polje modela"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_web_studio
 msgid "Studio"
-msgstr ""
+msgstr "Studio"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.edit_menu_access
@@ -19457,7 +19624,7 @@ msgstr "Pretplate"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_sequence__date_range_ids
 msgid "Subsequences"
-msgstr ""
+msgstr "Podsekvence"
 
 #. module: base
 #: model:res.country,name:base.sd
@@ -19563,7 +19730,7 @@ msgstr "Sirija"
 #. module: base
 #: model:ir.model,name:base.model_ir_config_parameter
 msgid "System Parameter"
-msgstr ""
+msgstr "Sistemski parametar"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.ir_config_list_action
@@ -19668,6 +19835,573 @@ msgid "Task Logs"
 msgstr ""
 
 #. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_mx_tax_cash_basis
+msgid "Tax Cash Basis Entries at Payment Date"
+msgstr ""
+
+#. module: base
+#: model:ir.module.module,description:base.module_l10n_mx_tax_cash_basis
+msgid ""
+"Tax Cash Basis Entries at Payment Date\n"
+"======================================\n"
+"\n"
+"Allow to create the Journal Entries for Taxes at date of payment.\n"
+"The following tests cases pretend to enlight you on what is expected of each\n"
+"one according to Mexican requirements.\n"
+"\n"
+"Case Multi-currency (both invoice & payment) Payment before Invoice\n"
+"-------------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively receivable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in USD at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable          1160                1160    USD\n"
+"                Revenue                 1000       -1000    USD\n"
+"                Taxes to Collect         160        -160    USD\n"
+"\n"
+"        Payment issued two days ago in USD at a rate => 1MXN = 0.80 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Bank                1450                1160    USD\n"
+"                Receivable              1450       -1160    USD\n"
+"\n"
+"        This Generates a Exchange Rate Difference.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable           290                   0    USD\n"
+"                Gain Exchange rate       290           0    USD\n"
+"\n"
+"        And a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1250                1000    USD\n"
+"                Tax Base Account        1250       -1000    USD\n"
+"            Taxes to Collect     200                 160    USD\n"
+"                Taxes to Paid            200        -160    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT if it would be the case (not in this case): \n"
+"              * Tax Base Account MXN 1250.00\n"
+"            - Paid to SAT MXN 200.00\n"
+"            - Have a difference of MXN 40.00 for Taxes to Collect that I would\n"
+"              later have to issue as a Loss in Exchange Rate Difference\n"
+"\n"
+"            Loss Exchange rate    40                   0    USD\n"
+"                Taxes to Collect          40           0    USD\n"
+"\n"
+"\n"
+"Case Multi-currency (both invoice & payment) Payment after Invoice\n"
+"------------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively receivable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued two days ago in USD at a rate => 1MXN = 0.80 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable          1450                1160    USD\n"
+"                Revenue                 1250       -1000    USD\n"
+"                Taxes to Collect         200        -160    USD\n"
+"\n"
+"        Payment issued today in USD at a rate => 1 MXN = 1.25 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Bank                 928                1160    USD\n"
+"                Receivable               928       -1160    USD\n"
+"\n"
+"        This Generates a Exchange Rate Difference.\n"
+"        Booked like:\n"
+"\n"
+"            Loss Exchange rate   522                   0    USD\n"
+"                Receivable               522           0    USD\n"
+"\n"
+"        And a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account     800                1000    USD\n"
+"                Tax Base Account         800       -1000    USD\n"
+"            Taxes to Collect     128                 160    USD\n"
+"                Taxes to Paid            128        -160    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT if it would be the case (not in this case): \n"
+"              * Tax Base Account MXN 800.00\n"
+"            - Paid to SAT MXN 128.00\n"
+"            - Have a difference of MXN -72.00 for Taxes to Collect that I would\n"
+"              later have to issue as a Gain in Exchange Rate Difference\n"
+"\n"
+"            Taxes to Collect      72                   0    USD\n"
+"                Gain Exchange rate        72           0    USD\n"
+"\n"
+"\n"
+"Case Multi-currency (both invoice & payment) Payment same day than Invoice\n"
+"--------------------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively receivable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued two days ago in USD at a rate => 1MXN = 0.8 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable          1450                1160    USD\n"
+"                Revenue                 1250       -1000    USD\n"
+"                Taxes to Collect         200        -160    USD\n"
+"\n"
+"        Payment issued two days ago in USD at a rate => 1 MXN = 0.8 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Bank                1450                1160    USD\n"
+"                Receivable              1450       -1160    USD\n"
+"\n"
+"        This does not generates any Exchange Rate Difference.\n"
+"\n"
+"        But a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1250                1000    USD\n"
+"                Tax Base Account        1250       -1000    USD\n"
+"            Taxes to Collect     200                 160    USD\n"
+"                Taxes to Paid            200        -160    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT if it would be the case (not in this case): \n"
+"              * Tax Base Account MXN 1250.00\n"
+"            - Paid to SAT MXN 200.00\n"
+"            - Have no difference for Taxes to Collect\n"
+"\n"
+"\n"
+"Case Invoiced Yesterday (MXN) Payment Two Days Ago (USD)\n"
+"--------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively receivable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in MXN at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable          1160                   -      -\n"
+"                Revenue                 1000           -      -\n"
+"                Taxes to Collect         160           -      -\n"
+"\n"
+"        Payment issued two days ago in USD at a rate => 1 MXN = 0.80 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Bank                1160                 928    USD\n"
+"                Receivable              1160        -928    USD\n"
+"\n"
+"        This does not generates any Exchange Rate Difference.\n"
+"\n"
+"        But a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1000                   0      -\n"
+"                Tax Base Account        1000           0      -\n"
+"            Taxes to Collect     160                   0      -\n"
+"                Taxes to Paid            160           0      -\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT if it would be the case (not in this case):\n"
+"              * Tax Base Account MXN 1000.00\n"
+"            - Paid to SAT MXN 160.00\n"
+"            - Have no difference for Taxes to Collect\n"
+"\n"
+"\n"
+"Case Invoiced Yesterday (USD) Payment Today (MXN)\n"
+"-------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively receivable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in USD at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable          1160                1160    USD\n"
+"                Revenue                 1000       -1000    USD\n"
+"                Taxes to Collect         160        -160    USD\n"
+"\n"
+"        Payment issued today in MXN at a rate => 1 MXN = 1.25 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Bank                 928                   -      -\n"
+"                Receivable               928           -      -\n"
+"\n"
+"        This Generates a Exchange Rate Difference.\n"
+"        Booked like:\n"
+"\n"
+"            Loss Exchange rate   232                 232    USD\n"
+"                Receivable               232        -232    USD\n"
+"\n"
+"        And a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account     800                   0    USD\n"
+"                Tax Base Account         800           0    USD\n"
+"            Taxes to Collect     128                   0    USD  # (I'd expect the same value as in the invoice for amount_currency in tax: 160 USD) \n"
+"                Taxes to Paid            128           0    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT if it would be the case (not in this case): \n"
+"              * Tax Base Account MXN 800.00\n"
+"            - Paid to SAT MXN 128.00\n"
+"            - Have a difference of MXN -32.00 for Taxes to Collect that I would\n"
+"              later have to issue as a Gain in Exchange Rate Difference\n"
+"\n"
+"            Taxes to Collect      32                   0    USD\n"
+"                Gain Exchange rate        32           0    USD\n"
+"\n"
+"\n"
+"Case Invoiced Yesterday (MXN) Payment Today (MXN)\n"
+"-------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively receivable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in MXN at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable          1160                   -      -\n"
+"                Revenue                 1000           -      -\n"
+"                Taxes to Collect         160           -      -\n"
+"\n"
+"        Payment issued today in MXN at a rate => 1 MXN = 1.25 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Bank                1160                   -      -\n"
+"                Receivable              1160           -      -\n"
+"\n"
+"        This does not generates any Exchange Rate Difference.\n"
+"\n"
+"        But a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1000                   -      -\n"
+"                Tax Base Account        1000           -      -\n"
+"            Taxes to Collect     160                   -      -\n"
+"                Taxes to Paid            160           -      -\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT if it would be the case (not in this case): \n"
+"              * Tax Base Account MXN 1000.00\n"
+"            - Paid to SAT MXN 160.00\n"
+"            - Have no difference for Taxes to Collect\n"
+"\n"
+"\n"
+"Case Multi-currency (both invoice & payment) Payment before Invoice (Supplier)\n"
+"------------------------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively Payable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in USD at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Expenses            1000                1000    USD\n"
+"            Unpaid Taxes         160                 160    USD\n"
+"\n"
+"                Payable                 1160       -1160    USD\n"
+"\n"
+"        Payment issued two days ago in USD at a rate => 1MXN = 0.80 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Payable             1450                1160    USD\n"
+"                Bank                    1450       -1160    USD\n"
+"\n"
+"        This Generates a Exchange Rate Difference.\n"
+"        Booked like:\n"
+"\n"
+"            Loss Exchange rate   290                   0    USD\n"
+"                Payable                  290           0    USD\n"
+"\n"
+"        And a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1250                1000    USD\n"
+"                Tax Base Account        1250       -1000    USD\n"
+"            Creditable Tax       200                 160    USD\n"
+"                Unpaid Taxes             200        -160    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT: Tax Base Account MXN 1250.00\n"
+"            - Creditable Tax MXN 200.00\n"
+"            - Have a difference of MXN -40.00 for Unpaid Taxes that I would\n"
+"              later have to issue as a Loss in Exchange Rate Difference\n"
+"\n"
+"            Unpaid Taxes          40                   0    USD\n"
+"                Gain Exchange rate        40           0    USD\n"
+"\n"
+"\n"
+"Case Multi-currency (both invoice & payment) Payment after Invoice (Supplier)\n"
+"-----------------------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively Payable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued two days ago in USD at a rate => 1MXN = 0.80 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Expenses            1250                1000    USD\n"
+"            Unpaid Taxes         200                 160    USD\n"
+"\n"
+"                Payable                 1450       -1160    USD\n"
+"\n"
+"        Payment issued today in USD at a rate => 1 MXN = 1.25 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Payable              928                1160    USD\n"
+"                Bank                     928       -1160    USD\n"
+"\n"
+"        This Generates a Exchange Rate Difference.\n"
+"        Booked like:\n"
+"\n"
+"            Payable              522                   0    USD\n"
+"                Gain Exchange rate       522           0    USD\n"
+"\n"
+"        And a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account     800                1000    USD\n"
+"                Tax Base Account         800       -1000    USD\n"
+"            Creditable Tax       128                 160    USD\n"
+"                Unpaid Taxes             128        -160    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT: Tax Base Account MXN 800.00\n"
+"            - Creditable Tax MXN 128.00\n"
+"            - Have a difference of MXN 72.00 for Unpaid Taxes that I would\n"
+"              later have to issue as a Loss in Exchange Rate Difference\n"
+"\n"
+"            Loss Exchange rate    72                   0    USD\n"
+"                Unpaid Taxes              72           0    USD\n"
+"\n"
+"\n"
+"Case Multi-currency (both invoice & payment) Payment same day than Invoice (Supplier)\n"
+"-------------------------------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively Payable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued two days ago in USD at a rate => 1MXN = 0.8 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Expenses            1250                1000    USD\n"
+"            Unpaid Taxes         200                 160    USD\n"
+"\n"
+"                Payable                 1450       -1160    USD\n"
+"\n"
+"        Payment issued two days ago in USD at a rate => 1 MXN = 0.8 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Payable             1450                1160    USD\n"
+"                Bank                    1450       -1160    USD\n"
+"\n"
+"        This does not generates any Exchange Rate Difference.\n"
+"\n"
+"        But a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1250                1000    USD\n"
+"                Tax Base Account        1250       -1000    USD\n"
+"            Creditable Tax       200                 160    USD\n"
+"                Unpaid Taxes             200        -160    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT: Tax Base Account MXN 1250.00\n"
+"            - Creditable Tax MXN 200.00\n"
+"            - Have no difference for Unpaid Taxes\n"
+"\n"
+"\n"
+"Case Invoiced Yesterday (MXN) Payment Two Days Ago (USD) (Supplier)\n"
+"-------------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively Payable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in MXN at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Expenses            1000                   -      -\n"
+"            Unpaid Taxes         160                   -      -\n"
+"\n"
+"                Payable                 1160           -      -\n"
+"\n"
+"        Payment issued two days ago in USD at a rate => 1 MXN = 0.80 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Payable             1160                 928    USD\n"
+"                Bank                    1160        -928    USD\n"
+"\n"
+"        This does not generates any Exchange Rate Difference.\n"
+"\n"
+"        But a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1000                   0      -\n"
+"                Tax Base Account        1000           0      -\n"
+"            Creditable Tax       160                   0      -\n"
+"                Unpaid Taxes             160           0      -\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT: Tax Base Account MXN 1000.00\n"
+"            - Creditable Tax MXN 160.00\n"
+"            - Have no difference for Unpaid Taxes\n"
+"\n"
+"\n"
+"Case Invoiced Yesterday (USD) Payment Today (MXN) (Supplier)\n"
+"------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively Payable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in USD at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Expenses            1000                1000    USD\n"
+"            Unpaid Taxes         160                 160    USD\n"
+"\n"
+"                Payable                 1160       -1160    USD\n"
+"\n"
+"        Payment issued today in MXN at a rate => 1 MXN = 1.25 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Payable              928                   -      -\n"
+"                Bank                     928           -      -\n"
+"\n"
+"        This Generates a Exchange Rate Difference.\n"
+"        Booked like:\n"
+"\n"
+"            Payable              232                 232    USD\n"
+"                Gain Exchange rate       522        -232    USD\n"
+"\n"
+"        And a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account     800                   0    USD\n"
+"                Tax Base Account         800           0    USD\n"
+"            Creditable Tax       128                   0    USD  # (I'd expect the same value as in the invoice for amount_currency in tax: 160 USD) \n"
+"                Unpaid Taxes             128           0    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT: Tax Base Account MXN 800.00\n"
+"            - Creditable Tax MXN 128.00\n"
+"            - Have a difference of MXN 32.00 for Unpaid Taxes that I would\n"
+"              later have to issue as a Loss in Exchange Rate Difference\n"
+"\n"
+"            Loss Exchange rate    32                   0    USD\n"
+"                Unpaid Taxes              32           0    USD\n"
+"\n"
+"\n"
+"Case Invoiced Yesterday (MXN) Payment Today (MXN) (Supplier)\n"
+"------------------------------------------------------------\n"
+"\n"
+"        Test to validate tax effectively Payable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued yesterday in MXN at a rate => 1MXN = 1 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Expenses            1000                   -      -\n"
+"            Unpaid Taxes         160                   -      -\n"
+"\n"
+"                Payable                 1160           -      -\n"
+"\n"
+"        Payment issued today in MXN at a rate => 1 MXN = 1.25 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Payable             1160                   -      -\n"
+"                Bank                    1160           -      -\n"
+"\n"
+"        This does not generates any Exchange Rate Difference.\n"
+"\n"
+"        But a Tax Cash Basis Entry is generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account    1000                   -      -\n"
+"                Tax Base Account        1000           -      -\n"
+"            Creditable Tax       160                   -      -\n"
+"                Unpaid Taxes             160           -      -\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT: Tax Base Account MXN 1000.00\n"
+"            - Creditable Tax MXN 160.00\n"
+"            - Have no difference for Unpaid Taxes\n"
+"\n"
+"\n"
+"Case Invoiced Yesterday (MXN) Credit Note Today (MXN) (Customer)\n"
+"----------------------------------------------------------------\n"
+"        Test to validate tax effectively receivable\n"
+"\n"
+"        My company currency is MXN.\n"
+"\n"
+"        Invoice issued two days ago in USD at a rate => 1MXN = 0.80 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Receivable          1450                1160    USD\n"
+"                Revenue                 1250       -1000    USD\n"
+"                Taxes to Collect         200        -160    USD\n"
+"\n"
+"        Credit Note issued today in USD at a rate => 1 MXN = 1.25 USD.\n"
+"        Booked like:\n"
+"\n"
+"            Revenue              800                1000    USD\n"
+"            Taxes to Collect     128                 160    USD\n"
+"\n"
+"                Receivable               928       -1160    USD\n"
+"\n"
+"        This Generates a Exchange Rate Difference.\n"
+"        Booked like:\n"
+"\n"
+"            Loss Exchange rate   522                   0    USD\n"
+"                Receivable               522           0    USD\n"
+"\n"
+"        And two Tax Cash Basis Entry are generated.\n"
+"        Booked like:\n"
+"\n"
+"            Tax Base Account     800                1000    USD\n"
+"                Tax Base Account         800       -1000    USD\n"
+"            Taxes to Collect     128                 160    USD\n"
+"                Taxes to Paid            128        -160    USD\n"
+"\n"
+"            Tax Base Account     800                1000    USD\n"
+"                Tax Base Account         800       -1000    USD\n"
+"            Taxes to Paid        128                 160    USD\n"
+"                Taxes to Collect         128        -160    USD\n"
+"\n"
+"        What I expect from here:\n"
+"            - Base to report to DIOT if it would be the case (not in this case): \n"
+"              * Tax Base Account MXN 800.00 and MXN -800.00\n"
+"            - Paid to SAT MXN 0.00\n"
+"            - Have a difference of MXN -72.00 for Taxes to Collect that I would\n"
+"              later have to issue as a Gain in Exchange Rate Difference\n"
+"\n"
+"            Taxes to Collect      72                   0    USD\n"
+"                Gain Exchange rate        72           0    USD\n"
+"\n"
+"Credits\n"
+"=======\n"
+"\n"
+"**Contributors**\n"
+"\n"
+"* Nhomar Hernandez <nhomar@vauxoo.com> (Planner/Auditor)\n"
+"* Luis Torres <luis_t@vauxoo.com> (Auditor)\n"
+"* Humberto Arocha <luis_t@vauxoo.com> (Planner/Developer)\n"
+msgstr ""
+
+#. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__vat
 #: model:ir.model.fields,field_description:base.field_res_partner__vat
 #: model:ir.model.fields,field_description:base.field_res_users__vat
@@ -19712,7 +20446,7 @@ msgid "Technical Settings"
 msgstr "Tehničke postavke"
 
 #. module: base
-#: code:addons/base/models/ir_translation.py:782
+#: code:addons/base/models/ir_translation.py:794
 #, python-format
 msgid "Technical Translations"
 msgstr "Tehnički prevodi"
@@ -19807,7 +20541,7 @@ msgstr ""
 #: code:addons/base/models/res_users.py:386
 #, python-format
 msgid "The \"App Switcher\" action cannot be selected as home action."
-msgstr ""
+msgstr "\"Odabir aplikacija\" ne može biti odabran kao početna akcija."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_country__code
@@ -19918,6 +20652,8 @@ msgid ""
 "The corresponding related field, if any. This must be a dot-separated list "
 "of field names."
 msgstr ""
+"Određeno povezano polje, ako postoji. Ovo mora biti tačkom odvojena lista "
+"naziva polja."
 
 #. module: base
 #: sql_constraint:res.currency:0
@@ -19927,7 +20663,7 @@ msgstr "Šifra valute mora biti jedinstvena!"
 #. module: base
 #: sql_constraint:res.currency.rate:0
 msgid "The currency rate must be strictly positive."
-msgstr ""
+msgstr "Omjer valute mora striktno biti pozitivan."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_attachment__res_model
@@ -20008,7 +20744,7 @@ msgstr "Puno ime države"
 #: model:ir.model.fields,help:base.field_res_partner__user_id
 #: model:ir.model.fields,help:base.field_res_users__user_id
 msgid "The internal user in charge of this contact."
-msgstr ""
+msgstr "Interni korisnik je zadužen za ovaj kontakt."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model__inherited_model_ids
@@ -20084,7 +20820,7 @@ msgstr "Sljedeći korak ovisi o formatu fajla:"
 #: model_terms:ir.ui.view,arch_db:base.view_model_fields_form
 #: model_terms:ir.ui.view,arch_db:base.view_model_form
 msgid "The only predefined variables are"
-msgstr ""
+msgstr "Jedine predefinisane varijable su "
 
 #. module: base
 #: code:addons/model.py:121
@@ -20094,6 +20830,9 @@ msgid ""
 "- deletion: you may be trying to delete a record while other records still reference it\n"
 "- creation/update: a mandatory field is not correctly set"
 msgstr ""
+"Ova operacija nije mogla biti izvršena, vjerovatno iz nekog od sljedećih razloga:\n"
+"- brisanje: možda pokušavate da obrišete zapis dok još uvijek postoje zapisi koji imaju vezu sa njim\n"
+"- kreiranje/ažuriranje: obavezno polje možda nije pravilno postavljeno"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_fields__domain
@@ -20126,6 +20865,8 @@ msgid ""
 "The path to the main report file (depending on Report Type) or empty if the "
 "content is in another field"
 msgstr ""
+"Putanja do datoteke glavnog izvještaja (zavisno od tipa izvještaja) ili "
+"prazno ako je sadržaj u drugom polju"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_cron__priority
@@ -20149,7 +20890,7 @@ msgstr "Kurs valute u odnosu na kurs sa valutom 1."
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_attachment__res_id
 msgid "The record id this is attached to."
-msgstr ""
+msgstr "Id zapisa gdje je ovo zakačeno."
 
 #. module: base
 #: code:addons/base/models/ir_actions_report.py:673
@@ -20194,19 +20935,20 @@ msgstr "Faktor zaokruživanja mora biti veći od 0!"
 msgid ""
 "The server refused the sender address (%(email_from)s) with error %(repl)s"
 msgstr ""
+"Server je odbio adresu pošaljioca (%(email_from)s) sa greškom %(repl)s"
 
 #. module: base
 #: code:addons/base/models/ir_mail_server.py:182
 #, python-format
 msgid "The server refused the test connection with error %(repl)s"
-msgstr ""
+msgstr "Server je odbio testnu konekciju sa greškom %(repl)s"
 
 #. module: base
 #: code:addons/base/models/ir_mail_server.py:175
 #, python-format
 msgid ""
 "The server refused the test recipient (%(email_to)s) with error %(repl)s"
-msgstr ""
+msgstr "Server je odbio testnog primaoca (%(email_to)s) sa greškom %(repl)s"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_country_state__code
@@ -20256,7 +20998,7 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:405
 #, python-format
 msgid "The value send to monetary field is not a number."
-msgstr ""
+msgstr "Vrijednost poslata novčanom polju nije broj."
 
 #. module: base
 #: code:addons/models.py:5543
@@ -20402,7 +21144,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_upgrade
 msgid "This module will trigger the uninstallation of below modules."
-msgstr ""
+msgstr "Ovaj modul će aktivirati deinstalaciju dole navedenih modula."
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_lang__thousands_sep
@@ -20527,11 +21269,13 @@ msgstr "Treba biti nadograđeno"
 msgid ""
 "To enable it, make sure this directory exists and is writable on the server:"
 msgstr ""
+"Da bi ste ga omogućili, obezbjedite da ovaj direktorijum postoji i da se u "
+"njega može upisivati na serveru:"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_server_action_form
 msgid "To return an action, assign: <code>action = {...}</code>"
-msgstr ""
+msgstr "Da bi ste vratili akciju, dodjelite: <code>action = {...}</code>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_actions_todo_tree
@@ -20558,11 +21302,13 @@ msgstr "Kraljevina Tonga"
 #, python-format
 msgid "Too many login failures, please wait a bit before trying again."
 msgstr ""
+"Previše greški prijave, molimo sačekajte malo prije nego što ponovno "
+"pokušate."
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_tool
 msgid "Tool"
-msgstr ""
+msgstr "Alat"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_tools
@@ -20670,7 +21416,7 @@ msgstr "Prevedi"
 #. module: base
 #: model:ir.module.module,summary:base.module_website_gengo
 msgid "Translate website in one-click"
-msgstr ""
+msgstr "Prevedite web stranicu u jednom kliku"
 
 #. module: base
 #: selection:ir.translation,state:0
@@ -20710,6 +21456,7 @@ msgstr "Komentari prevoda"
 msgid ""
 "Translation features are unavailable until you install an extra translation."
 msgstr ""
+"Mogućnost prevoda je onemogućena sve dok ne instalirate dodatni prevod."
 
 #. module: base
 #: selection:ir.translation,state:0
@@ -20938,12 +21685,14 @@ msgstr "Ukrajna"
 msgid ""
 "Unable to delete this document because it is used as a default property"
 msgstr ""
+"Nije moguće obrisati ovaj dokument jer se koristi kao svojstvo zadane "
+"vrijednosti "
 
 #. module: base
 #: code:addons/base/models/ir_actions_report.py:663
 #, python-format
 msgid "Unable to find Wkhtmltopdf on this system. The PDF can not be created."
-msgstr ""
+msgstr "Nije pronađen Wkhtmltopdf na vašem sistemu. PDF ne može biti kreiran."
 
 #. module: base
 #: code:addons/base/models/ir_module.py:336
@@ -21030,7 +21779,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_uom
 msgid "Units of measure"
-msgstr ""
+msgstr "Jedinice mjera"
 
 #. module: base
 #: model:ir.model,name:base.model__unknown
@@ -21140,7 +21889,7 @@ msgstr "Ažuriraj izraze"
 #. module: base
 #: model:ir.model,name:base.model_base_update_translations
 msgid "Update Translations"
-msgstr ""
+msgstr "Ažuriraj prevode"
 
 #. module: base
 #: selection:ir.actions.server,state:0
@@ -21153,6 +21902,8 @@ msgid ""
 "Update your company details and upload your logo to get a beautiful "
 "document."
 msgstr ""
+"Ažurirajte podatke kompanije i učitajte vaš logo da dobijete ljepše "
+"dokumente."
 
 #. module: base
 #: model:ir.actions.client,name:base.modules_updates_act_cl
@@ -21169,7 +21920,7 @@ msgstr "Nadogradi"
 #. module: base
 #: model:ir.model,name:base.model_base_module_upgrade
 msgid "Upgrade Module"
-msgstr ""
+msgstr "Nadogradi modul"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_attachment__url
@@ -21219,13 +21970,13 @@ msgstr ""
 #: code:addons/base/models/ir_qweb_fields.py:632
 #, python-format
 msgid "Use comma"
-msgstr ""
+msgstr "Koristite zarez"
 
 #. module: base
 #: code:addons/base/models/ir_qweb_fields.py:632
 #, python-format
 msgid "Use comma instead of the <br> tag to display the address"
-msgstr ""
+msgstr "Koristite zarez umjesto <br> oznake da prikažete adresu"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_sale_coupon
@@ -21235,7 +21986,7 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_sequence__use_date_range
 msgid "Use subsequences per date_range"
-msgstr ""
+msgstr "Koristi podsekvence po rasponima datuma (date_range)"
 
 #. module: base
 #: model:ir.module.module,description:base.module_hr_gamification
@@ -21296,7 +22047,7 @@ msgstr "Korišteno za prijavu u sistem"
 #. module: base
 #: model:ir.model.fields,help:base.field_res_company__sequence
 msgid "Used to order Companies in the company switcher"
-msgstr ""
+msgstr "Koristi se za redosljed kompanija u izborniku kompanija"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_change_password_user__user_id
@@ -21325,7 +22076,7 @@ msgstr "Prijava korisnika"
 #: model_terms:ir.ui.view,arch_db:base.user_groups_view
 #, python-format
 msgid "User Type"
-msgstr ""
+msgstr "Tip korisnika"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_users__log_ids
@@ -21335,12 +22086,12 @@ msgstr "Zapisi korisničkog loga"
 #. module: base
 #: model:ir.module.category,name:base.module_category_user_type
 msgid "User types"
-msgstr ""
+msgstr "Korisnički tipovi"
 
 #. module: base
 #: model:ir.model,name:base.model_change_password_user
 msgid "User, Change Password Wizard"
-msgstr ""
+msgstr "Korisnik, Čarobnjak izmjene lozinke"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.ir_default_menu_action
@@ -21388,7 +22139,7 @@ msgstr "Korisnici i Kompanije"
 #. module: base
 #: model:ir.model,name:base.model_res_users_log
 msgid "Users Log"
-msgstr ""
+msgstr "Log korisnika"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_groups_form
@@ -21518,6 +22269,8 @@ msgid ""
 "Various fields may use Python code or Python expressions. The following "
 "variables can be used:"
 msgstr ""
+"Različita polja mogu koristiti Python kod ili Python ekpresije. Sljedeće "
+"varijable možete koristiti:"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_country__vat_label
@@ -21656,11 +22409,14 @@ msgid ""
 "Views allows you to personalize each view of Odoo. You can add new fields, "
 "move fields, rename them or delete the ones that you do not need."
 msgstr ""
+"Pogledi dozvoljavaju da personalizujete svaki pogled u Odoo-i. Možete dodati"
+" nova polja, pomjeriti polja, preimenovati ih ili obrisati one koji vam nisu"
+" potrebni."
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_ui_view__inherit_children_ids
 msgid "Views which inherit from this one"
-msgstr ""
+msgstr "Pogledi koji su nasljeđeni od ovog"
 
 #. module: base
 #: model:res.country,name:base.vg
@@ -21849,7 +22605,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_studio
 msgid "Website Studio"
-msgstr ""
+msgstr "Websajt Studio"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_survey
@@ -21859,7 +22615,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_theme_install
 msgid "Website Theme Install"
-msgstr ""
+msgstr "Instaliraj Websajt Temu"
 
 #. module: base
 #: selection:res.lang,week_start:0
@@ -21888,6 +22644,8 @@ msgid ""
 "When dealing with multiple actions, the execution order is based on the "
 "sequence. Low number means high priority."
 msgstr ""
+"Kada radite sa više akcija, redosljed izvršavanja je baziran na sekvenci. "
+"Manji broj znači veći prioritet."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_mail_server__sequence
@@ -21905,16 +22663,18 @@ msgid ""
 "When subsequences per date range are used, you can prefix variables with 'range_'\n"
 "                                to use the beginning of the range instead of the current date, e.g. %(range_year)s instead of %(year)s."
 msgstr ""
+"Kada se koriste podsekvence po rasponima datuma, možete dodati prefix 'range_' varijabli\n"
+"                                da koristite početak raspona umjesto trenutnog datuma, npr.: %(range_year)s umjesto %(year)s."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_fields__copied
 msgid "Whether the value is copied when duplicating a record."
-msgstr ""
+msgstr "Dali je ili ne vrijednost kopirana kada dupliciramo zapis."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_fields__store
 msgid "Whether the value is stored in the database."
-msgstr ""
+msgstr "Dali je ili ne vrijednost sačuvana u bazi podataka."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_fields__translate
@@ -21959,12 +22719,14 @@ msgid ""
 "Wkhtmltopdf failed (error code: %s). Memory limit too low or maximum file "
 "number of subprocess reached. Message : %s"
 msgstr ""
+"Wkhtmltopdf greška (error kod: %s). Limit memorije je premalen ili je "
+"maksimalan broj podprocesa dosegnut. Poruka : %s"
 
 #. module: base
 #: code:addons/base/models/ir_actions_report.py:413
 #, python-format
 msgid "Wkhtmltopdf failed (error code: %s). Message: %s"
-msgstr ""
+msgstr "Wkhtmltopdf greška (error kod: %s). Poruka: %s"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_mrp_workorder
@@ -21994,11 +22756,18 @@ msgid ""
 "Write Python code that the action will execute. Some variables are available"
 " for use; help about python expression is given in the help tab."
 msgstr ""
+"Napišite Python kod koji će akcija izvršiti. Neke varijable su dostupne za "
+"korišćenje; pomoć o korišćenju python ekspresija je dat u tabu pomoći."
 
 #. module: base
 #: model:res.country,name:base.ye
 msgid "Yemen"
 msgstr ""
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
+msgid "Yes, I understand the risks"
+msgstr "Da, razumijem rizike"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_yodlee
@@ -22013,25 +22782,25 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_simple_form
 msgid "You are inviting a new user."
-msgstr ""
+msgstr "Pozivate novog korisnika."
 
 #. module: base
 #: code:addons/base/models/ir_module.py:423
 #, python-format
 msgid "You are trying to install incompatible modules in category \"%s\":"
-msgstr ""
+msgstr "Pokušavate da instalirate nekompatibilne module u kategoriju \"%s\":"
 
 #. module: base
 #: code:addons/base/models/ir_module.py:308
 #, python-format
 msgid ""
 "You are trying to remove a module that is installed or will be installed."
-msgstr ""
+msgstr "Pokušavate ukloniti modul koji je instaliran ili će biti instaliran."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_form
 msgid "You can archive the contact"
-msgstr ""
+msgstr "Možete arhivirati kontakt"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_attachment__type
@@ -22039,12 +22808,14 @@ msgid ""
 "You can either upload a file from your computer or copy/paste an internet "
 "link to your file."
 msgstr ""
+"Možete ili učitati datoteku sa vašeg računara ili kopirati/nalijepiti link u"
+" vašu datoteku."
 
 #. module: base
 #: code:addons/base/models/res_partner.py:88
 #, python-format
 msgid "You can not create recursive tags."
-msgstr ""
+msgstr "Ne možete kreirati rekurzivne oznake."
 
 #. module: base
 #: sql_constraint:res.users:0
@@ -22058,6 +22829,8 @@ msgid ""
 "You can not remove the admin user as it is used internally for resources "
 "created by Odoo (updates, module installation, ...)"
 msgstr ""
+"Ne možete ukloniti admin korisnika jer se koristi interno za resurse "
+"kreirane od strane Odoo-a (nadogradnje, instalacije modula,...)"
 
 #. module: base
 #: code:addons/base/models/report_paperformat.py:193
@@ -22066,18 +22839,20 @@ msgid ""
 "You can select either a format or a specific page width/height, but not "
 "both."
 msgstr ""
+"Možete odabrati jedino ili format ili specifičnu visinu/širinu stranice, ali"
+" ne i oboje."
 
 #. module: base
 #: code:addons/base/models/res_users.py:435
 #, python-format
 msgid "You cannot activate the superuser."
-msgstr ""
+msgstr "Ne možete aktivirati super korisnika."
 
 #. module: base
 #: code:addons/base/models/res_partner.py:509
 #, python-format
 msgid "You cannot archive a contact linked to an internal user."
-msgstr ""
+msgstr "Ne možete arhivirati kontakta koji je povezan sa internim korisnikom."
 
 #. module: base
 #: code:addons/base/models/res_partner.py:330
@@ -22089,13 +22864,13 @@ msgstr "Ne možete kreirati rekurzivne hijerarhije partnera"
 #: code:addons/base/models/res_company.py:243
 #, python-format
 msgid "You cannot create recursive companies."
-msgstr ""
+msgstr "Ne možete da kreirate rekurzivne kompanije."
 
 #. module: base
 #: code:addons/base/models/ir_ui_view.py:369
 #, python-format
 msgid "You cannot create recursive inherited views."
-msgstr ""
+msgstr "Ne možete da kreirate rekurzivne nasljeđene poglede."
 
 #. module: base
 #: code:addons/base/models/res_users.py:437
@@ -22118,6 +22893,8 @@ msgstr ""
 #, python-format
 msgid "You cannot delete the language which is the user's preferred language."
 msgstr ""
+"Ne možete obrisati jezik koji je još uvijek preferirani jezik nekog od "
+"korisnika."
 
 #. module: base
 #: code:addons/base/wizard/base_partner_merge.py:277
@@ -22129,12 +22906,12 @@ msgstr "Ne možete spojiti kontakt sa jedim od njegovih roditelja."
 #: code:addons/base/wizard/base_partner_merge.py:376
 #, python-format
 msgid "You have to specify a filter for your selection."
-msgstr ""
+msgstr "Morate specifirati filter za vaš odabir."
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.open_module_tree
 msgid "You should try other search criteria."
-msgstr ""
+msgstr "Trebali bi ste pokušati drugi kriterijum pretrage."
 
 #. module: base
 #: code:addons/base/models/ir_module.py:356
@@ -22153,6 +22930,8 @@ msgid ""
 "You try to upgrade the module %s that depends on the module: %s.\n"
 "But this module is not available in your system."
 msgstr ""
+"Pokušavate da nadogradite modul %s koji ovisi o modulu:: %s.\n"
+"Ovaj modul nije dostupan na vašem sistemu.."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_simple_form
@@ -22160,6 +22939,8 @@ msgid ""
 "You will be able to define additional access rights by editing the newly "
 "created user under the Settings / Users menu."
 msgstr ""
+"Bićete u mogućnosti da definišete dodatna pravila pristupa na način da "
+"uredite novokreiranog korisnika pod menijem Postavke / Korisnici."
 
 #. module: base
 #: code:addons/base/models/ir_mail_server.py:248
@@ -22169,6 +22950,9 @@ msgid ""
 "instead. If SSL is needed, an upgrade to Python 2.6 on the server-side "
 "should do the trick."
 msgstr ""
+"Vaš Odoo server ne podržava SMTP-preko-SSL-a. Možete koristiti STARTTLS "
+"umjesto toga. Ako je SSL neophodan, nadogradnja na Python 2.6 na strani "
+"servera bi trebala da omogući ovu funkcionalnost."
 
 #. module: base
 #: code:addons/base/models/ir_mail_server.py:500
@@ -22248,12 +23032,12 @@ msgstr "kod"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "binary"
-msgstr ""
+msgstr "binarni"
 
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "boolean"
-msgstr ""
+msgstr "tačno-netačno"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_delivery_bpost
@@ -22263,7 +23047,7 @@ msgstr ""
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "char"
-msgstr ""
+msgstr "karakter"
 
 #. module: base
 #: selection:base.language.export,state:0
@@ -22284,12 +23068,12 @@ msgstr "ID baze podataka"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "date"
-msgstr ""
+msgstr "datum"
 
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "datetime"
-msgstr ""
+msgstr "datumvrijeme"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.wizard_lang_export
@@ -22326,7 +23110,7 @@ msgstr "npr. Mr."
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_company_document_template_form
 msgid "e.g. Opening hours, bank accounts (one per line)"
-msgstr ""
+msgstr "npr.: Sati otvaranja, bankovni računi (jedan po liniji)"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
@@ -22375,7 +23159,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_simple_form
 msgid "email@yourcompany.com"
-msgstr ""
+msgstr "email@vasakompanija.ba"
 
 #. module: base
 #: code:addons/base/models/ir_fields.py:334
@@ -22392,7 +23176,7 @@ msgstr "netačno"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "float"
-msgstr ""
+msgstr "decimalni broj"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_model_fields_form
@@ -22416,7 +23200,7 @@ msgstr "dohvati"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "html"
-msgstr ""
+msgstr "html"
 
 #. module: base
 #: selection:base.language.install,state:0
@@ -22427,7 +23211,7 @@ msgstr "init"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "integer"
-msgstr ""
+msgstr "cijeli broj"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
@@ -22477,12 +23261,12 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.demo_failures_dialog
 msgid "module(s) failed to install and were disabled"
-msgstr ""
+msgstr "modul(i) koji nisu uspjeli da se instaliraju i koji su onemogućeni"
 
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "monetary"
-msgstr ""
+msgstr "novčani"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_mrp
@@ -22530,12 +23314,12 @@ msgstr ""
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "reference"
-msgstr ""
+msgstr "referenca"
 
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "selection"
-msgstr ""
+msgstr "odabir"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_snailmail_account
@@ -22545,11 +23329,6 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_social_media
 msgid "social_media"
-msgstr ""
-
-#. module: base
-#: model:ir.module.category,name:base.module_category_stock
-msgid "stock"
 msgstr ""
 
 #. module: base

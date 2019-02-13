@@ -84,7 +84,7 @@ to manage followers on your record:
     
     :param str body: body of the message, usually raw HTML that will
         be sanitized
-    :param str message_type: see mail_message.type field
+    :param str message_type: see mail_message.message_type field
     :param int parent_id: handle reply to a previous message by adding the
         parent partners to the message in case of private discussion
     :param list(tuple(str,str)) attachments: list of attachment tuples in the form
@@ -170,17 +170,7 @@ a date or an e-mail address, add CC's addresses as followers, etc.).
         using the subtypes given in the parameters
     :return: Success/Failure
     :rtype: bool
-    
-.. method:: message_subscribe_users(user_ids=None, subtype_ids=None)
 
-    Wrapper on message_subscribe, using users instead of partners.
-    
-    :param list(int) user_ids: IDs of the users that will be subscribed
-        to the record; if ``None``, subscribe the current user instead.
-    :param list(int) subtype_ids: IDs of the subtypes that the channels/partners
-        will be subscribed to
-    :return: Success
-    :rtype: bool
 
 .. method:: message_unsubscribe(partner_ids=None, channel_ids=None)
 

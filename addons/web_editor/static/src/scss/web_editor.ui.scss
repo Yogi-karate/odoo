@@ -276,12 +276,12 @@ html[lang] > body.editor_enable [data-oe-translation-state] {
         }
 
         &.oe_vertical {
-            border: 2px dashed $o-brand-odoo;
+            border: $o-we-dropzone-border;
             border-left: none;
             border-right: none;
 
             width: $o-we-dropzone-size;
-            float: left;
+            height: 100%;
             margin: 0 (-$o-we-dropzone-size/2);
 
             &:after {
@@ -988,6 +988,9 @@ body.editor_enable {
             left: 0;
         }
     }
+    .btn {
+        -webkit-user-select: none;
+    }
 }
 
 #web_editor_inside_iframe {
@@ -1061,10 +1064,11 @@ body.editor_enable {
             box-shadow: inset 0 0 0px 1px darken($o-we-switch-inactive-color,10%);
             border-radius: 100rem;
             height: $o-we-switch-size;
-            width: $o-we-switch-size * 1.8;
-            margin-right: 0.5em;
+            width: $o-we-switch-size * 1.81;
+            margin-right: 0.51em;
             display: inline-block;
             transition: all 0.3s $o-we-md-ease;
+            font-size: 15px;
 
             &:after {
                 content: "";
@@ -1236,6 +1240,7 @@ body.editor_enable {
         height: 70%; // in case flex is not supported
         flex: 1 1 auto;
         .ace_gutter {
+            display: block!important; // display even with aria-hidden
             cursor: ew-resize;
 
             .ace_gutter-cell.o_error {

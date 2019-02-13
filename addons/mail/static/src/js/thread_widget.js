@@ -34,6 +34,7 @@ var ThreadWidget = Widget.extend({
         'click .o_thread_show_more': '_onClickShowMore',
         'click .o_attachment_download': '_onAttachmentDownload',
         'click .o_attachment_view': '_onAttachmentView',
+        'click .o_attachment_delete_cross': '_onDeleteAttachment',
         'click .o_thread_message_needaction': '_onClickMessageNeedaction',
         'click .o_thread_message_star': '_onClickMessageStar',
         'click .o_thread_message_reply': '_onClickMessageReply',
@@ -58,6 +59,7 @@ var ThreadWidget = Widget.extend({
         this._enabledOptions = _.defaults(options || {}, {
             displayOrder: ORDER.ASC,
             displayMarkAsRead: true,
+            displayModerationCommands: false,
             displayStars: true,
             displayDocumentLinks: true,
             displayAvatars: true,
@@ -70,6 +72,7 @@ var ThreadWidget = Widget.extend({
         this._disabledOptions = {
             displayOrder: this._enabledOptions.displayOrder,
             displayMarkAsRead: false,
+            displayModerationCommands: false,
             displayStars: false,
             displayDocumentLinks: false,
             displayAvatars: this._enabledOptions.displayAvatars,
@@ -282,12 +285,12 @@ var ThreadWidget = Widget.extend({
     /**
      * Scrolls the thread to a given message
      *
-     * @param {integer} options.messageID the ID of the message to scroll to
+     * @param {integer} options.msgID the ID of the message to scroll to
      * @param {integer} [options.duration]
      * @param {boolean} [options.onlyIfNecessary]
      */
     scrollToMessage: function (options) {
-        var $target = this.$('.o_thread_message[data-message-id="' + options.messageID + '"]');
+        var $target = this.$('.o_thread_message[data-message-id="' + options.msgID + '"]');
         if (options.onlyIfNecessary) {
             var delta = $target.parent().height() - $target.height();
             var offset = delta < 0 ?
@@ -418,6 +421,18 @@ var ThreadWidget = Widget.extend({
         });
     },
     /**
+    * @private
+    * @param {MouseEvent} ev
+    */
+    _onDeleteAttachment: function (ev) {
+        ev.stopPropagation();
+        var $target = $(ev.currentTarget);
+        this.trigger_up('delete_attachment', {
+            attachmentId: $target.data('id'),
+            attachmentName: $target.data('name')
+        });
+     },
+    /**
      * @private
      * @param {Object} options
      * @param {integer} [options.channelID]
@@ -443,6 +458,9 @@ var ThreadWidget = Widget.extend({
     _renderMessageMailPopover: function (messages) {
         if (this._messageMailPopover) {
             this._messageMailPopover.popover('hide');
+        }
+        if (!this.$('.o_thread_tooltip').length) {
+            return;
         }
         this._messageMailPopover = this.$('.o_thread_tooltip').popover({
             html: true,

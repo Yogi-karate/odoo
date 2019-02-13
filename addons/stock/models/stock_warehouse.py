@@ -251,7 +251,7 @@ class Warehouse(models.Model):
         """ return a route record set from an xml_id or its name. """
         route = self.env.ref(xml_id, raise_if_not_found=False)
         if not route:
-            route = self.env['stock.location.route'].search([('name', 'like', _(route_name))], limit=1)
+            route = self.env['stock.location.route'].search([('name', 'like', route_name)], limit=1)
         if not route:
             raise UserError(_('Can\'t find any generic route %s.') % (route_name))
         return route
@@ -285,7 +285,7 @@ class Warehouse(models.Model):
                     'action': 'pull',
                     'auto': 'manual',
                     'propagate': True,
-                    'route_id': self._find_global_route('stock.route_warehouse0_mto', 'Make To Order').id
+                    'route_id': self._find_global_route('stock.route_warehouse0_mto', _('Make To Order')).id
                 },
                 'update_values': {
                     'name': self._format_rulename(location_id, location_dest_id, 'MTO'),
@@ -626,7 +626,7 @@ class Warehouse(models.Model):
         else:
             # We need to delete all the MTO stock rules, otherwise they risk to be used in the system
             Rule.search([
-                '&', ('route_id', '=', self._find_global_route('stock.route_warehouse0_mto', 'Make To Order').id),
+                '&', ('route_id', '=', self._find_global_route('stock.route_warehouse0_mto', _('Make To Order')).id),
                 ('location_id.usage', '=', 'transit'),
                 ('action', '!=', 'push'),
                 ('location_src_id', '=', self.lot_stock_id.id)]).write({'active': False})
@@ -929,7 +929,7 @@ class Orderpoint(models.Model):
             # These days will be substracted when creating the PO
             days += self.product_id._select_seller(
                 quantity=product_qty,
-                date=start_date,
+                date=fields.Date.context_today(self,start_date),
                 uom_id=self.product_uom).delay or 0.0
         date_planned = start_date + relativedelta.relativedelta(days=days)
         return date_planned.strftime(DEFAULT_SERVER_DATETIME_FORMAT)

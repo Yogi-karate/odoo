@@ -368,7 +368,7 @@ var ImageWidget = MediaWidget.extend({
         if (needle && needle.length) {
             domain.push('|', ['datas_fname', 'ilike', needle], ['name', 'ilike', needle]);
         }
-        domain.push('!', ['datas_fname', '=like', '%.crop'], '!', ['name', '=like', '%.crop']);
+        domain.push('|', ['datas_fname', '=', false], '!', ['datas_fname', '=like', '%.crop'], '!', ['name', '=like', '%.crop']);
         return this._rpc({
             model: 'ir.attachment',
             method: 'search_read',
@@ -736,6 +736,7 @@ var IconWidget = MediaWidget.extend({
         this.$('div.font-icons-icons').html(
             QWeb.render('web_editor.dialog.font-icons.icons', {iconsParser: iconsParser})
         );
+        return $.when();
     },
 
     //--------------------------------------------------------------------------
@@ -1288,6 +1289,7 @@ var MediaDialog = Dialog.extend({
      * @private
      */
     _onPagerClick: function (ev) {
+        ev.preventDefault();
         this.active.goToPage(this.active.page + ($(ev.currentTarget).hasClass('previous') ? -1 : 1));
         this._updateControlPanel();
     },
@@ -1466,7 +1468,7 @@ var LinkDialog = Dialog.extend({
                 var $btn = $(btn);
                 var color = $btn.css('background-color');
                 if (_.contains(colors, color)) {
-                    $btn.remove();
+                    $btn.hide(); // Not remove to be able to edit buttons with those styles
                 } else {
                     colors.push(color);
                 }

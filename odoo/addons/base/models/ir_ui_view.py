@@ -130,6 +130,13 @@ def get_view_arch_from_file(filename, xmlid):
         if node.tag in ('template', 'record'):
             if node.tag == 'record':
                 field = node.find('field[@name="arch"]')
+                if field is None:
+                    if node.find('field[@name="view_id"]') is not None:
+                        view_id = node.find('field[@name="view_id"]').attrib.get('ref')
+                        ref_id = '%s%s' % ('.' not in view_id and xmlid.split('.')[0] + '.' or '', view_id)
+                        return get_view_arch_from_file(filename, ref_id)
+                    else:
+                        return None
                 _fix_multiple_roots(field)
                 inner = u''.join([etree.tostring(child, encoding='unicode') for child in field.iterchildren()])
                 return field.text + inner
@@ -387,7 +394,10 @@ actual arch.
 
     def _compute_defaults(self, values):
         if 'inherit_id' in values:
-            values.setdefault('mode', 'extension' if values['inherit_id'] else 'primary')
+            # Do not automatically change the mode if the view already has an inherit_id,
+            # and the user change it to another.
+            if not values['inherit_id'] or all(not view.inherit_id for view in self):
+                values.setdefault('mode', 'extension' if values['inherit_id'] else 'primary')
         return values
 
     @api.model_create_multi
@@ -1167,12 +1177,15 @@ actual arch.
         """ Return the view ID corresponding to ``template``, which may be a
         view ID or an XML ID. Note that this method may be overridden for other
         kinds of template values.
+
+        This method could return the ID of something that is not a view (when
+        using fallback to `xmlid_to_res_id`).
         """
         if isinstance(template, pycompat.integer_types):
             return template
         if '.' not in template:
             raise ValueError('Invalid template id: %r' % template)
-        view = self.search([('key', '=', template)])
+        view = self.search([('key', '=', template)], limit=1)
         return view and view.id or self.env['ir.model.data'].xmlid_to_res_id(template, raise_if_not_found=True)
 
     def clear_cache(self):

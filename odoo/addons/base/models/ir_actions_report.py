@@ -23,6 +23,7 @@ from contextlib import closing
 from distutils.version import LooseVersion
 from reportlab.graphics.barcode import createBarcodeDrawing
 from PyPDF2 import PdfFileWriter, PdfFileReader
+from collections import OrderedDict
 
 
 _logger = logging.getLogger(__name__)
@@ -44,6 +45,7 @@ def _get_wkhtmltopdf_bin():
 
 # Check the presence of Wkhtmltopdf and return its version at Odoo start-up
 wkhtmltopdf_state = 'install'
+wkhtmltopdf_dpi_zoom_ratio = False
 try:
     process = subprocess.Popen(
         [_get_wkhtmltopdf_bin(), '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE
@@ -61,6 +63,8 @@ else:
             wkhtmltopdf_state = 'upgrade'
         else:
             wkhtmltopdf_state = 'ok'
+        if LooseVersion(version) >= LooseVersion('0.12.2'):
+            wkhtmltopdf_dpi_zoom_ratio = True
 
         if config['workers'] == 1:
             _logger.info('You need to start Odoo with at least two workers to print a pdf version of the reports.')
@@ -246,14 +250,19 @@ class IrActionsReport(models.Model):
             else:
                 command_args.extend(['--margin-top', str(paperformat_id.margin_top)])
 
+            dpi = None
             if specific_paperformat_args and specific_paperformat_args.get('data-report-dpi'):
-                command_args.extend(['--dpi', str(specific_paperformat_args['data-report-dpi'])])
+                dpi = int(specific_paperformat_args['data-report-dpi'])
             elif paperformat_id.dpi:
                 if os.name == 'nt' and int(paperformat_id.dpi) <= 95:
                     _logger.info("Generating PDF on Windows platform require DPI >= 96. Using 96 instead.")
-                    command_args.extend(['--dpi', '96'])
+                    dpi = 96
                 else:
-                    command_args.extend(['--dpi', str(paperformat_id.dpi)])
+                    dpi = paperformat_id.dpi
+            if dpi:
+                command_args.extend(['--dpi', str(dpi)])
+                if wkhtmltopdf_dpi_zoom_ratio:
+                    command_args.extend(['--zoom', str(96.0 / dpi)])
 
             if specific_paperformat_args and specific_paperformat_args.get('data-report-header-spacing'):
                 command_args.extend(['--header-spacing', str(specific_paperformat_args['data-report-header-spacing'])])
@@ -320,7 +329,11 @@ class IrActionsReport(models.Model):
 
         # Retrieve bodies
         for node in root.xpath(match_klass.format('article')):
-            body = layout.render(dict(subst=False, body=lxml.html.tostring(node), base_url=base_url))
+            layout_with_lang = layout
+            # set context language to body language
+            if node.get('data-oe-lang'):
+                layout_with_lang = layout_with_lang.with_context(lang=node.get('data-oe-lang'))
+            body = layout_with_lang.render(dict(subst=False, body=lxml.html.tostring(node), base_url=base_url))
             bodies.append(body)
             if node.get('data-oe-model') == self.model:
                 res_ids.append(int(node.get('data-oe-id', 0)))
@@ -454,7 +467,10 @@ class IrActionsReport(models.Model):
             )
             return barcode.asString('png')
         except (ValueError, AttributeError):
-            raise ValueError("Cannot convert into barcode.")
+            if barcode_type == 'Code128':
+                raise ValueError("Cannot convert into barcode.")
+            else:
+                return self.barcode('Code128', value, width=width, height=height, humanreadable=humanreadable)
 
     @api.multi
     def render_template(self, template, values=None):
@@ -594,13 +610,14 @@ class IrActionsReport(models.Model):
     def render_qweb_pdf(self, res_ids=None, data=None):
         if not data:
             data = {}
+        data.setdefault('report_type', 'pdf')
 
         # remove editor feature in pdf generation
         data.update(enable_editor=False)
 
         # In case of test environment without enough workers to perform calls to wkhtmltopdf,
         # fallback to render_html.
-        if tools.config['test_enable']:
+        if (tools.config['test_enable'] or tools.config['test_file']) and not self.env.context.get('force_report_rendering'):
             return self.render_qweb_html(res_ids, data=data)
 
         # As the assets are generated during the same transaction as the rendering of the
@@ -630,7 +647,7 @@ class IrActionsReport(models.Model):
         if isinstance(self.env.cr, TestCursor):
             return self.with_context(context).render_qweb_html(res_ids, data=data)[0]
 
-        save_in_attachment = {}
+        save_in_attachment = OrderedDict()
         if res_ids:
             # Dispatch the records by ones having an attachment and ones requesting a call to
             # wkhtmltopdf.
@@ -688,6 +705,9 @@ class IrActionsReport(models.Model):
 
     @api.model
     def render_qweb_text(self, docids, data=None):
+        if not data:
+            data = {}
+        data.setdefault('report_type', 'text')
         data = self._get_rendering_context(docids, data)
         return self.render_template(self.report_name, data), 'text'
 
@@ -695,6 +715,9 @@ class IrActionsReport(models.Model):
     def render_qweb_html(self, docids, data=None):
         """This method generates and returns html version of a report.
         """
+        if not data:
+            data = {}
+        data.setdefault('report_type', 'html')
         data = self._get_rendering_context(docids, data)
         return self.render_template(self.report_name, data), 'html'
 
@@ -734,7 +757,7 @@ class IrActionsReport(models.Model):
         :param report_name: Name of the template to generate an action for
         """
         discard_logo_check = self.env.context.get('discard_logo_check')
-        if (self.env.uid == SUPERUSER_ID) and ((not self.env.user.company_id.external_report_layout_id) or (not discard_logo_check and not self.env.user.company_id.logo)) and config:
+        if (self.env.user._is_admin()) and ((not self.env.user.company_id.external_report_layout_id) or (not discard_logo_check and not self.env.user.company_id.logo)) and config:
             template = self.env.ref('base.view_company_report_form_with_print') if self.env.context.get('from_transient_model', False) else self.env.ref('base.view_company_report_form')
             return {
                 'name': _('Choose Your Document Layout'),

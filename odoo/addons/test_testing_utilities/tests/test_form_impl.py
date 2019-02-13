@@ -65,6 +65,19 @@ class TestBasic(TransactionCase):
         with self.assertRaises(AssertionError):
             f.f2 = 42
 
+    def test_readonly_save(self):
+        """ Should not save readonly fields unless they're force_save
+        """
+        f = Form(self.env['test_testing_utilities.a'], view='test_testing_utilities.non_normalized_attrs')
+
+        f.f1 = 1
+        f.f2 = 987
+        self.assertEqual(f.f5, 987)
+        self.assertEqual(f.f6, 987)
+        r = f.save()
+        self.assertEqual(r.f5, 0)
+        self.assertEqual(r.f6, 987)
+
     def test_attrs(self):
         """ Checks that attrs/modifiers with non-normalized domains work
         """
@@ -284,6 +297,20 @@ class TestO2M(TransactionCase):
         delegating to a separate form view
         """
         f = Form(self.env['test_testing_utilities.parent'], view='test_testing_utilities.o2m_parent_ed')
+        custom_tree = self.env.ref('test_testing_utilities.editable_external').id
+
+        subs_field = f._view['fields']['subs']
+        tree_view = subs_field['views']['tree']
+        self.assertEqual(tree_view['type'], 'tree')
+        self.assertEqual(
+            tree_view['view_id'], custom_tree,
+            'check that the tree view is the one referenced by tree_view_ref'
+        )
+        self.assertIs(subs_field['views']['edition'], tree_view, "check that the edition view is the tree view")
+        self.assertEqual(
+            subs_field['views']['edition']['view_id'],
+            custom_tree
+        )
 
         with f.subs.new() as s:
             s.value = 1

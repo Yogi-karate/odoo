@@ -175,7 +175,7 @@ class AccountFiscalPositionTax(models.Model):
     _sql_constraints = [
         ('tax_src_dest_uniq',
          'unique (position_id,tax_src_id,tax_dest_id)',
-         'A tax fiscal position could be defined only once time on same taxes.')
+         'A tax fiscal position could be defined only one time on same taxes.')
     ]
 
 
@@ -194,7 +194,7 @@ class AccountFiscalPositionAccount(models.Model):
     _sql_constraints = [
         ('account_src_dest_uniq',
          'unique (position_id,account_src_id,account_dest_id)',
-         'An account fiscal position could be defined only once time on same accounts.')
+         'An account fiscal position could be defined only one time on same accounts.')
     ]
 
 
@@ -204,7 +204,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def _credit_debit_get(self):
-        tables, where_clause, where_params = self.env['account.move.line']._query_get()
+        tables, where_clause, where_params = self.env['account.move.line'].with_context(company_id=self.env.user.company_id.id)._query_get()
         where_params = [tuple(self.ids)] + where_params
         if where_clause:
             where_clause = 'AND ' + where_clause

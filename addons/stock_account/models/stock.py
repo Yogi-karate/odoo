@@ -18,7 +18,7 @@ class StockInventory(models.Model):
         'Accounting Date',
         help="Date at which the accounting entries will be created"
              " in case of automated inventory valuation."
-             " If empty, the inventoy date will be used.")
+             " If empty, the inventory date will be used.")
 
     @api.multi
     def post_inventory(self):
@@ -269,7 +269,8 @@ class StockMove(models.Model):
 
         # Update the standard price with the price of the last used candidate, if any.
         if new_standard_price and move.product_id.cost_method == 'fifo':
-            move.product_id.sudo().standard_price = new_standard_price
+            move.product_id.sudo().with_context(force_company=move.company_id.id) \
+                .standard_price = new_standard_price
 
         # If there's still quantity to value but we're out of candidates, we fall in the
         # negative stock use case. We chose to value the out move at the price of the
@@ -305,18 +306,20 @@ class StockMove(models.Model):
             vals = {}
             price_unit = self._get_price_unit()
             value = price_unit * (quantity or valued_quantity)
+            value_to_return = value if quantity is None or not self.value else self.value
             vals = {
                 'price_unit': price_unit,
-                'value': value if quantity is None or not self.value else self.value,
+                'value': value_to_return,
                 'remaining_value': value if quantity is None else self.remaining_value + value,
             }
             vals['remaining_qty'] = valued_quantity if quantity is None else self.remaining_qty + quantity
 
             if self.product_id.cost_method == 'standard':
                 value = self.product_id.standard_price * (quantity or valued_quantity)
+                value_to_return = value if quantity is None or not self.value else self.value
                 vals.update({
                     'price_unit': self.product_id.standard_price,
-                    'value': value if quantity is None or not self.value else self.value,
+                    'value': value_to_return,
                 })
             self.write(vals)
         elif self._is_out():
@@ -328,8 +331,9 @@ class StockMove(models.Model):
             if self.product_id.cost_method in ['standard', 'average']:
                 curr_rounding = self.company_id.currency_id.rounding
                 value = -float_round(self.product_id.standard_price * (valued_quantity if quantity is None else quantity), precision_rounding=curr_rounding)
+                value_to_return = value if quantity is None else self.value + value
                 self.write({
-                    'value': value if quantity is None else self.value + value,
+                    'value': value_to_return,
                     'price_unit': value / valued_quantity,
                 })
         elif self._is_dropshipped() or self._is_dropshipped_returned():
@@ -341,12 +345,14 @@ class StockMove(models.Model):
             else:
                 price_unit = self.product_id.standard_price
             value = float_round(self.product_qty * price_unit, precision_rounding=curr_rounding)
+            value_to_return = value if self._is_dropshipped() else -value
             # In move have a positive value, out move have a negative value, let's arbitrary say
             # dropship are positive.
             self.write({
-                'value': value if self._is_dropshipped() else -value,
+                'value': value_to_return,
                 'price_unit': price_unit if self._is_dropshipped() else -price_unit,
             })
+            return value_to_return
 
     def _action_done(self):
         self.product_price_update_before_done()
@@ -381,7 +387,7 @@ class StockMove(models.Model):
             product_tot_qty_available = move.product_id.qty_available + tmpl_dict[move.product_id.id]
             rounding = move.product_id.uom_id.rounding
 
-            qty_done = 0.0
+            qty_done = move.product_uom._compute_quantity(move.quantity_done, move.product_id.uom_id)
             if float_is_zero(product_tot_qty_available, precision_rounding=rounding):
                 new_std_price = move._get_price_unit()
             elif float_is_zero(product_tot_qty_available + move.product_qty, precision_rounding=rounding) or \
@@ -390,9 +396,8 @@ class StockMove(models.Model):
             else:
                 # Get the standard price
                 amount_unit = std_price_update.get((move.company_id.id, move.product_id.id)) or move.product_id.standard_price
-                qty_done = move.product_uom._compute_quantity(move.quantity_done, move.product_id.uom_id)
                 qty = forced_qty or qty_done
-                new_std_price = ((amount_unit * product_tot_qty_available) + (move._get_price_unit() * qty)) / (product_tot_qty_available + qty_done)
+                new_std_price = ((amount_unit * product_tot_qty_available) + (move._get_price_unit() * qty)) / (product_tot_qty_available + qty)
 
             tmpl_dict[move.product_id.id] += qty_done
             # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
@@ -458,7 +463,7 @@ class StockMove(models.Model):
                 # force the amount in the context, but in the case it is 0 it'll create an entry
                 # for the entire cost of the move. This case happens when the candidates moves
                 # entirely compensate the problematic move.
-                if not corrected_value:
+                if move.company_id.currency_id.is_zero(corrected_value):
                     continue
 
                 if move._is_in():
@@ -479,10 +484,8 @@ class StockMove(models.Model):
             'product_variant_ids')
         fifo_valued_categories = self.env['product.category'].search([('property_cost_method', '=', 'fifo')])
         fifo_valued_products |= self.env['product.product'].search([('categ_id', 'child_of', fifo_valued_categories.ids)])
-        moves_to_vacuum = self.env['stock.move']
-        for product in fifo_valued_products:
-            moves_to_vacuum |= self.search(
-                [('product_id', '=', product.id), ('remaining_qty', '<', 0)] + self._get_all_base_domain())
+        moves_to_vacuum = self.search(
+            [('product_id', 'in', fifo_valued_products.ids), ('remaining_qty', '<', 0)] + self._get_all_base_domain())
         moves_to_vacuum._fifo_vacuum()
 
     @api.multi

@@ -21,7 +21,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import pycompat
 
 # Global variables used for the warning fields declared on the res.partner
-# in the following modules : sale, purchase, account, stock 
+# in the following modules : sale, purchase, account, stock
 WARNING_MESSAGE = [
                    ('no-message','No Message'),
                    ('warning','Warning'),
@@ -191,7 +191,7 @@ class Partner(models.Model):
     street2 = fields.Char()
     zip = fields.Char(change_default=True)
     city = fields.Char()
-    state_id = fields.Many2one("res.country.state", string='State', ondelete='restrict')
+    state_id = fields.Many2one("res.country.state", string='State', ondelete='restrict', domain="[('country_id', '=?', country_id)]")
     country_id = fields.Many2one('res.country', string='Country', ondelete='restrict')
     email = fields.Char()
     email_formatted = fields.Char(
@@ -208,7 +208,7 @@ class Partner(models.Model):
         compute='_compute_company_type', inverse='_write_company_type')
     company_id = fields.Many2one('res.company', 'Company', index=True, default=_default_company)
     color = fields.Integer(string='Color Index', default=0)
-    user_ids = fields.One2many('res.users', 'partner_id', string='Users', auto_join=True, context={'active_test': False})
+    user_ids = fields.One2many('res.users', 'partner_id', string='Users', auto_join=True)
     partner_share = fields.Boolean(
         'Share Partner', compute='_compute_partner_share', store=True,
         help="Either customer (not a user), either shared user. Indicated the current partner is a customer without "
@@ -258,10 +258,10 @@ class Partner(models.Model):
         for partner in self:
             partner.tz_offset = datetime.datetime.now(pytz.timezone(partner.tz or 'GMT')).strftime('%z')
 
-    @api.depends('user_ids.share')
+    @api.depends('user_ids.share', 'user_ids.active')
     def _compute_partner_share(self):
         for partner in self:
-            partner.partner_share = not partner.user_ids or any(user.share for user in partner.user_ids)
+            partner.partner_share = not partner.user_ids or not any(not user.share for user in partner.user_ids)
 
     @api.depends(lambda self: self._display_address_depends())
     def _compute_contact_address(self):
@@ -364,10 +364,13 @@ class Partner(models.Model):
 
     @api.onchange('country_id')
     def _onchange_country_id(self):
-        if self.country_id:
-            return {'domain': {'state_id': [('country_id', '=', self.country_id.id)]}}
-        else:
-            return {'domain': {'state_id': []}}
+        if self.country_id and self.country_id != self.state_id.country_id:
+            self.state_id = False
+
+    @api.onchange('state_id')
+    def _onchange_state(self):
+        if self.state_id.country_id:
+            self.country_id = self.state_id.country_id
 
     @api.onchange('email')
     def onchange_email(self):
@@ -460,7 +463,7 @@ class Partner(models.Model):
             # 1a. Commercial fields: sync if parent changed
             if values.get('parent_id'):
                 self._commercial_sync_from_company()
-            # 1b. Address fields: sync if parent or use_parent changed *and* both are now set 
+            # 1b. Address fields: sync if parent or use_parent changed *and* both are now set
             if self.parent_id and self.type == 'contact':
                 onchange_vals = self.onchange_parent_id().get('value', {})
                 self.update_address(onchange_vals)
@@ -505,7 +508,7 @@ class Partner(models.Model):
     def write(self, vals):
         if vals.get('active') is False:
             for partner in self:
-                if partner.active and any(partner.user_ids.mapped('active')):
+                if partner.active and partner.user_ids:
                     raise ValidationError(_('You cannot archive a contact linked to an internal user.'))
         # res.partner must only allow to set the company_id of a partner if it
         # is the same as the company of all users that inherit from this partner
@@ -618,7 +621,7 @@ class Partner(models.Model):
         if self._context.get('html_format'):
             name = name.replace('\n', '<br/>')
         if self._context.get('show_vat') and partner.vat:
-            name = "%s - %s" % (name, partner.vat)
+            name = "%s ‒ %s" % (name, partner.vat)
         return name
 
     @api.multi
@@ -678,6 +681,7 @@ class Partner(models.Model):
             where_query = self._where_calc(args)
             self._apply_ir_rules(where_query, 'read')
             from_clause, where_clause, where_clause_params = where_query.get_sql()
+            from_str = from_clause if from_clause else 'res_partner'
             where_str = where_clause and (" WHERE %s AND " % where_clause) or ' WHERE '
 
             # search on the name of the contacts and of its company
@@ -689,8 +693,8 @@ class Partner(models.Model):
 
             unaccent = get_unaccent_wrapper(self.env.cr)
 
-            query = """SELECT id
-                         FROM res_partner
+            query = """SELECT res_partner.id
+                         FROM {from_str}
                       {where} ({email} {operator} {percent}
                            OR {display_name} {operator} {percent}
                            OR {reference} {operator} {percent}
@@ -698,16 +702,17 @@ class Partner(models.Model):
                            -- don't panic, trust postgres bitmap
                      ORDER BY {display_name} {operator} {percent} desc,
                               {display_name}
-                    """.format(where=where_str,
+                    """.format(from_str=from_str,
+                               where=where_str,
                                operator=operator,
-                               email=unaccent('email'),
-                               display_name=unaccent('display_name'),
-                               reference=unaccent('ref'),
+                               email=unaccent('res_partner.email'),
+                               display_name=unaccent('res_partner.display_name'),
+                               reference=unaccent('res_partner.ref'),
                                percent=unaccent('%s'),
-                               vat=unaccent('vat'),)
+                               vat=unaccent('res_partner.vat'),)
 
             where_clause_params += [search_name]*3  # for email / display_name, reference
-            where_clause_params += [re.sub('[^a-zA-Z0-9]+', '', search_name)]  # for vat
+            where_clause_params += [re.sub('[^a-zA-Z0-9]+', '', search_name) or None]  # for vat
             where_clause_params += [search_name]  # for order by
             if limit:
                 query += ' limit %s'
@@ -811,6 +816,10 @@ class Partner(models.Model):
     def _get_default_address_format(self):
         return "%(street)s\n%(street2)s\n%(city)s %(state_code)s %(zip)s\n%(country_name)s"
 
+    @api.model
+    def _get_address_format(self):
+        return self.country_id.address_format or self._get_default_address_format()
+
     @api.multi
     def _display_address(self, without_company=False):
 
@@ -825,8 +834,7 @@ class Partner(models.Model):
         '''
         # get the information that will be injected into the display format
         # get the address format
-        address_format = self.country_id.address_format or \
-            self._get_default_address_format()
+        address_format = self._get_address_format()
         args = {
             'state_code': self.state_id.code or '',
             'state_name': self.state_id.name or '',

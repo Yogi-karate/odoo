@@ -3,33 +3,34 @@
 # * website
 # 
 # Translators:
-# Mustafa Rawi <mustafa@cubexco.com>, 2018
-# Akram Alfusayal <akram_ma@hotmail.com>, 2018
-# amrnegm <amrnegm.01@gmail.com>, 2018
-# Martin Trigaux, 2018
-# hoxhe Aits <hoxhe0@gmail.com>, 2018
-# Osoul <baruni@osoul.ly>, 2018
 # Mohammed Albasha <m.albasha.ma@gmail.com>, 2018
-# Osama Ahmaro <osamaahmaro@gmail.com>, 2018
-# Ali Alrehawi <alrehawi@hotmail.com>, 2018
-# Shaima Safar <shaima.safar@open-inside.com>, 2018
-# Fahad Alqahtani <fahad@cloudland.sa>, 2018
-# Ghaith Gammar <g.gammar@saharaifs.net>, 2018
 # zahi chemaly <zahi@sercotex.net>, 2018
-# Yihya Hugirat <hugirat@gmail.com>, 2018
+# Fahad Alqahtani <fahad@cloudland.sa>, 2018
 # Zuhair Hammadi <zuhair12@gmail.com>, 2018
+# Yihya Hugirat <hugirat@gmail.com>, 2018
+# amrnegm <amrnegm.01@gmail.com>, 2018
 # Mohammed Ibrahim <m.ibrahim@mussder.com>, 2018
 # Waleed Mohsen <mohsen.waleed@gmail.com>, 2018
+# Ghaith Gammar <g.gammar@saharaifs.net>, 2018
+# Akram Alfusayal <akram_ma@hotmail.com>, 2018
 # Mostafa Hanafy <mostafa.s.hanafy@gmail.com>, 2018
+# Osoul <baruni@osoul.ly>, 2018
 # Abdulmajeed Alomar <majeeed87@gmail.com>, 2018
+# hoxhe Aits <hoxhe0@gmail.com>, 2018
+# Mustafa Rawi <mustafa@cubexco.com>, 2018
+# Martin Trigaux, 2018
 # Ali zuaby <ali@zuaby.net>, 2018
+# Shaima Safar <shaima.safar@open-inside.com>, 2018
+# Ali Alrehawi <alrehawi@hotmail.com>, 2018
+# Osama Ahmaro <osamaahmaro@gmail.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 06:48+0000\n"
-"PO-Revision-Date: 2018-10-08 06:48+0000\n"
-"Last-Translator: Ali zuaby <ali@zuaby.net>, 2018\n"
+"POT-Creation-Date: 2019-01-09 10:31+0000\n"
+"PO-Revision-Date: 2018-08-24 09:33+0000\n"
+"Last-Translator: Osama Ahmaro <osamaahmaro@gmail.com>, 2018\n"
 "Language-Team: Arabic (https://www.transifex.com/odoo/teams/41243/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -492,6 +493,11 @@ msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
+msgid "<i class=\"fa fa-minus\"/>Remove Tab"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "<i class=\"fa fa-minus\"/>Thickness"
 msgstr ""
 
@@ -508,6 +514,11 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "<i class=\"fa fa-picture-o\"/>Background Image"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.snippet_options
+msgid "<i class=\"fa fa-plus\"/>Add Tab"
 msgstr ""
 
 #. module: website
@@ -575,6 +586,28 @@ msgid "<i class=\"fa fa-trash-o\"/>Remove Slide"
 msgstr "إزالة شريحة"
 
 #. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<i title=\"Is the page SEO optimized?\" class=\"fa fa-search\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid ""
+"<i title=\"Is the page included in the main menu?\" class=\"fa fa-thumb-"
+"tack\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<i title=\"Is the page indexed by search engines?\" class=\"fa fa-globe\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<i title=\"Is the page published?\" class=\"fa fa-eye\"/>"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid "<i>Instant setup, satisfied or reimbursed.</i>"
 msgstr "<i>عند التثبيت، راضي او يعوض.</i>"
@@ -618,6 +651,20 @@ msgid ""
 msgstr ""
 
 #. module: website
+#: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-globe\" title=\"Values set here are website-"
+"specific.\" groups=\"website.group_multi_website\"/>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.company_description
+msgid ""
+"<span class=\"fa fa-map-marker fa-fw mt16\" role=\"img\" aria-"
+"label=\"Address\" title=\"Address\"/>"
+msgstr ""
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
 msgid "<span class=\"fa fa-pencil\"/>Edit"
 msgstr "تعديل"
@@ -626,6 +673,11 @@ msgstr "تعديل"
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
 msgid "<span class=\"fa fa-plus\"/>New"
 msgstr "جديد"
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.list_website_pages
+msgid "<span class=\"fa fa-sort fa-lg\" role=\"img\" aria-label=\"Sort\" title=\"Sort\"/>"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_facebook_page
@@ -669,6 +721,13 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
 msgid "<span class=\"sr-only\">Toggle Dropdown</span>"
+msgstr ""
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.user_navbar
+msgid ""
+"<span title=\"Mobile preview\" role=\"img\" aria-label=\"Mobile preview\" "
+"class=\"fa fa-mobile\"/>"
 msgstr ""
 
 #. module: website
@@ -2829,6 +2888,11 @@ msgid "Navbar"
 msgstr ""
 
 #. module: website
+#: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
+msgid "New"
+msgstr "جديد"
+
+#. module: website
 #: model_terms:ir.ui.view,arch_db:website.user_navbar
 msgid "New Blog Post"
 msgstr "مقال مدونة جديدة"
@@ -3270,13 +3334,6 @@ msgstr "مستخدم الموقع"
 #, python-format
 msgid "Publish"
 msgstr "نشر"
-
-#. module: website
-#. openerp-web
-#: code:addons/website/static/src/xml/website.pageProperties.xml:137
-#, python-format
-msgid "Publish date"
-msgstr ""
 
 #. module: website
 #. openerp-web
@@ -3852,6 +3909,13 @@ msgstr ""
 #: code:addons/website/static/src/js/menu/new_content.js:27
 #, python-format
 msgid "The installation of an App is already in progress."
+msgstr ""
+
+#. module: website
+#. openerp-web
+#: code:addons/website/static/src/xml/website.seo.xml:93
+#, python-format
+msgid "The language of the keyword and related keywords."
 msgstr ""
 
 #. module: website

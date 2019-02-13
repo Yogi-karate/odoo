@@ -192,6 +192,12 @@ PREFETCH_MAX = 1000
 LOG_ACCESS_COLUMNS = ['create_uid', 'create_date', 'write_uid', 'write_date']
 MAGIC_COLUMNS = ['id'] + LOG_ACCESS_COLUMNS
 
+# valid SQL aggregation functions
+VALID_AGGREGATE_FUNCTIONS = {
+    'array_agg', 'count', 'count_distinct',
+    'bool_and', 'bool_or', 'max', 'min', 'avg', 'sum',
+}
+
 
 @pycompat.implements_to_string
 class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
@@ -846,7 +852,6 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
         ids = []
         messages = []
         ModelData = self.env['ir.model.data']
-        ModelData.clear_caches()
 
         # list of (xid, vals, info) for records to be created in batch
         batch = []
@@ -902,6 +907,7 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                     # avoid broken transaction) and keep going
                     cr.execute('ROLLBACK TO SAVEPOINT model_load_save')
                 except Exception as e:
+                    _logger.exception("Error while loading record")
                     info = rec_data['info']
                     message = (_(u'Unknown error during import:') + u' %s: %s' % (type(e), e))
                     moreinfo = _('Resolve other errors first')
@@ -928,6 +934,8 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
         if any(message['type'] == 'error' for message in messages):
             cr.execute('ROLLBACK TO SAVEPOINT model_load')
             ids = False
+            # cancel all changes done to the registry/ormcache
+            self.pool.reset_changes()
 
         return {'ids': ids, 'messages': messages}
 
@@ -2116,7 +2124,7 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                 field = self._fields[fname]
                 if not (field.base_field.store and field.base_field.column_type):
                     raise UserError(_("Cannot aggregate field %r.") % fname)
-                if not func.isidentifier():
+                if func not in VALID_AGGREGATE_FUNCTIONS:
                     raise UserError(_("Invalid aggregation function %r.") % func)
             else:
                 # we have 'name', retrieve the aggregator on the field
@@ -2758,17 +2766,21 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
 
         # retrieve results from records; this takes values from the cache and
         # computes remaining fields
-        result = []
-        name_fields = [(name, self._fields[name]) for name in (stored + inherited + computed)]
+        self = self.with_prefetch(self._prefetch.copy())
+        data = {record: {'id': record.id} for record in self}
+        missing = set()
         use_name_get = (load == '_classic_read')
-        for record in self:
-            try:
-                values = {'id': record.id}
-                for name, field in name_fields:
-                    values[name] = field.convert_to_read(record[name], record, use_name_get)
-                result.append(values)
-            except MissingError:
-                pass
+        for name in (stored + inherited + computed):
+            convert = self._fields[name].convert_to_read
+            # restrict the prefetching of self's model to self; this avoids
+            # computing fields on a larger recordset than self
+            self._prefetch[self._name] = set(self._ids)
+            for record in self:
+                try:
+                    data[record][name] = convert(record[name], record, use_name_get)
+                except MissingError:
+                    missing.add(record)
+        result = [data[record] for record in self if record not in missing]
 
         return result
 
@@ -2822,7 +2834,7 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                 record._cache.update(record._convert_to_cache(values, validate=False))
             if not self.env.cache.contains(self, field):
                 exc = AccessError("No value found for %s.%s" % (self, field.name))
-                self.env.cache.set_failed(self, field, exc)
+                self.env.cache.set_failed(self, [field], exc)
 
     @api.multi
     def _read_from_database(self, field_names, inherited_field_names=[]):
@@ -3253,7 +3265,7 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
 
         with self.env.protecting(protected_fields, self):
             # write stored fields with (low-level) method _write
-            if store_vals:
+            if store_vals or inverse_vals or inherited_vals:
                 self._write(store_vals)
 
             # update parent records (after possibly updating parent fields)
@@ -3716,6 +3728,12 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
         modified_ids = {row[0] for row in cr.fetchall()}
         self.browse(modified_ids).modified(['parent_path'])
 
+    def _load_records_write(self, values):
+        self.write(values)
+
+    def _load_records_create(self, values):
+        return self.create(values)
+
     def _load_records(self, data_list, update=False):
         """ Create or update records of this model, and assign XMLIDs.
 
@@ -3773,7 +3791,7 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
 
         # update existing records
         for data in to_update:
-            data['record'].write(data['values'])
+            data['record']._load_records_write(data['values'])
 
         # determine existing parents for new records
         for parent_model, parent_field in self._inherits.items():
@@ -3791,8 +3809,16 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                 else:
                     imd.browse(d_id).unlink()
 
+        # check for records to create with an XMLID from another module
+        module = self.env.context.get('install_module')
+        if module:
+            prefix = module + "."
+            for data in to_create:
+                if data.get('xml_id') and not data['xml_id'].startswith(prefix):
+                    _logger.warning("Creating record %s in module %s.", data['xml_id'], module)
+
         # create records
-        records = self.create([data['values'] for data in to_create])
+        records = self._load_records_create([data['values'] for data in to_create])
         for data, record in pycompat.izip(to_create, records):
             data['record'] = record
 
@@ -5296,31 +5322,101 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
         if not all(name in self._fields for name in names):
             return {}
 
-        # filter out keys in field_onchange that do not refer to actual fields
-        dotnames = []
-        for dotname in field_onchange:
-            try:
-                model = self.browse()
-                for name in dotname.split('.'):
-                    model = model[name]
-                dotnames.append(dotname)
-            except Exception:
-                pass
+        def PrefixTree(model, dotnames):
+            """ Return a prefix tree for sequences of field names. """
+            if not dotnames:
+                return {}
+            # group dotnames by prefix
+            suffixes = defaultdict(list)
+            for dotname in dotnames:
+                # name, *names = dotname.split('.', 1)
+                names = dotname.split('.', 1)
+                name = names.pop(0)
+                suffixes[name].extend(names)
+            # fill in prefix tree in fields order
+            tree = OrderedDict()
+            for name, field in model._fields.items():
+                if name in suffixes:
+                    tree[name] = subtree = PrefixTree(model[name], suffixes[name])
+                    if subtree and field.type == 'one2many':
+                        subtree.pop(field.inverse_name, None)
+            return tree
+
+        class Snapshot(dict):
+            """ A dict with the values of a record, following a prefix tree. """
+            __slots__ = ()
+
+            def __init__(self, record, tree):
+                # put record in dict to include it when comparing snapshots
+                super(Snapshot, self).__init__({'<record>': record, '<tree>': tree})
+                for name, subnames in tree.items():
+                    # x2many fields are serialized as a list of line snapshots
+                    self[name] = (
+                        [Snapshot(line, subnames) for line in record[name]]
+                        if subnames else record[name]
+                    )
+
+            def diff(self, other):
+                """ Return the values in ``self`` that differ from ``other``.
+                    Requires record cache invalidation for correct output!
+                """
+                record = self['<record>']
+                result = {}
+                for name, subnames in self['<tree>'].items():
+                    if (name == 'id') or (other.get(name) == self[name]):
+                        continue
+                    if not subnames:
+                        field = record._fields[name]
+                        result[name] = field.convert_to_onchange(self[name], record, {})
+                    else:
+                        # x2many fields: serialize value as commands
+                        result[name] = commands = [(5,)]
+                        for line_snapshot in self[name]:
+                            line = line_snapshot['<record>']
+                            if not line.id:
+                                # new line: send diff from scratch
+                                line_diff = line_snapshot.diff({})
+                                commands.append((0, line.id.ref or 0, line_diff))
+                            else:
+                                # existing line: check diff from database
+                                # (requires a clean record cache!)
+                                line_diff = line_snapshot.diff(Snapshot(line, subnames))
+                                if line_diff:
+                                    # send all fields because the web client
+                                    # might need them to evaluate modifiers
+                                    line_diff = line_snapshot.diff({})
+                                    commands.append((1, line.id, line_diff))
+                                else:
+                                    commands.append((4, line.id))
+                return result
+
+        nametree = PrefixTree(self.browse(), field_onchange)
+
+        # prefetch x2many lines without data (for the initial snapshot)
+        for name, subnames in nametree.items():
+            if subnames and values.get(name):
+                # retrieve all ids in commands, and read the expected fields
+                line_ids = []
+                for cmd in values[name]:
+                    if cmd[0] in (1, 4):
+                        line_ids.append(cmd[1])
+                    elif cmd[0] == 6:
+                        line_ids.extend(cmd[2])
+                lines = self.browse()[name].browse(line_ids)
+                lines.read(list(subnames), load='_classic_write')
 
         # create a new record with values, and attach ``self`` to it
         with env.do_in_onchange():
             record = self.new(values)
-            values = {name: record[name] for name in record._cache}
             # attach ``self`` with a different context (for cache consistency)
             record._origin = self.with_context(__onchange=True)
 
-        # load fields on secondary records, to avoid false changes
+        # make a snapshot based on the initial values of record
         with env.do_in_onchange():
-            for dotname in dotnames:
-                record.mapped(dotname)
+            snapshot0 = snapshot1 = Snapshot(record, nametree)
 
         # determine which field(s) should be triggered an onchange
-        todo = list(names) or list(values)
+        todo = list(names or nametree)
         done = set()
 
         # dummy assignment: trigger invalidations on the record
@@ -5336,7 +5432,6 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                 record[name] = value
 
         result = {'warnings': OrderedSet()}
-        dirty = set()
 
         # process names in order (or the keys of values if no name given)
         while todo:
@@ -5350,34 +5445,17 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                 if field_onchange.get(name):
                     record._onchange_eval(name, field_onchange[name], result)
 
-                # force re-evaluation of function fields on secondary records
-                for dotname in dotnames:
-                    record.mapped(dotname)
+                # make a snapshot (this forces evaluation of computed fields)
+                snapshot1 = Snapshot(record, nametree)
 
                 # determine which fields have been modified
-                for name, oldval in values.items():
-                    field = self._fields[name]
-                    newval = record[name]
-                    if newval != oldval or (
-                        field.type in ('one2many', 'many2many') and newval._is_dirty()
-                    ):
+                for name in nametree:
+                    if snapshot1[name] != snapshot0[name]:
                         todo.append(name)
-                        dirty.add(name)
 
-        # determine subfields for field.convert_to_onchange() below
-        Tree = lambda: defaultdict(Tree)
-        subnames = Tree()
-        for dotname in dotnames:
-            subtree = subnames
-            for name in dotname.split('.'):
-                subtree = subtree[name]
-
-        # collect values from dirty fields
-        with env.do_in_onchange():
-            result['value'] = {
-                name: self._fields[name].convert_to_onchange(record[name], record, subnames[name])
-                for name in dirty
-            }
+        # determine values that have changed by comparing snapshots
+        self.invalidate_cache()
+        result['value'] = snapshot1.diff(snapshot0)
 
         # format warnings
         warnings = result.pop('warnings')

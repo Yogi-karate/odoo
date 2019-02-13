@@ -5,7 +5,7 @@ from collections import defaultdict
 
 from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tools import float_compare, float_round
 
 class MrpProduction(models.Model):
@@ -30,6 +30,10 @@ class MrpProduction(models.Model):
             location = self.env['stock.picking.type'].browse(self.env.context['default_picking_type_id']).default_location_src_id
         if not location:
             location = self.env.ref('stock.stock_location_stock', raise_if_not_found=False)
+            try:
+                location.check_access_rule('read')
+            except (AttributeError, AccessError):
+                location = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1).lot_stock_id
         return location and location.id or False
 
     @api.model
@@ -39,6 +43,10 @@ class MrpProduction(models.Model):
             location = self.env['stock.picking.type'].browse(self.env.context['default_picking_type_id']).default_location_dest_id
         if not location:
             location = self.env.ref('stock.stock_location_stock', raise_if_not_found=False)
+            try:
+                location.check_access_rule('read')
+            except (AttributeError, AccessError):
+                location = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1).lot_stock_id
         return location and location.id or False
 
     name = fields.Char(
@@ -52,7 +60,7 @@ class MrpProduction(models.Model):
         domain=[('type', 'in', ['product', 'consu'])],
         readonly=True, required=True,
         states={'confirmed': [('readonly', False)]})
-    product_tmpl_id = fields.Many2one('product.template', 'Product Template', related='product_id.product_tmpl_id', readonly=False)
+    product_tmpl_id = fields.Many2one('product.template', 'Product Template', related='product_id.product_tmpl_id', readonly=True)
     product_qty = fields.Float(
         'Quantity To Produce',
         default=1.0, digits=dp.get_precision('Product Unit of Measure'),
@@ -336,6 +344,10 @@ class MrpProduction(models.Model):
     @api.onchange('picking_type_id')
     def onchange_picking_type(self):
         location = self.env.ref('stock.stock_location_stock')
+        try:
+            location.check_access_rule('read')
+        except (AttributeError, AccessError):
+            location = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1).lot_stock_id
         self.location_src_id = self.picking_type_id.default_location_src_id.id or location.id
         self.location_dest_id = self.picking_type_id.default_location_dest_id.id or location.id
 
@@ -462,7 +474,7 @@ class MrpProduction(models.Model):
     @api.multi
     def _adjust_procure_method(self):
         try:
-            mto_route = self.env['stock.warehouse']._find_global_route('stock.route_warehouse0_mto', 'Make To Order')
+            mto_route = self.env['stock.warehouse']._find_global_route('stock.route_warehouse0_mto', _('Make To Order'))
         except:
             mto_route = False
         for move in self.move_raw_ids:
@@ -486,7 +498,11 @@ class MrpProduction(models.Model):
         if move:
             old_qty = move[0].product_uom_qty
             if quantity > 0:
-                move[0].write({'product_uom_qty': quantity})
+                move[0]._decrease_reserved_quanity(quantity)
+                move[0].with_context(do_not_unreserve=True).write({'product_uom_qty': quantity})
+                move[0]._recompute_state()
+                move[0]._action_assign()
+                move[0].unit_factor = quantity / move[0].raw_material_production_id.product_qty
             elif quantity < 0:  # Do not remove 0 lines
                 if move[0].quantity_done > 0:
                     raise UserError(_('Lines need to be deleted, but can not as you still have some quantities to consume in them. '))
@@ -762,14 +778,14 @@ class MrpProduction(models.Model):
                 order_exceptions.update(order_exception)
                 visited_objects += visited
             visited_objects = self.env[visited_objects[0]._name].concat(*visited_objects)
-            visited_objects |= visited_objects.mapped('move_orig_ids')
-            impacted_pickings = []
-            if visited_objects._name == 'stock.move':
-                impacted_pickings = visited_objects.filtered(lambda m: m.state not in ('done', 'cancel')).mapped('picking_id')
+            impacted_object = []
+            if visited_objects and visited_objects._name == 'stock.move':
+                visited_objects |= visited_objects.mapped('move_orig_ids')
+                impacted_object = visited_objects.filtered(lambda m: m.state not in ('done', 'cancel')).mapped('picking_id')
             values = {
                 'production_order': self,
                 'order_exceptions': order_exceptions,
-                'impacted_pickings': impacted_pickings,
+                'impacted_object': impacted_object,
                 'cancel': cancel
             }
             return self.env.ref('mrp.exception_on_mo').render(values=values)
