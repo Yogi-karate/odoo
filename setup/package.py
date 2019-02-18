@@ -294,21 +294,6 @@ def _prepare_build_dir(o, win32=False):
                         shutil.rmtree(addon_path)
                     except shutil.Error as rm_error:
                         logging.warning("Cannot remove '{}': {}".format(addon_path, rm_error))
-    logging.info("Adding Custom Modules to the addons directory as well !!")
-    for addon_path in glob(join(o.build_dir, 'custom/*')):
-        if addon_path.split(os.path.sep)[-1] not in ADDONS_NOT_TO_PUBLISH:
-            try:
-                shutil.move(addon_path, join(o.build_dir, 'odoo/addons'))
-            except shutil.Error as e:
-                # Thrown when the add-on is already in odoo/addons (if _prepare_build_dir
-                # has already been called once)
-                logging.warning("Warning '{}' while moving custom addon '{}'".format(e,addon_path))
-                if addon_path.startswith(o.build_dir) and os.path.isdir(addon_path):
-                    logging.info("Removing '{}'".format(addon_path))
-                    try:
-                        shutil.rmtree(addon_path)
-                    except shutil.Error as rm_error:
-                        logging.warning("Cannot remove '{}': {}".format(addon_path, rm_error))
 
 def build_tgz(o):
     system(['python3', 'setup.py', 'sdist', '--quiet', '--formats=gztar,zip'], o.build_dir)
