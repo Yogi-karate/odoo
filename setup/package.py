@@ -62,9 +62,7 @@ ADDONS_NOT_TO_PUBLISH = ['l10n_nl','l10n_hu','l10n_hr','l10n_hn','l10n_de',
                          'website_sale_wishlist','website_forum','website_google_map','website_blog','website_links',
                          'website_payment','website_sale_digital','website_crm_partner_assign','website_form',
                          'website_event','website_hr','website_sale','website_sale_delivery','website_twitter',
-                         'website_mass_mailing','website_event_sale','website_crm','website_form_project','website_survey','payment_sips',
-                         'payment_transfer','payment_authorize','payment_paypal',
-                         'payment_stripe','payment_buckaroo','payment_ogone','payment_payumoney','payment_adyen']
+                         'website_mass_mailing','website_event_sale','website_crm','website_form_project','website_survey']
 
 
 def move_glob(source, wildcards, destination):
