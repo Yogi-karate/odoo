@@ -52,7 +52,19 @@ ADDONS_NOT_TO_PUBLISH = ['l10n_nl','l10n_hu','l10n_hr','l10n_hn','l10n_de',
                          'l10n_in_schedule6','l10n_cn_city','l10n_ro','l10n_co',
                          'l10n_ch','l10n_ca','l10n_it','l10n_cn_small_business','l10n_ec','l10n_be_invoice_bba',
                          'l10n_fr_sale_closing','l10n_cn','l10n_cr','hw_blackbox_be','hw_posbox_upgrade','hw_drivers','hw_proxy',
-                         'hw_screen','hw_scale','hw_escpos','hw_scanner','hw_posbox_homepage']
+                         'hw_screen','hw_scale','hw_escpos','hw_scanner','hw_posbox_homepage','google_calendar',
+                         'google_spreadsheet','google_account','google_drive','pos_restaurant','pos_discount',
+                         'pos_mercury','pos_cache','pos_reprint','pos_sale','website_event_track','website_rating',
+                         'website_customer','website_sale_stock','website_sale_comparison','website_hr_recruitment',
+                         'website_mail_channel','website_slides','website_event_questions','website_livechat',
+                         'website_partner','website_gengo','website_sale_link_tracker','website_theme_install',
+                         'website_sale_management','website_mail','website_membership','website_crm_phone_validation',
+                         'website_sale_wishlist','website_forum','website_google_map','website_blog','website_links',
+                         'website_payment','website_sale_digital','website_crm_partner_assign','website_form',
+                         'website_event','website_hr','website_sale','website_sale_delivery','website_twitter',
+                         'website_mass_mailing','website_event_sale','website_crm','website_form_project','website_survey','payment_sips',
+                         'payment_transfer','payment_authorize','payment_paypal',
+                         'payment_stripe','payment_buckaroo','payment_ogone','payment_payumoney','payment_adyen']
 
 
 def move_glob(source, wildcards, destination):
